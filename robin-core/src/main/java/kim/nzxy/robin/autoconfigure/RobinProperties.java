@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.time.Duration;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -79,5 +80,22 @@ public class RobinProperties {
          * IP地址黑名单
          */
         private List<String> blacklist = new ArrayList<>();
+    }
+
+    /**
+     * 一些细节优化的地方
+     */
+    @Data
+    public static class Detail {
+        private String cache;
+
+        @Data
+        public static class CacheDetail {
+            /**
+             * 缓存清理时间
+             */
+            private List<LocalTime> cleanAt = Collections.singletonList(LocalTime.of(0, 0));
+            // 最大缓存数等等? 暂时不考虑
+        }
     }
 }

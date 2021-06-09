@@ -35,7 +35,7 @@ public class FrequentIpAccessValidatorImpl extends RobinValidator {
 
         val now = RobinUtil.now();
 
-        val recentVisitsCount = cacheHandler.ipAccessRecord(ip)
+        val recentVisitsCount = cacheHandler.accessRecord(RobinRuleEnum.FREQUENT_IP_ACCESS, ip)
                 .stream()
                 .filter(it -> it > now - ipProp.getDuration().getSeconds())
                 .count();
@@ -46,6 +46,6 @@ public class FrequentIpAccessValidatorImpl extends RobinValidator {
                 ip,
                 () -> cacheHandler.lockIp(ip, ipProp.getUnlock()));
 
-        cacheHandler.ipAccessRecord(ip, now);
+        cacheHandler.accessRecord(RobinRuleEnum.FREQUENT_IP_ACCESS, ip, now);
     }
 }
