@@ -8,10 +8,10 @@
         <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <artifactId>robin-springboot-starter</artifactId>
+    <artifactId>robin-spring-boot-starter</artifactId>
     <version>${revision}</version>
-    <name>robin-springboot-starter</name>
-    <description>robin-springboot-starter</description>
+    <name>robin-spring-boot-starter</name>
+    <description>robin-spring-boot-starter</description>
     <dependencies>
 
         <dependency>

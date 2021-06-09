@@ -26,7 +26,7 @@
 
         <dependency>
             <groupId>kim.nzxy</groupId>
-            <artifactId>robin-springboot-starter</artifactId>
+            <artifactId>robin-spring-boot-starter</artifactId>
             <version>${revision}</version>
         </dependency>
         <dependency>

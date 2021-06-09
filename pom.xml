@@ -18,7 +18,7 @@
 
     <modules>
         <module>robin-core</module>
-        <module>robin-springboot-starter</module>
+        <module>robin-spring-boot-starter</module>
         <module>robin-spring-boot-samples</module>
     </modules>
 
