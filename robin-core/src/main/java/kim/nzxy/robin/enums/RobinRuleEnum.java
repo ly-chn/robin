@@ -14,7 +14,13 @@ import lombok.Getter;
 public enum RobinRuleEnum implements RobinEnum {
 
 
+    /**
+     * IP 访问频率限制
+     */
     FREQUENT_IP_ACCESS(1001, "IP 访问频繁"),
+    /**
+     * IP 黑名单拦截
+     */
     BLACKLIST_IP_ADDRESS(1002, "IP 已被列入黑名单"),
     ;
 

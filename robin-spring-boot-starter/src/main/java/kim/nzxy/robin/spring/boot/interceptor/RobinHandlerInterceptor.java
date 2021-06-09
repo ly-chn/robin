@@ -1,7 +1,5 @@
 package kim.nzxy.robin.spring.boot.interceptor;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import kim.nzxy.robin.Robin;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinModeEnum;
@@ -33,7 +31,7 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    public boolean cacheAble(HttpServletRequest request, Object handler)  {
+    public boolean cacheAble(HttpServletRequest request, Object handler) {
         val resource = RobinManagement.getRobinProperties().getResource();
         System.out.println("resource = " + RobinManagement.getRobinProperties().getIp().getUnlock());
         if (resource.getMode() == RobinModeEnum.DISABLED) {

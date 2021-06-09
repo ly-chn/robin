@@ -1,7 +1,6 @@
 package kim.nzxy.robin;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.factory.RobinValidFactory;
 import kim.nzxy.robin.handler.RobinValidator;
 import lombok.val;

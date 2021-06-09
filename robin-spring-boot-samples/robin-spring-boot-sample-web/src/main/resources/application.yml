@@ -1,0 +1,27 @@
+# robin config
+robin:
+  # 适用的系统内置策略, 默认全部策略适用, 各规则权重使用次列表排序*100, 权重值越低越靠前
+  # 拦截规则有依赖关系, 比如IP持续访问检测规则(还没写, 先写这两个试试可行性)会依赖`frequent_ip_access`
+  include-rule: blacklist_ip_address,frequent_ip_access
+  # 适用资源, 以下配置意为: 全局拦截
+  resource:
+    # 全局, 将忽略下面两个配置
+    mode: global
+    # 只限制部分接口
+    include-patterns: /**
+    # default模式下可以关闭对公共接口, 轮询接口的访问限制
+    exclude-patterns:
+      - /public/**
+  #
+  ip:
+    # ip地址白名单
+    whitelist:
+      - 192.168.*
+    blacklist:
+      - 111.*.*
+    # 时间窗口
+    duration: 1m
+    # 访问限制
+    frequency: 10
+    # ip锁定后10分钟后解封
+    unlock: 10m

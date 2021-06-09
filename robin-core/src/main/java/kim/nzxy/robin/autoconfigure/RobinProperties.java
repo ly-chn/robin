@@ -4,8 +4,6 @@ import kim.nzxy.robin.enums.RobinModeEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -16,13 +14,13 @@ import java.util.List;
 @Data
 public class RobinProperties {
     /**
-     * 基础配置
-     */
-    private RobinResourcePattern resource = new RobinResourcePattern();
-    /**
      * 应用校验的规则, 会依照顺序进行检测, 默认为所有规则
      */
     private List<RobinRuleEnum> includeRule = Arrays.asList(RobinRuleEnum.values());
+    /**
+     * 基础配置
+     */
+    private RobinResourcePattern resource = new RobinResourcePattern();
     /**
      * IP 校验细则
      */
