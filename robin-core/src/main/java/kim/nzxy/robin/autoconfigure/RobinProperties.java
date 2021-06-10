@@ -27,7 +27,7 @@ public class RobinProperties {
      */
     private RobinIpRule ip = new RobinIpRule();
     /**
-     * 一些细节优化的地方
+     * 一些细节优化的地方, 可以提升系统效率, 合理分配资源等
      */
     private Detail detail = new Detail();
 

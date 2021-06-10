@@ -13,8 +13,6 @@ import java.util.List;
 public class Res<T> implements Serializable {
 
     private static final String INVALID_PARAM = "参数不合法";
-    private static final String DELETE_OK = "已删除";
-    private static final String DELETE_ERR = "删除失败, 可能原因: 已被删除";
     /**
      * 返回处理消息
      */

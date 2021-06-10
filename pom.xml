@@ -20,6 +20,7 @@
         <module>robin-core</module>
         <module>robin-spring-boot-starter</module>
         <module>robin-spring-boot-samples</module>
+        <module>robin-plugin</module>
     </modules>
 
     <licenses>

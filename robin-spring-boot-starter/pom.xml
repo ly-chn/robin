@@ -6,7 +6,6 @@
         <groupId>kim.nzxy</groupId>
         <artifactId>robin</artifactId>
         <version>${revision}</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>robin-spring-boot-starter</artifactId>
     <version>${revision}</version>

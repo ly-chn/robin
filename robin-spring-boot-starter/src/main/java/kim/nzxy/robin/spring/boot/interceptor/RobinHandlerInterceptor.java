@@ -33,7 +33,6 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
 
     public boolean cacheAble(HttpServletRequest request, Object handler) {
         val resource = RobinManagement.getRobinProperties().getResource();
-        System.out.println("resource = " + RobinManagement.getRobinProperties().getIp().getUnlock());
         if (resource.getMode() == RobinModeEnum.DISABLED) {
             return false;
         }

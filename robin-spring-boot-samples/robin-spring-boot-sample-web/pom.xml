@@ -6,7 +6,6 @@
         <groupId>kim.nzxy</groupId>
         <artifactId>robin-spring-boot-samples</artifactId>
         <version>0.01-BETA</version>
-        <relativePath>../pom.xml</relativePath>
     </parent>
     <groupId>kim.nzxy.robin.sample.web</groupId>
     <artifactId>robin-spring-boot-sample-web</artifactId>

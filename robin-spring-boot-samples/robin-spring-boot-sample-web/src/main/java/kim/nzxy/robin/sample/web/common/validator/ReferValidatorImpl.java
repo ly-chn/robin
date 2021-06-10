@@ -3,6 +3,7 @@ package kim.nzxy.robin.sample.web.common.validator;
 import kim.nzxy.robin.handler.RobinValidator;
 import kim.nzxy.robin.sample.web.common.exception.LyException;
 import kim.nzxy.robin.sample.web.common.util.SpringContextUtil;
+import org.springframework.stereotype.Component;
 
 /**
  * 自定义策略示例-refer
@@ -10,6 +11,7 @@ import kim.nzxy.robin.sample.web.common.util.SpringContextUtil;
  * @author xy
  * @since 2021/6/9
  */
+@Component
 public class ReferValidatorImpl extends RobinValidator {
     @Override
     public void execute() {

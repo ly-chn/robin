@@ -13,11 +13,6 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SpringContextUtil {
     /**
-     * 上下文对象实例
-     */
-    // private static ApplicationContext applicationContext;
-
-    /**
      * 获取当前 HttpServletRequest
      */
     public static HttpServletRequest currentRequest() {

@@ -2,15 +2,19 @@ package kim.nzxy.robin.spring.boot.autoconfigure;
 
 import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.config.RobinManagement;
+import kim.nzxy.robin.factory.RobinValidFactory;
 import kim.nzxy.robin.handler.RobinContextHandler;
+import kim.nzxy.robin.handler.RobinValidator;
 import kim.nzxy.robin.spring.boot.RedisRobinCacheHandlerImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.convert.DurationUnit;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.stereotype.Component;
+
+import java.time.temporal.ChronoUnit;
 
 @Component
 @Slf4j
@@ -32,11 +36,7 @@ public class RobinAutowired {
      * 自定义缓存管理器
      */
     @Autowired
-    @DependsOn("robinProperties")
     public void define(RedisRobinCacheHandlerImpl handler) {
-        while (true) {
-            if (RobinManagement.getRobinProperties() == null) break;
-        }
         RobinManagement.setCacheHandler(handler);
     }
 
@@ -46,5 +46,15 @@ public class RobinAutowired {
     @Autowired
     public void define(RobinContextHandler handler) {
         RobinManagement.setContextHandler(handler);
+    }
+
+    /**
+     * 用户自定义验证策略
+     */
+    @Autowired
+    public void define(ApplicationContext applicationContext) {
+        for (RobinValidator validator : applicationContext.getBeansOfType(RobinValidator.class).values()) {
+            RobinValidFactory.register(validator);
+        }
     }
 }
