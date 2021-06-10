@@ -31,21 +31,21 @@ public class FrequentIpAccessValidatorImpl extends RobinValidator {
         }
 
         // 断言已被禁用
-        Assert.assertRobinException(cacheHandler.lockIp(ip), RobinRuleEnum.FREQUENT_IP_ACCESS, ip);
+        Assert.assertRobinException(cacheHandler.lock(RobinRuleEnum.FREQUENT_IP_ACCESS, ip), RobinRuleEnum.FREQUENT_IP_ACCESS, ip);
 
         val now = RobinUtil.now();
 
         val recentVisitsCount = cacheHandler.accessRecord(RobinRuleEnum.FREQUENT_IP_ACCESS, ip)
                 .stream()
-                .filter(it -> it > now - ipProp.getDuration().getSeconds())
+                .filter(it -> it > now)
                 .count();
 
         Assert.assertRobinException(
                 recentVisitsCount > ipProp.getFrequency(),
                 RobinRuleEnum.FREQUENT_IP_ACCESS,
                 ip,
-                () -> cacheHandler.lockIp(ip, ipProp.getUnlock()));
+                () -> cacheHandler.lock(RobinRuleEnum.FREQUENT_IP_ACCESS, ip, ipProp.getUnlock()));
 
-        cacheHandler.accessRecord(RobinRuleEnum.FREQUENT_IP_ACCESS, ip, now);
+        cacheHandler.accessRecord(RobinRuleEnum.FREQUENT_IP_ACCESS, ip, now + (int) ipProp.getDuration().getSeconds());
     }
 }

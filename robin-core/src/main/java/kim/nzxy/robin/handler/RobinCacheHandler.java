@@ -8,7 +8,7 @@ import java.util.List;
 
 /**
  * 缓存, 本接口命名尽可能与 redis 一致, 超时单位默认是秒级
- * ttlList 实则是redis中的 zset 方案, 定时删除过期 key
+ *
  *
  * @author xy
  * @since 2021/6/4
@@ -18,11 +18,11 @@ public interface RobinCacheHandler {
     /**
      * 添加访问记录
      *
-     * @param type      访问类型, 归属于保存记录的策略
-     * @param target    访客
-     * @param timestamp 访问时间, 秒级时间戳
+     * @param type    访问类型, 归属于保存记录的策略
+     * @param target  访客
+     * @param timeout 缓存过期时间, 过期时间小于当前时间则可能被清理逻辑清理掉
      */
-    void accessRecord(RobinRuleEnum type, String target, int timestamp);
+    void accessRecord(RobinRuleEnum type, String target, int timeout);
 
     /**
      * 获取全部访问记录
@@ -31,23 +31,6 @@ public interface RobinCacheHandler {
      * @param target 访客
      */
     List<Integer> accessRecord(RobinRuleEnum type, String target);
-
-
-    /**
-     * 封禁ip
-     *
-     * @param ip     ip地址
-     * @param unlock 多久后解封
-     */
-    void lockIp(String ip, Duration unlock);
-
-    /**
-     * 判断ip地址是否被封禁
-     *
-     * @param ip ip地址
-     * @return 返回 true 表示 ip 已被封
-     */
-    boolean lockIp(String ip);
 
     /**
      * 设置锁定

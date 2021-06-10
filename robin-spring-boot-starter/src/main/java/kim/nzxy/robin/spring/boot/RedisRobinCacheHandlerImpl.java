@@ -39,8 +39,8 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
 
     @Override
-    public void accessRecord(RobinRuleEnum type, String target, int timestamp) {
-        template.opsForList().rightPushAll(Constant.recordPrefix + type + target, String.valueOf(timestamp));
+    public void accessRecord(RobinRuleEnum type, String target, int timeout) {
+        template.opsForList().rightPushAll(Constant.recordPrefix + type + target, String.valueOf(timeout));
     }
 
     @Override
@@ -50,20 +50,6 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
             return stringList.stream().map(Integer::valueOf).collect(Collectors.toList());
         }
         return new ArrayList<>();
-    }
-
-    @Override
-    public void lockIp(String ip, Duration unlock) {
-        template.opsForZSet().add(Constant.ipLockedPrefix, ip, unlock.getSeconds() + RobinUtil.now());
-    }
-
-    @Override
-    public boolean lockIp(String ip) {
-        val score = template.opsForZSet().score(Constant.ipLockedPrefix, ip);
-        if (score == null) {
-            return false;
-        }
-        return score > RobinUtil.now();
     }
 
     @Override
@@ -107,8 +93,8 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
                 executor.scheduleAtFixedRate(
                         () -> {
+                            cleanAccessRecord();
                             cleanLock();
-                            // todo cleanAccessRecord
                         },
                         delay,
                         oneDay,
@@ -117,8 +103,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         }).start();
     }
 
-    // todo: 方案不行, 不同enum过期时间机制不一样, 比如ip的过期时间实际上不止IP自己用, 或者说整个机制都不太好, 需要重新设计
-    private void cleanAccessRecord(RobinRuleEnum type, int timestamp) {
+    private void cleanAccessRecord() {
         val keys = template.keys(Constant.recordPrefix + asterisk);
         if (keys == null) {
             return;
