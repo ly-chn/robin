@@ -26,6 +26,10 @@ public class RobinProperties {
      * IP 校验细则
      */
     private RobinIpRule ip = new RobinIpRule();
+    /**
+     * 一些细节优化的地方
+     */
+    private Detail detail = new Detail();
 
     @Data
     public static class RobinResourcePattern {
@@ -87,14 +91,14 @@ public class RobinProperties {
      */
     @Data
     public static class Detail {
-        private String cache;
+        private CacheDetail cache = new CacheDetail();
 
         @Data
         public static class CacheDetail {
             /**
              * 缓存清理时间
              */
-            private List<LocalTime> cleanAt = Collections.singletonList(LocalTime.of(0, 0));
+            private List<LocalTime> cleanAt = Collections.singletonList(LocalTime.of(16, 25));
             // 最大缓存数等等? 暂时不考虑
         }
     }

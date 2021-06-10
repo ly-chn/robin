@@ -75,17 +75,4 @@ public interface RobinCacheHandler {
      */
     void unlock(RobinRuleEnum type, String target);
 
-    /**
-     * 清理访问记录, 删除指定时间戳之前的日志记录
-     *
-     * @param type      访问类型, 归属于保存记录的策略
-     * @param timestamp 访问时间, 秒级时间戳, 低于此时间的都将会被清理
-     */
-    void cleanAccessRecord(RobinRuleEnum type, int timestamp);
-
-
-    /**
-     * 清理锁定内容
-     */
-    void cleanLock();
 }

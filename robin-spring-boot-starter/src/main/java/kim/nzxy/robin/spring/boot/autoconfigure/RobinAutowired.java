@@ -4,12 +4,16 @@ import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.handler.RobinContextHandler;
 import kim.nzxy.robin.spring.boot.RedisRobinCacheHandlerImpl;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.DependsOn;
+import org.springframework.data.domain.AfterDomainEventPublication;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class RobinAutowired {
     //<editor-fold desc="robin properties autowired">
     @ConfigurationProperties(prefix = "robin")
@@ -28,7 +32,11 @@ public class RobinAutowired {
      * 自定义缓存管理器
      */
     @Autowired
+    @DependsOn("robinProperties")
     public void define(RedisRobinCacheHandlerImpl handler) {
+        while (true) {
+            if (RobinManagement.getRobinProperties() == null) break;
+        }
         RobinManagement.setCacheHandler(handler);
     }
 
