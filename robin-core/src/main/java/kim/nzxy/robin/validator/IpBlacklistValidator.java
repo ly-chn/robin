@@ -1,9 +1,8 @@
-package kim.nzxy.robin.handler.impl;
+package kim.nzxy.robin.validator;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinException;
-import kim.nzxy.robin.handler.RobinValidator;
 import kim.nzxy.robin.util.MatcherUtil;
 import lombok.val;
 
@@ -13,7 +12,7 @@ import lombok.val;
  * @author xy
  * @since 2021/6/6
  */
-public class IpBlacklistValidatorImpl extends RobinValidator {
+public class IpBlacklistValidator implements RobinValidator {
     @Override
     public void execute() {
         val ipProp = RobinManagement.getRobinProperties().getIp();

@@ -2,7 +2,7 @@ package kim.nzxy.robin;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.factory.RobinValidFactory;
-import kim.nzxy.robin.handler.RobinValidator;
+import kim.nzxy.robin.validator.RobinValidator;
 import lombok.val;
 
 /**

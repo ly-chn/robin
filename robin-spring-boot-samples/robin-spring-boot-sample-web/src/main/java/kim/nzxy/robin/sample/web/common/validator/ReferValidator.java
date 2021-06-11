@@ -1,6 +1,6 @@
 package kim.nzxy.robin.sample.web.common.validator;
 
-import kim.nzxy.robin.handler.RobinValidator;
+import kim.nzxy.robin.validator.RobinValidator;
 import kim.nzxy.robin.sample.web.common.exception.LyException;
 import kim.nzxy.robin.sample.web.common.util.SpringContextUtil;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
  * @since 2021/6/9
  */
 @Component
-public class ReferValidatorImpl extends RobinValidator {
+public class ReferValidator implements RobinValidator {
     @Override
     public void execute() {
         if (!SpringContextUtil.referer().contains("nzxy.kim")) {
@@ -20,9 +20,8 @@ public class ReferValidatorImpl extends RobinValidator {
         }
     }
 
-    @Override
-    public int getOrder() {
-        // 默认-1 , 高优先级
-        return super.getOrder();
-    }
+    // @Override
+    // public int getOrder() {
+    //     return -1;
+    // }
 }

@@ -4,9 +4,9 @@ import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinBuiltinException;
-import kim.nzxy.robin.handler.RobinValidator;
-import kim.nzxy.robin.handler.impl.FrequentIpAccessValidatorImpl;
-import kim.nzxy.robin.handler.impl.IpBlacklistValidatorImpl;
+import kim.nzxy.robin.validator.RobinValidator;
+import kim.nzxy.robin.validator.FrequentIpAccessValidator;
+import kim.nzxy.robin.validator.IpBlacklistValidator;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.val;
 
@@ -35,8 +35,8 @@ public class RobinValidFactory {
 
     static {
         INVOKE_STRATEGY_MAP = new HashMap<>();
-        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.FREQUENT_IP_ACCESS, new FrequentIpAccessValidatorImpl());
-        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.BLACKLIST_IP_ADDRESS, new IpBlacklistValidatorImpl());
+        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.FREQUENT_IP_ACCESS, new FrequentIpAccessValidator());
+        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.BLACKLIST_IP_ADDRESS, new IpBlacklistValidator());
     }
 
 

@@ -1,8 +1,7 @@
-package kim.nzxy.robin.handler.impl;
+package kim.nzxy.robin.validator;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinRuleEnum;
-import kim.nzxy.robin.handler.RobinValidator;
 import kim.nzxy.robin.util.Assert;
 import kim.nzxy.robin.util.MatcherUtil;
 import kim.nzxy.robin.util.RobinUtil;
@@ -14,7 +13,7 @@ import lombok.val;
  * @author xy
  * @since 2021/6/4
  */
-public class FrequentIpAccessValidatorImpl extends RobinValidator {
+public class FrequentIpAccessValidator implements RobinValidator {
     @Override
     public void execute() {
         val cacheHandler = RobinManagement.getCacheHandler();
