@@ -4,10 +4,10 @@ import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinBuiltinException;
-import kim.nzxy.robin.validator.RobinValidator;
+import kim.nzxy.robin.util.RobinUtil;
 import kim.nzxy.robin.validator.FrequentIpAccessValidator;
 import kim.nzxy.robin.validator.IpBlacklistValidator;
-import kim.nzxy.robin.util.RobinUtil;
+import kim.nzxy.robin.validator.RobinValidator;
 import lombok.val;
 
 import java.util.*;

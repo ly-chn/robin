@@ -12,6 +12,10 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author xy
+ * @since 2021/6/5
+ */
 @Data
 public class RobinProperties {
     /**
