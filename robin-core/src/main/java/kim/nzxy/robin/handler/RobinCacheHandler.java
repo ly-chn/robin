@@ -17,19 +17,32 @@ public interface RobinCacheHandler {
     /**
      * 添加访问记录
      *
-     * @param type    访问类型, 归属于保存记录的策略
-     * @param target  访客
-     * @param timeout 缓存过期时间, 过期时间小于当前时间则可能被清理逻辑清理掉
+     * @param type   访问类型, 归属于保存记录的策略
+     * @param target 访客
+     * @param expire 缓存过期时间, 过期时间小于当前时间则可能被清理逻辑清理掉
      */
-    void accessRecord(RobinRuleEnum type, String target, int timeout);
+    void accessRecord(RobinRuleEnum type, String target, int expire);
 
     /**
      * 获取全部访问记录
      *
      * @param type   访问类型, 归属于保存记录的策略
      * @param target 访客
+     * @return 最近访问时间戳
      */
-    List<Integer> accessRecord(RobinRuleEnum type, String target);
+    default List<Integer> getAccessRecord(RobinRuleEnum type, String target) {
+        return getAccessRecord(type, target, 0);
+    }
+
+    /**
+     * 获取全部访问记录
+     *
+     * @param type   访问类型, 归属于保存记录的策略
+     * @param target 访客
+     * @param length 获取最近多少条, 0表示获取全部
+     * @return 最近访问时间戳
+     */
+    List<Integer> getAccessRecord(RobinRuleEnum type, String target, int length);
 
     /**
      * 设置锁定

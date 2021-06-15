@@ -39,13 +39,14 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
 
     @Override
-    public void accessRecord(RobinRuleEnum type, String target, int timeout) {
-        template.opsForList().rightPushAll(Constant.recordPrefix + type + target, String.valueOf(timeout));
+    public void accessRecord(RobinRuleEnum type, String target, int expire) {
+        template.opsForList().rightPushAll(Constant.recordPrefix + type + target, String.valueOf(expire));
     }
 
+
     @Override
-    public List<Integer> accessRecord(RobinRuleEnum type, String target) {
-        val stringList = template.opsForList().range(Constant.recordPrefix + type + target, 0, -1);
+    public List<Integer> getAccessRecord(RobinRuleEnum type, String target, int length) {
+        val stringList = template.opsForList().range(Constant.recordPrefix + type + target, -length, -1);
         if (stringList != null) {
             return stringList.stream().map(Integer::valueOf).collect(Collectors.toList());
         }
@@ -78,19 +79,20 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
             while (true) {
                 try {
                     //noinspection ResultOfMethodCallIgnored
-                    RobinManagement.getRobinProperties().getDetail().getCache().getCleanAt();
+                    RobinManagement.getRobinProperties().getDetail().getCache().getCleanAt();;
                     break;
                 } catch (Exception ignored) {
                 }
             }
-            for (LocalTime localTime : RobinManagement.getRobinProperties().getDetail().getCache().getCleanAt()) {
+
+            val localTimeList = RobinManagement.getRobinProperties().getDetail().getCache().getCleanAt();
+            ScheduledExecutorService executor = Executors.newScheduledThreadPool(localTimeList.size());
+
+            for (LocalTime localTime : localTimeList) {
                 val targetTimestamp = localTime.atDate(LocalDate.now()).toEpochSecond(ZoneOffset.ofHours(8));
                 val now = RobinUtil.now();
-
-                ScheduledExecutorService executor = Executors.newScheduledThreadPool(1);
                 long oneDay = 24 * 60 * 60;
                 val delay = targetTimestamp > now ? targetTimestamp-now : targetTimestamp - now+oneDay;
-
                 executor.scheduleAtFixedRate(
                         () -> {
                             cleanAccessRecord();

@@ -15,9 +15,9 @@ import org.springframework.stereotype.Component;
 public class ReferValidator implements RobinValidator {
     @Override
     public void execute() {
-        if (!SpringContextUtil.referer().contains("nzxy.kim")) {
-            throw new LyException("你为什么不是来自 nzxy.kim? ");
-        }
+        // if (!SpringContextUtil.referer().contains("nzxy.kim")) {
+        //     throw new LyException("你为什么不是来自 nzxy.kim? ");
+        // }
     }
 
     // @Override

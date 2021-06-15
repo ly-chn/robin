@@ -24,14 +24,14 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
     private static final PathMatcher pathMatcher = new AntPathMatcher();
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        if (cacheAble(request, handler)) {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+        if (cacheAble(request)) {
             Robin.execute();
         }
         return true;
     }
 
-    public boolean cacheAble(HttpServletRequest request, Object handler) {
+    public boolean cacheAble(HttpServletRequest request) {
         val resource = RobinManagement.getRobinProperties().getResource();
         if (resource.getMode() == RobinModeEnum.DISABLED) {
             return false;

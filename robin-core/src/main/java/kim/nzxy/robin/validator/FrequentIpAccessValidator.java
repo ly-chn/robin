@@ -34,13 +34,13 @@ public class FrequentIpAccessValidator implements RobinValidator {
 
         val now = RobinUtil.now();
 
-        val recentVisitsCount = cacheHandler.accessRecord(RobinRuleEnum.FREQUENT_IP_ACCESS, ip)
+        val recentVisitsCount = cacheHandler.getAccessRecord(RobinRuleEnum.FREQUENT_IP_ACCESS, ip)
                 .stream()
                 .filter(it -> it > now)
                 .count();
 
         Assert.assertRobinException(
-                recentVisitsCount > ipProp.getFrequency(),
+                recentVisitsCount >= ipProp.getFrequency(),
                 RobinRuleEnum.FREQUENT_IP_ACCESS,
                 ip,
                 () -> cacheHandler.lock(RobinRuleEnum.FREQUENT_IP_ACCESS, ip, ipProp.getUnlock()));

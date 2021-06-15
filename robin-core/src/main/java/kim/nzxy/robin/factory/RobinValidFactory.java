@@ -5,20 +5,23 @@ import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinBuiltinException;
 import kim.nzxy.robin.util.RobinUtil;
+import kim.nzxy.robin.validator.ContinuousVisitValidator;
 import kim.nzxy.robin.validator.FrequentIpAccessValidator;
 import kim.nzxy.robin.validator.IpBlacklistValidator;
 import kim.nzxy.robin.validator.RobinValidator;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import lombok.val;
 
 import java.util.*;
 
 /**
  * robin 验证策略工厂
- * todo: 如何更好的注册工厂
  *
  * @author xy
  * @since 2021/6/4
  */
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RobinValidFactory {
     /**
      * 内置策略
@@ -37,6 +40,7 @@ public class RobinValidFactory {
         INVOKE_STRATEGY_MAP = new HashMap<>();
         INVOKE_STRATEGY_MAP.put(RobinRuleEnum.FREQUENT_IP_ACCESS, new FrequentIpAccessValidator());
         INVOKE_STRATEGY_MAP.put(RobinRuleEnum.BLACKLIST_IP_ADDRESS, new IpBlacklistValidator());
+        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.CONTINUOUS_VISIT, new ContinuousVisitValidator());
     }
 
 
@@ -44,7 +48,9 @@ public class RobinValidFactory {
         if (invokeStrategyList == null) {
             invokeStrategyList = new ArrayList<>();
             for (RobinRuleEnum robinRuleEnum : includeRule) {
-                invokeStrategyList.add(INVOKE_STRATEGY_MAP.get(robinRuleEnum));
+                if (INVOKE_STRATEGY_MAP.get(robinRuleEnum) != null) {
+                    invokeStrategyList.add(INVOKE_STRATEGY_MAP.get(robinRuleEnum));
+                }
             }
             invokeStrategyList.addAll(INVOKE_STRATEGY_SET);
             invokeStrategyList.sort(Comparator.comparingInt(o -> {

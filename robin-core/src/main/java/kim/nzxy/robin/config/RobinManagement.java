@@ -33,7 +33,6 @@ public class RobinManagement {
     }
 
     public static void setCacheHandler(RobinCacheHandler cacheHandler) {
-        log.error("set cache handler");
         RobinManagement.cacheHandler = cacheHandler;
     }
 }

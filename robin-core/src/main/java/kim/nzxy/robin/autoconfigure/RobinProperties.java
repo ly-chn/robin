@@ -30,6 +30,11 @@ public class RobinProperties {
      * IP 校验细则
      */
     private RobinIpRule ip = new RobinIpRule();
+
+    /**
+     * IP 持续访问检验规则
+     */
+    private IpContinuousVisit continuousVisit = new IpContinuousVisit();
     /**
      * 一些细节优化的地方, 可以提升系统效率, 合理分配资源等
      */
@@ -66,7 +71,7 @@ public class RobinProperties {
         /**
          * 可访问次数
          */
-        private Long frequency = 10L;
+        private Integer frequency = 10;
 
         /**
          * 到期后自动解封
@@ -91,6 +96,26 @@ public class RobinProperties {
     }
 
     /**
+     * IP 频繁访问次数
+     * 默认为连续访问达到100次则
+     */
+    @Data
+    public static class IpContinuousVisit {
+        /**
+         * 时间窗口
+         */
+        private Duration duration = Duration.ofMinutes(1);
+        /**
+         * 持续访问次数
+         */
+        private Integer times = 100;
+        /**
+         * 到期后自动解封
+         */
+        private Duration unlock = Duration.ofHours(1L);
+    }
+
+    /**
      * 一些细节优化的地方
      */
     @Data
@@ -102,7 +127,13 @@ public class RobinProperties {
             /**
              * 缓存清理时间
              */
-            private List<LocalTime> cleanAt = Collections.singletonList(LocalTime.of(16, 25));
+            private List<LocalTime> cleanAt = new ArrayList<LocalTime>(){{
+                add(LocalTime.of(0, 0));
+                add(LocalTime.of(9, 0));
+                add(LocalTime.of(12, 0));
+                add(LocalTime.of(15, 0));
+                add(LocalTime.of(19, 0));
+            }};
             // 最大缓存数等等? 暂时不考虑
         }
     }

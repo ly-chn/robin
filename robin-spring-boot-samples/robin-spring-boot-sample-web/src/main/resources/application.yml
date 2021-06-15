@@ -2,7 +2,7 @@
 robin:
   # 适用的系统内置策略, 默认全部策略适用, 各规则权重使用次列表排序*100, 权重值越低越靠前
   # 拦截规则有依赖关系, 比如IP持续访问检测规则(还没写, 先写这两个试试可行性)会依赖`frequent_ip_access`
-  include-rule: blacklist_ip_address,frequent_ip_access
+  include-rule: blacklist_ip_address,frequent_ip_access,continuous_visit
   # 适用资源, 以下配置意为: 全局拦截
   resource:
     # 全局, 将忽略下面两个配置
