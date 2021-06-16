@@ -3,8 +3,8 @@ home: true
 actionText: 快速开始 →
 actionLink: /guide/
 features:
-  - title: 还没想好
-    details: 会想出来的
+- title: 还没想好
+  details: 会想出来的
 footer: MIT | nzxy.kim
 ---
 
@@ -20,4 +20,7 @@ footer: MIT | nzxy.kim
 
 ### 致谢
 
-- xy
+- [sa-token 团队](http://sa-token.dev33.cn/)
+
+  生命不息，折腾不止
+
