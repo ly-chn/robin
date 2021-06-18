@@ -3,13 +3,13 @@ package kim.nzxy.robin.spring.boot.autoconfigure;
 import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.factory.RobinValidFactory;
+import kim.nzxy.robin.filter.RobinInterceptor;
 import kim.nzxy.robin.handler.RobinContextHandler;
 import kim.nzxy.robin.spring.boot.RedisRobinCacheHandlerImpl;
 import kim.nzxy.robin.validator.RobinValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.ConfigurationPropertiesBinding;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
@@ -44,6 +44,14 @@ public class RobinAutowired {
     @Autowired
     public void define(RobinContextHandler handler) {
         RobinManagement.setContextHandler(handler);
+    }
+
+    /**
+     * 检测钩子
+     */
+    @Autowired(required = false)
+    public void define(RobinInterceptor filter) {
+        RobinManagement.setRobinInterceptor(filter);
     }
 
     /**

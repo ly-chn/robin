@@ -8,7 +8,13 @@ package kim.nzxy.robin.handler;
  */
 public interface RobinContextHandler {
 
+    /**
+     * @return 当前访问者IP
+     */
     String ip();
 
+    /**
+     * @return 当前访问资源
+     */
     String uri();
 }

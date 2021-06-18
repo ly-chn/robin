@@ -128,11 +128,9 @@ public class RobinProperties {
              * 缓存清理时间
              */
             private List<LocalTime> cleanAt = new ArrayList<LocalTime>(){{
-                add(LocalTime.of(0, 0));
-                add(LocalTime.of(9, 0));
-                add(LocalTime.of(12, 0));
-                add(LocalTime.of(15, 0));
-                add(LocalTime.of(19, 0));
+                for (int i = 0; i < 24; i++) {
+                    add(LocalTime.of(i, 0));
+                }
             }};
             // 最大缓存数等等? 暂时不考虑
         }

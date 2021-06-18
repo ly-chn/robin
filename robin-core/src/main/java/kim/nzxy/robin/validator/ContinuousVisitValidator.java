@@ -56,6 +56,5 @@ public class ContinuousVisitValidator implements RobinValidator {
         val now = RobinUtil.now();
         val baseSeconds = baseTime.toInstant(ZoneOffset.ofHours(8)).toEpochMilli() / 100;
         return (int) ((((now - baseSeconds) / duration) + 1) * duration + baseSeconds);
-
     }
 }

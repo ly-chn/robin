@@ -1,7 +1,7 @@
 ---
 home: true
 actionText: 快速开始 →
-actionLink: /guide/
+actionLink: /guide/quick_start
 features:
 - title: 还没想好
   details: 会想出来的

@@ -3,8 +3,10 @@ package kim.nzxy.robin.config;
 import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
 import kim.nzxy.robin.exception.RobinBuiltinException;
+import kim.nzxy.robin.filter.DefaultRobinInterceptorImpl;
 import kim.nzxy.robin.handler.RobinCacheHandler;
 import kim.nzxy.robin.handler.RobinContextHandler;
+import kim.nzxy.robin.filter.RobinInterceptor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -15,14 +17,35 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class RobinManagement {
+    /**
+     * 配置文件
+     */
     @Getter
     @Setter
     private static RobinProperties robinProperties;
-    // @Setter
+    /**
+     * 缓存管理器
+     */
+    @Setter
     private static RobinCacheHandler cacheHandler;
+    /**
+     * 上下文管理器
+     */
     @Getter
     @Setter
     private static RobinContextHandler contextHandler;
+    /**
+     * 过滤器
+     */
+    @Setter
+    private static RobinInterceptor robinInterceptor;
+
+    public static RobinInterceptor getRobinInterceptor() {
+        if (robinInterceptor ==null) {
+            robinInterceptor = new DefaultRobinInterceptorImpl();
+        }
+        return robinInterceptor;
+    }
 
     public static RobinCacheHandler getCacheHandler() {
         if (cacheHandler == null) {
@@ -32,7 +55,5 @@ public class RobinManagement {
         return cacheHandler;
     }
 
-    public static void setCacheHandler(RobinCacheHandler cacheHandler) {
-        RobinManagement.cacheHandler = cacheHandler;
-    }
+
 }

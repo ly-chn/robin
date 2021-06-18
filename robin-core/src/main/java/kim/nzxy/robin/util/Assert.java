@@ -1,5 +1,6 @@
 package kim.nzxy.robin.util;
 
+import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinException;
 
@@ -23,10 +24,14 @@ public class Assert {
      */
     public static void assertRobinException(boolean expression, RobinRuleEnum ruleEnum, String target, Runnable beforeThrow) {
         if (expression) {
+            RobinException exception = new RobinException(ruleEnum, target);
+            if (RobinManagement.getRobinInterceptor().onCache(exception)) {
+                throw exception;
+            }
             if (beforeThrow != null) {
                 beforeThrow.run();
             }
-            throw new RobinException(ruleEnum, target);
+            throw exception;
         }
     }
 }

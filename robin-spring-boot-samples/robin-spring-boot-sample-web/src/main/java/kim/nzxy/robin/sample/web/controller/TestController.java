@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class TestController {
     @RequestMapping
-    public String tmp() {
+    public String test() {
         return "success";
     }
 }

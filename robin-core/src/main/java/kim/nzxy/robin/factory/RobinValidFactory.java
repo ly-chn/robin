@@ -44,6 +44,10 @@ public class RobinValidFactory {
     }
 
 
+    /**
+     * @param includeRule 启用的内置策略
+     * @return 所有策略(用户定义+内置)
+     */
     public static List<RobinValidator> getInvokeStrategy(List<RobinRuleEnum> includeRule) {
         if (invokeStrategyList == null) {
             invokeStrategyList = new ArrayList<>();
