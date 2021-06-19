@@ -69,17 +69,25 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
     @Override
     public void unlock(RobinRuleEnum type, String target) {
-        template.opsForZSet().remove(Constant.lockedPrefix + type, target);
+        if (type != null) {
+            template.opsForZSet().remove(Constant.lockedPrefix + type, target);
+            return;
+        }
+
+        for (RobinRuleEnum it : RobinRuleEnum.values()) {
+            template.opsForZSet().remove(Constant.lockedPrefix + it, target);
+        }
     }
 
     public void clean() {
-        new Thread(()->{
+        new Thread(() -> {
             // 可能存在注入顺序问题, 故而如此
             // todo: 寻找优雅的解决方案
             while (true) {
                 try {
                     //noinspection ResultOfMethodCallIgnored
-                    RobinManagement.getRobinProperties().getDetail().getCache().getCleanAt();;
+                    RobinManagement.getRobinProperties().getDetail().getCache().getCleanAt();
+                    ;
                     break;
                 } catch (Exception ignored) {
                 }
@@ -92,7 +100,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
                 val targetTimestamp = localTime.atDate(LocalDate.now()).toEpochSecond(ZoneOffset.ofHours(8));
                 val now = RobinUtil.now();
                 long oneDay = 24 * 60 * 60;
-                val delay = targetTimestamp > now ? targetTimestamp-now : targetTimestamp - now+oneDay;
+                val delay = targetTimestamp > now ? targetTimestamp - now : targetTimestamp - now + oneDay;
                 executor.scheduleAtFixedRate(
                         () -> {
                             cleanAccessRecord();

@@ -66,7 +66,7 @@ public interface RobinCacheHandler {
      * 主动解除锁定
      *
      * @param type   锁定原因
-     * @param target 锁定类型
+     * @param target 锁定类型, 为 null 则表示所有
      */
     void unlock(RobinRuleEnum type, String target);
 

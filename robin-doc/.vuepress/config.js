@@ -30,7 +30,8 @@ module.exports = {
         }
     },
     markdown: {
-        plugins: ['task-lists']
+        plugins: ['task-lists'],
+        lineNumbers: true
     }
 }
 
@@ -53,7 +54,7 @@ function genConfigSidebar() {
         {
             title: '配置',
             collapsable: false,
-            children: ['', '']
+            children: ['']
         }
     ];
 }

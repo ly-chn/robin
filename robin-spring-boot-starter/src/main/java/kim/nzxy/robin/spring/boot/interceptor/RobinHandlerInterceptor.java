@@ -26,7 +26,7 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (cacheAble(request)) {
-            Robin.execute();
+            Robin.start();
         }
         return true;
     }
