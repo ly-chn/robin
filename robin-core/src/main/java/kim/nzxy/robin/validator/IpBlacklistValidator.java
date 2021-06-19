@@ -2,7 +2,7 @@ package kim.nzxy.robin.validator;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinRuleEnum;
-import kim.nzxy.robin.exception.RobinException;
+import kim.nzxy.robin.util.Assert;
 import kim.nzxy.robin.util.MatcherUtil;
 import lombok.val;
 
@@ -15,14 +15,11 @@ import lombok.val;
 public class IpBlacklistValidator implements RobinValidator {
     @Override
     public void execute() {
-        val ipProp = RobinManagement.getRobinProperties().getIp();
-        val contextHandler = RobinManagement.getContextHandler();
-        val ip = contextHandler.ip();
-        for (String s : ipProp.getBlacklist()) {
-            if (MatcherUtil.str(ip, s)) {
-                throw new RobinException(RobinRuleEnum.BLACKLIST_IP_ADDRESS, ip);
-            }
-        }
-
+        val ip = RobinManagement.getContextHandler().ip();
+        Assert.assertRobinException(
+                MatcherUtil.str(ip, RobinManagement.getRobinProperties().getBlackWhiteList().getIp().getBlacklist()),
+                RobinRuleEnum.BLACKLIST_IP_ADDRESS,
+                ip
+        );
     }
 }

@@ -1,5 +1,7 @@
 package kim.nzxy.robin.util;
 
+import java.util.Collection;
+
 /**
  * @author xy
  * @since 2021/6/4
@@ -36,5 +38,17 @@ public class MatcherUtil {
             }
         }
         return dp[m][n];
+    }
+
+    /**
+     * @see #str(String, String)
+     */
+    public static boolean str(String str, Collection<String> patterns) {
+        for (String pattern : patterns) {
+            if (str(str,pattern)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

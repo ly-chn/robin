@@ -39,7 +39,7 @@ public class ContinuousVisitValidator implements RobinValidator {
         Assert.assertRobinException(
                 accessRecord.size() == times - 1
                         && accessRecord.get(0) == expire,
-                RobinRuleEnum.FREQUENT_IP_ACCESS,
+                RobinRuleEnum.CONTINUOUS_VISIT,
                 ip,
                 () -> cacheHandler.lock(RobinRuleEnum.CONTINUOUS_VISIT, ip, properties.getUnlock()));
         if (!accessRecord.contains(expire)) {

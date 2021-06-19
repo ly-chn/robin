@@ -12,12 +12,11 @@ import java.util.Map;
  * @since 2021/6/6
  */
 public class RobinUtil {
+    /**
+     * @return 返回当前秒级时间戳
+     */
     public static int now() {
         return (int) (System.currentTimeMillis() / 1000);
-    }
-
-    public static void TODO() {
-        throw new RobinBuiltinException(RobinBuiltinErrEnum.METHOD_NOT_IMPLEMENTED_YET);
     }
 
     /**
@@ -33,4 +32,5 @@ public class RobinUtil {
         }
         return null;
     }
+
 }

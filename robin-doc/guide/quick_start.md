@@ -43,6 +43,9 @@
 在 `application.yml`(renamed from `application.properties`) 配中添加相关配置：
 
 ```yml
+robin:
+  # 启用ip访问频率限制检测
+  include-rule: frequent_ip_access
 # 当然如果你是localhost:6379也可以直接用缺省配置
 spring:
   redis:
@@ -74,5 +77,25 @@ public class TestController {
 }
 ```
 
+### 查看效果
 
+启动项目打开浏览器[访问localhost:8080](localhost:8080)将会看到`success`的返回
+
+而如果你在一分钟内访问达到了一定次数(默认是10次), 看到的将会是一个错误页面
+
+如果使用的示例demo的异常拦截, 将会看到类似下面的内容: 
+
+```json
+{"message":"IP 访问频繁: 127.0.0.1","code":500,"data":null,"list":null}
+```
+
+这里你可能会疑惑: 
+
+每分钟10次调用够谁用的, 127.0.0.1也拦截, 什么垃圾设计? 
+
+暂时讲一下这些疑惑
+
+```
+首先框架并不知道你的系统是否足够大, 故而也无法为你设置一个合理的值, 比如每分钟10次, 比如内网访问是否应当作出限制, 所以这里应当由框架的使用者来动态管理这些内容. 具体请参考每个策略的配置项以及框架配置.
+```
 

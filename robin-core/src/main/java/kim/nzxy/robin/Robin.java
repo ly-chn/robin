@@ -1,7 +1,8 @@
 package kim.nzxy.robin;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.exception.RobinException;
+import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
+import kim.nzxy.robin.exception.RobinBuiltinException;
 import kim.nzxy.robin.factory.RobinValidFactory;
 import kim.nzxy.robin.validator.RobinValidator;
 import lombok.val;
@@ -16,11 +17,18 @@ public class Robin {
      */
     public static void execute() {
         val interceptor = RobinManagement.getRobinInterceptor();
-        if (interceptor.beforeValidate()) {
-            val includeRule = RobinManagement.getRobinProperties().getIncludeRule();
+        if (!interceptor.beforeValidate()) {
+            return;
+        }
+
+        val includeRule = RobinManagement.getRobinProperties().getIncludeRule();
+        try {
             for (RobinValidator validator : RobinValidFactory.getInvokeStrategy(includeRule)) {
                 validator.execute();
-
+            }
+        } catch (RobinBuiltinException e) {
+            if (!e.getError().equals(RobinBuiltinErrEnum.EXPECTED_USER_BREAK)) {
+                throw e;
             }
         }
     }

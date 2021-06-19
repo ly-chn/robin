@@ -8,14 +8,25 @@ module.exports = {
         editLinks: true,
         locales: {
             '/': {
-                label: "简体中文",
-                selectText: "Languages",
-                editLinkText: "在 GitHub 上编辑此页",
-                lastUpdated: "上次更新",
+                label: '简体中文',
+                selectText: 'Languages',
+                editLinkText: '在 GitHub 上编辑此页',
+                lastUpdated: '上次更新',
+                nav: [{
+                    text: "指南",
+                    link: "/guide/"
+                }, {
+                    text: "配置",
+                    link: "/configuration/"
+                }, {
+                    text: "更新日志",
+                    link: ""
+                },]
             }
         },
         sidebar: {
-            "/guide/": genGuideSidebar(),
+            '/guide/': genGuideSidebar(),
+            '/configuration/': genConfigSidebar()
         }
     },
     markdown: {
@@ -26,12 +37,23 @@ module.exports = {
 function genGuideSidebar() {
     return [
         {
-            title: "快速入门",
+            title: '快速入门',
             collapsable: false,
             children: [
-                ["", "介绍"],
-                ["quick_start", "快速开始"]
+                ['', '介绍'],
+                ['quick_start', '快速开始'],
+                ['built-in_strategy', '内置策略'],
             ]
+        }
+    ];
+}
+
+function genConfigSidebar() {
+    return [
+        {
+            title: '配置',
+            collapsable: false,
+            children: ['', '']
         }
     ];
 }

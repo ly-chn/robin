@@ -1,7 +1,9 @@
 package kim.nzxy.robin.util;
 
 import kim.nzxy.robin.config.RobinManagement;
+import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
+import kim.nzxy.robin.exception.RobinBuiltinException;
 import kim.nzxy.robin.exception.RobinException;
 
 /**
@@ -19,19 +21,21 @@ public class Assert {
     }
 
     /**
+     * todo: lock几乎每次都有, 回头改成固定的
      * @param expression  if true, throwing an {@link RobinException}
      * @param beforeThrow 抛出异常前的回调
      */
     public static void assertRobinException(boolean expression, RobinRuleEnum ruleEnum, String target, Runnable beforeThrow) {
         if (expression) {
             RobinException exception = new RobinException(ruleEnum, target);
-            if (RobinManagement.getRobinInterceptor().onCache(exception)) {
-                throw exception;
-            }
             if (beforeThrow != null) {
                 beforeThrow.run();
             }
-            throw exception;
+            if (RobinManagement.getRobinInterceptor().onCache(exception)) {
+                throw exception;
+            }else{
+                throw new RobinBuiltinException(RobinBuiltinErrEnum.EXPECTED_USER_BREAK);
+            }
         }
     }
 }
