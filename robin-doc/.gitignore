@@ -22,7 +22,7 @@ target/
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/
-/dist/
+dist/
 /nbdist/
 /.nb-gradle/
 build/
@@ -34,3 +34,4 @@ build/
 /robin-doc/node_modules/
 /node_modules/
 /yarn.lock
+/.vuepress/dist/
