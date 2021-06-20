@@ -3,8 +3,12 @@ home: true
 actionText: 快速开始 →
 actionLink: /guide/quick_start
 features:
-- title: 还没想好
-  details: 会想出来的
+- title: 可扩展
+  details: 易于扩展
+- title: 功能齐全
+  details: 提供多种策略共同应对
+- title: 简单上手
+  details: 配置简便
 footer: MIT | nzxy.kim
 ---
 

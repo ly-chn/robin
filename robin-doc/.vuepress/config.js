@@ -44,6 +44,7 @@ function genGuideSidebar() {
                 ['', '介绍'],
                 ['quick_start', '快速开始'],
                 ['built-in_strategy', '内置策略'],
+                ['about_spider', '爬虫的一点介绍'],
             ]
         }
     ];
