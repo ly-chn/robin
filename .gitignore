@@ -31,3 +31,5 @@ build/
 
 ### VS Code ###
 .vscode/
+
+robin-doc/.vuepress/dist

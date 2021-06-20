@@ -1,5 +1,5 @@
 module.exports = {
-    // base: 'docs-robin',
+    base: '/docs-robin/',
     title: 'Robin',
     description: '期望成为一个反爬框架',
     themeConfig: {
