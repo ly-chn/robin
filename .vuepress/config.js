@@ -5,7 +5,6 @@ module.exports = {
     description: '期望成为一个反爬框架',
     themeConfig: {
         repo: 'ly-chn/robin',
-        docsDir: 'robin-doc',
         docsBranch: 'docs',
         editLinks: true,
         locales: {
