@@ -12,13 +12,13 @@ import lombok.val;
  * @author xy
  * @since 2021/6/6
  */
-public class IpBlacklistValidator implements RobinValidator {
+public class IpBlocklistValidator implements RobinValidator {
     @Override
     public void execute() {
         val ip = RobinManagement.getContextHandler().ip();
         Assert.assertRobinException(
-                MatcherUtil.str(ip, RobinManagement.getRobinProperties().getBlackWhiteList().getIp().getBlacklist()),
-                RobinRuleEnum.BLACKLIST_IP_ADDRESS,
+                MatcherUtil.str(ip, RobinManagement.getRobinProperties().getBlackWhiteList().getIp().getBlocklist()),
+                RobinRuleEnum.BLOCKLIST_IP_ADDRESS,
                 ip
         );
     }

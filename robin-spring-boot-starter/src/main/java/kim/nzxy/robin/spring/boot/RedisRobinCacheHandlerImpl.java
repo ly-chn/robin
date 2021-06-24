@@ -87,7 +87,6 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
                 try {
                     //noinspection ResultOfMethodCallIgnored
                     RobinManagement.getRobinProperties().getDetail().getCache().getCleanAt();
-                    ;
                     break;
                 } catch (Exception ignored) {
                 }

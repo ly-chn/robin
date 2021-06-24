@@ -19,4 +19,9 @@ public class RobinContextHandlerImpl implements RobinContextHandler {
     public String uri() {
         return SpringContextUtil.currentRequest().getRequestURI();
     }
+
+    @Override
+    public String ua() {
+        return SpringContextUtil.currentRequest().getParameter("User-Agent");
+    }
 }

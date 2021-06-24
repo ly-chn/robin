@@ -3,6 +3,7 @@ package kim.nzxy.robin.autoconfigure;
 import kim.nzxy.robin.enums.RobinModeEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.Duration;
 import java.time.LocalTime;
@@ -79,18 +80,18 @@ public class RobinProperties {
         /**
          * IP地址白名单
          */
-        private List<String> whitelist = new ArrayList<>();
+        private List<String> allowlist = new ArrayList<>();
         /**
          * IP地址黑名单
          */
-        private List<String> blacklist = new ArrayList<>();
+        private List<String> blocklist = new ArrayList<>();
     }
 
     /**
-     * IP 规则
+     * 访问频率控制相关
      */
     @Data
-    public static class RobinIpRule {
+    public static class FrequencyControl {
         /**
          * 存续时间, 受控期
          */
@@ -105,6 +106,15 @@ public class RobinProperties {
          * 到期后自动解封
          */
         private Duration unlock = Duration.ofHours(1L);
+    }
+
+
+    /**
+     * IP 规则
+     */
+    @EqualsAndHashCode(callSuper = true)
+    @Data
+    public static class RobinIpRule extends FrequencyControl {
     }
 
     /**

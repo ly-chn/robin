@@ -17,4 +17,9 @@ public interface RobinContextHandler {
      * @return 当前访问资源
      */
     String uri();
+
+    /**
+     * @return 当前ua
+     */
+    String ua();
 }

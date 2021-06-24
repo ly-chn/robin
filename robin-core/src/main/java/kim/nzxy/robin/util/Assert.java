@@ -14,6 +14,15 @@ import kim.nzxy.robin.exception.RobinException;
  */
 public class Assert {
     /**
+     * 断言是否锁定
+     *
+     * @see #assertRobinException(boolean, kim.nzxy.robin.enums.RobinRuleEnum, String)
+     */
+    public static void assertLocked(RobinRuleEnum ruleEnum, String target) {
+        assertRobinException(RobinManagement.getCacheHandler().lock(ruleEnum, target), ruleEnum, target);
+    }
+
+    /**
      * @see #assertRobinException(boolean, RobinRuleEnum, String, Runnable)
      */
     public static void assertRobinException(boolean expression, RobinRuleEnum ruleEnum, String target) {
@@ -22,6 +31,7 @@ public class Assert {
 
     /**
      * todo: lock几乎每次都有, 回头改成固定的
+     *
      * @param expression  if true, throwing an {@link RobinException}
      * @param beforeThrow 抛出异常前的回调
      */
@@ -33,7 +43,7 @@ public class Assert {
             }
             if (RobinManagement.getRobinInterceptor().onCache(exception)) {
                 throw exception;
-            }else{
+            } else {
                 throw new RobinBuiltinException(RobinBuiltinErrEnum.EXPECTED_USER_BREAK);
             }
         }

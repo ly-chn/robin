@@ -31,7 +31,7 @@ public class ContinuousVisitValidator implements RobinValidator {
         val times = properties.getTimes();
 
         // 断言已被禁用
-        Assert.assertRobinException(cacheHandler.lock(RobinRuleEnum.CONTINUOUS_VISIT, ip), RobinRuleEnum.CONTINUOUS_VISIT, ip);
+        Assert.assertLocked(RobinRuleEnum.CONTINUOUS_VISIT, ip);
         val accessRecord = cacheHandler.getAccessRecord(RobinRuleEnum.CONTINUOUS_VISIT, ip, times - 1);
         // 当前时间窗口结束时间
         val timeFrameEndSeconds = calcTimeFrameEndSeconds(durationSeconds);
