@@ -4,4 +4,4 @@ Robin 是一个简易的 Java 反爬框架, 目标是填补 Java 没有一个好
 
 ## Links
 
-- [Documentation](https://ly-chn.github.io/docs-robin/)
+- [Documentation](https://ly-chn.github.io/robin/)
