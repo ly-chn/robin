@@ -41,7 +41,7 @@ public class Assert {
             if (beforeThrow != null) {
                 beforeThrow.run();
             }
-            if (RobinManagement.getRobinInterceptor().onCache(exception)) {
+            if (RobinManagement.getRobinInterceptor().onCatch(exception)) {
                 throw exception;
             } else {
                 throw new RobinBuiltinException(RobinBuiltinErrEnum.EXPECTED_USER_BREAK);

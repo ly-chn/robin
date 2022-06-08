@@ -10,6 +10,7 @@ import kim.nzxy.robin.exception.RobinException;
  */
 public interface RobinInterceptor {
     /**
+     * 方法验证之前执行
      * @return 返回 false 将不会执行拦截策略, 可以针对指定用户指定角色进行信任
      */
     default boolean beforeValidate() {
@@ -22,7 +23,7 @@ public interface RobinInterceptor {
      * @param e Robin验证异常
      * @return 返回 false 表示忽略此捕获, 并不再执行其它策略. 返回 true 则抛出此异常, 等待异常拦截器处理
      */
-    default boolean onCache(RobinException e) {
+    default boolean onCatch(RobinException e) {
         return true;
     }
 }
