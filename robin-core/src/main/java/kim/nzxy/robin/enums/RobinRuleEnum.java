@@ -18,6 +18,9 @@ public enum RobinRuleEnum implements RobinEnum {
      * IP 访问频率限制
      */
     FREQUENT_IP_ACCESS(1001, "IP 访问频繁"),
+    /**
+     * 忘了干嘛的了, 且先留着吧
+     */
     FREQUENT_ACCESS(1004, "访问频繁"),
     /**
      * IP 黑名单拦截
