@@ -2,7 +2,7 @@ package kim.nzxy.robin.validator;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinRuleEnum;
-import kim.nzxy.robin.util.Assert;
+import kim.nzxy.robin.util.RobinAssert;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.val;
 
@@ -31,12 +31,12 @@ public class ContinuousVisitValidator implements RobinValidator {
         val times = properties.getTimes();
 
         // 断言已被禁用
-        Assert.assertLocked(RobinRuleEnum.CONTINUOUS_VISIT, ip);
+        RobinAssert.assertLocked(RobinRuleEnum.CONTINUOUS_VISIT, ip);
         val accessRecord = cacheHandler.getAccessRecord(RobinRuleEnum.CONTINUOUS_VISIT, ip, times - 1);
         // 当前时间窗口结束时间
         val timeFrameEndSeconds = calcTimeFrameEndSeconds(durationSeconds);
         val expire = timeFrameEndSeconds + ((int) durationSeconds * times);
-        Assert.assertRobinException(
+        RobinAssert.assertRobinException(
                 accessRecord.size() == times - 1
                         && accessRecord.get(0) == expire,
                 RobinRuleEnum.CONTINUOUS_VISIT,

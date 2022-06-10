@@ -12,7 +12,7 @@ import kim.nzxy.robin.exception.RobinException;
  * @author xy
  * @since 2021/6/4
  */
-public class Assert {
+public class RobinAssert {
     /**
      * 断言是否锁定
      *

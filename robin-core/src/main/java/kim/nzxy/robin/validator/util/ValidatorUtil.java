@@ -3,7 +3,7 @@ package kim.nzxy.robin.validator.util;
 import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinRuleEnum;
-import kim.nzxy.robin.util.Assert;
+import kim.nzxy.robin.util.RobinAssert;
 import kim.nzxy.robin.util.CacheAbleUtil;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.val;
@@ -29,7 +29,7 @@ public class ValidatorUtil {
 
         val cacheHandler = RobinManagement.getCacheHandler();
         // 断言已被禁用
-        Assert.assertLocked(rule, target);
+        RobinAssert.assertLocked(rule, target);
 
         val now = RobinUtil.now();
 
@@ -38,7 +38,7 @@ public class ValidatorUtil {
                 .filter(it -> it > now)
                 .count();
 
-        Assert.assertRobinException(
+        RobinAssert.assertRobinException(
                 recentVisitsCount >= control.getFrequency(),
                 rule,
                 target,
