@@ -1,6 +1,6 @@
 package kim.nzxy.robin.spring.boot;
 
-import kim.nzxy.robin.config.Constant;
+import kim.nzxy.robin.constant.Constant;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.handler.RobinCacheHandler;
 import kim.nzxy.robin.util.RobinUtil;

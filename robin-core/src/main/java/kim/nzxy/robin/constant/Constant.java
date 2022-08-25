@@ -1,4 +1,4 @@
-package kim.nzxy.robin.config;
+package kim.nzxy.robin.constant;
 
 /**
  * 固定, 配置, 如公共前缀, 固定逻辑等
