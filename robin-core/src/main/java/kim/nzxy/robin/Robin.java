@@ -9,6 +9,8 @@ import kim.nzxy.robin.validator.RobinValidator;
 import lombok.val;
 
 /**
+ * 用户工具类
+ *
  * @author xy
  * @since 2021/6/4
  */
