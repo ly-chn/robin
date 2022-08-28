@@ -1,8 +1,6 @@
 package kim.nzxy.robin.sample.web.common.validator;
 
 import kim.nzxy.robin.validator.RobinValidator;
-import kim.nzxy.robin.sample.web.common.exception.LyException;
-import kim.nzxy.robin.sample.web.common.util.SpringContextUtil;
 import org.springframework.stereotype.Component;
 
 /**
