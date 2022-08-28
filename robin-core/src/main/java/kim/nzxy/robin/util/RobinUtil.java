@@ -43,6 +43,7 @@ public class RobinUtil {
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");
+            md.reset();
         } catch (NoSuchAlgorithmException e) {
             // will not throw
             throw new RobinBuiltinException(RobinBuiltinErrEnum.MODE_NOT_IMPLEMENTED_YET);
