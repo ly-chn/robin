@@ -42,7 +42,9 @@ public class RobinDigestUtil {
      *
      * @return 还原消息
      */
-    public String watering(String digest) {
+    public String nurture(String digest) {
+        // todo: 还原消息
 
+        return RobinManagement.getCacheHandler().toString();
     }
 }
