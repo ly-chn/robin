@@ -22,7 +22,15 @@ public class RobinException extends RuntimeException {
      * 严重异常，将导致robin无法正常运行
      */
     public static class Panic extends RobinException {
-        public Panic(RobinExceptionEnum error, String target) {
+        public Panic(RobinExceptionEnum error) {
+            super(error, null);
+        }
+    }
+    /**
+     * 严重异常，将导致robin无法正常运行
+     */
+    public static class Verify extends RobinException {
+        public Verify(RobinExceptionEnum error, String target) {
             super(error, target);
         }
     }
