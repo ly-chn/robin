@@ -1,8 +1,8 @@
 package kim.nzxy.robin.util;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
-import kim.nzxy.robin.exception.RobinBuiltinException;
+import kim.nzxy.robin.enums.RobinExceptionEnum;
+import kim.nzxy.robin.exception.RobinException;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -22,17 +22,17 @@ public class RobinDigestUtil {
      * @param str 目标字符串
      * @return 摘要结果
      */
-    public String digest(String str) {
+    public static String digest(String str) {
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("MD5");
-            md.reset();
         } catch (NoSuchAlgorithmException e) {
             // will not throw
-            throw new RobinBuiltinException(RobinBuiltinErrEnum.MODE_NOT_IMPLEMENTED_YET);
+            throw new RobinException.Panic(RobinExceptionEnum.Panic.DigestUtilInitError);
         }
         byte[] digest = md.digest(str.getBytes(StandardCharsets.UTF_8));
         String result = new String(digest);
+        // todo: 缓存消息
         RobinManagement.getCacheHandler();
         return result;
     }
@@ -42,7 +42,7 @@ public class RobinDigestUtil {
      *
      * @return 还原消息
      */
-    public String nurture(String digest) {
+    public static String nurture(String digest) {
         // todo: 还原消息
 
         return RobinManagement.getCacheHandler().toString();

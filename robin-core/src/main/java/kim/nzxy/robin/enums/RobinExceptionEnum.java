@@ -15,6 +15,14 @@ public interface RobinExceptionEnum {
          * 摘要算法初始化异常
          */
         DigestUtilInitError,
+        /**
+         * 未找到缓存处理器
+         */
+        CacheHandlerMissing,
+        /**
+         * 未实现的模式
+         */
+        ModeNotImplementedYet
         ;
     }
 

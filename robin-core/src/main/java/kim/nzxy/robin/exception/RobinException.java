@@ -1,5 +1,6 @@
 package kim.nzxy.robin.exception;
 
+import kim.nzxy.robin.config.RobinMetaData;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import lombok.AllArgsConstructor;
@@ -9,13 +10,20 @@ import lombok.Getter;
  * @author xy
  * @since 2021/6/4
  */
-@AllArgsConstructor
 @Getter
 public class RobinException extends RuntimeException {
-    private RobinRuleEnum error;
-    private String target;
+    /**
+     * 异常类型
+     */
+    private final RobinExceptionEnum error;
+    /**
+     * 异常附加信息
+     */
+    private final RobinMetaData target;
 
-    public RobinException(RobinExceptionEnum error, String target) {
+    private RobinException(RobinExceptionEnum error, RobinMetaData target) {
+        this.error = error;
+        this.target = target;
     }
 
     /**
@@ -30,7 +38,7 @@ public class RobinException extends RuntimeException {
      * 严重异常，将导致robin无法正常运行
      */
     public static class Verify extends RobinException {
-        public Verify(RobinExceptionEnum error, String target) {
+        public Verify(RobinExceptionEnum error, RobinMetaData target) {
             super(error, target);
         }
     }

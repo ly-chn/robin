@@ -2,7 +2,9 @@ package kim.nzxy.robin.config;
 
 import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
+import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinBuiltinException;
+import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.filter.DefaultRobinInterceptorImpl;
 import kim.nzxy.robin.handler.RobinCacheHandler;
 import kim.nzxy.robin.handler.RobinContextHandler;
@@ -49,11 +51,9 @@ public class RobinManagement {
 
     public static RobinCacheHandler getCacheHandler() {
         if (cacheHandler == null) {
-            throw new RobinBuiltinException(RobinBuiltinErrEnum.SOMETHING_NOT_REGISTER_YET);
-            // todo: default CacheHandler
+            // todo: default cache handler
+            throw new RobinException.Panic(RobinExceptionEnum.Panic.CacheHandlerMissing);
         }
         return cacheHandler;
     }
-
-
 }

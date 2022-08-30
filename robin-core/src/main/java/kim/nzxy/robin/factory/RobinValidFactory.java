@@ -2,8 +2,10 @@ package kim.nzxy.robin.factory;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
+import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinBuiltinException;
+import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.util.RobinUtil;
 import kim.nzxy.robin.validator.ContinuousVisitValidator;
 import kim.nzxy.robin.validator.FrequentIpAccessValidator;
@@ -63,7 +65,7 @@ public class RobinValidFactory {
                 }
                 val index = RobinManagement.getRobinProperties().getIncludeRule().indexOf(RobinUtil.getMapKey(INVOKE_STRATEGY_MAP, o));
                 if (index == -1) {
-                    throw new RobinBuiltinException(RobinBuiltinErrEnum.MODE_NOT_IMPLEMENTED_YET);
+                    throw new RobinException.Panic(RobinExceptionEnum.Panic.ModeNotImplementedYet);
                 }
                 return index * 100;
             }));

@@ -18,4 +18,8 @@ public class RobinMetaData {
      * 数据值，如具体IP地址，Token值，用户Id值等
      */
     private String value;
+    /**
+     * 为true表示需要摘要压缩处理（防止大key）
+     */
+    private Boolean digest;
 }
