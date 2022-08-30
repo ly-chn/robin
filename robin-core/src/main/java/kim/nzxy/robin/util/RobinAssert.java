@@ -36,16 +36,16 @@ public class RobinAssert {
      * @param beforeThrow 抛出异常前的回调
      */
     public static void assertRobinException(boolean expression, RobinRuleEnum ruleEnum, String target, Runnable beforeThrow) {
-        if (expression) {
-            RobinException exception = new RobinException(ruleEnum, target);
-            if (beforeThrow != null) {
-                beforeThrow.run();
-            }
-            if (RobinManagement.getRobinInterceptor().onCatch(exception)) {
-                throw exception;
-            } else {
-                throw new RobinBuiltinException(RobinBuiltinErrEnum.EXPECTED_USER_BREAK);
-            }
-        }
+        // if (expression) {
+        //     RobinException exception = new RobinException(ruleEnum, target);
+        //     if (beforeThrow != null) {
+        //         beforeThrow.run();
+        //     }
+        //     if (RobinManagement.getRobinInterceptor().onCatch(exception)) {
+        //         throw exception;
+        //     } else {
+        //         throw new RobinBuiltinException(RobinBuiltinErrEnum.EXPECTED_USER_BREAK);
+        //     }
+        // }
     }
 }

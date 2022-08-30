@@ -43,7 +43,6 @@ public interface RobinCacheHandler {
      * @return 最近访问时间戳
      */
     List<Integer> getAccessRecord(RobinRuleEnum type, String target, int length);
-
     /**
      * 设置锁定
      *

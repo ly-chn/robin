@@ -18,6 +18,7 @@ import java.time.ZoneOffset;
  */
 public class ContinuousVisitValidator implements RobinValidator {
     /**
+     * todo: 放到配置类，统一管理
      * 用于计算时间窗口的基础时间
      */
     private final LocalDateTime baseTime = LocalDate.ofYearDay(2021, 1).atStartOfDay();
@@ -29,7 +30,7 @@ public class ContinuousVisitValidator implements RobinValidator {
         val properties = RobinManagement.getRobinProperties().getContinuousVisit();
         val durationSeconds = properties.getDuration().getSeconds();
         val times = properties.getTimes();
-
+        // todo: 取第一个，再取list的大小即可，没必要全取出来
         // 断言已被禁用
         RobinAssert.assertLocked(RobinRuleEnum.CONTINUOUS_VISIT, ip);
         val accessRecord = cacheHandler.getAccessRecord(RobinRuleEnum.CONTINUOUS_VISIT, ip, times - 1);

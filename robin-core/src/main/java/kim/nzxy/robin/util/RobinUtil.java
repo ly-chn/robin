@@ -38,21 +38,4 @@ public class RobinUtil {
         }
         return null;
     }
-
-    public static String md5(String str) {
-        MessageDigest md;
-        try {
-            md = MessageDigest.getInstance("MD5");
-            md.reset();
-        } catch (NoSuchAlgorithmException e) {
-            // will not throw
-            throw new RobinBuiltinException(RobinBuiltinErrEnum.MODE_NOT_IMPLEMENTED_YET);
-        }
-        byte[] digest;
-        digest = md.digest(str.getBytes(StandardCharsets.UTF_8));
-        return String.format("%032x", new BigInteger(1, digest));
-        // 这是网上找到的另一种方法, 开头的0会被忽略, 故而未采用
-        // return new BigInteger(1,digest).toString(16);
-    }
-
 }
