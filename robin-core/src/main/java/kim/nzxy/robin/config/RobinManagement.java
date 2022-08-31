@@ -1,17 +1,20 @@
 package kim.nzxy.robin.config;
 
+import kim.nzxy.robin.autoconfigure.RobinBasicStrategy;
 import kim.nzxy.robin.autoconfigure.RobinProperties;
-import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
+import kim.nzxy.robin.autoconfigure.ValidatorConfig;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
-import kim.nzxy.robin.exception.RobinBuiltinException;
 import kim.nzxy.robin.exception.RobinException;
-import kim.nzxy.robin.filter.DefaultRobinInterceptorImpl;
 import kim.nzxy.robin.handler.RobinCacheHandler;
 import kim.nzxy.robin.handler.RobinContextHandler;
-import kim.nzxy.robin.filter.RobinInterceptor;
+import kim.nzxy.robin.interceptor.DefaultRobinInterceptorImpl;
+import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author xy
@@ -19,6 +22,10 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class RobinManagement {
+    /**
+     * 验证器的策略配置
+     */
+    private static final Map<String, ValidatorConfig> VALIDATOR_CONFIG_MAP = new HashMap<>();
     /**
      * 配置文件
      */
@@ -43,7 +50,7 @@ public class RobinManagement {
     private static RobinInterceptor robinInterceptor;
 
     public static RobinInterceptor getRobinInterceptor() {
-        if (robinInterceptor ==null) {
+        if (robinInterceptor == null) {
             robinInterceptor = new DefaultRobinInterceptorImpl();
         }
         return robinInterceptor;
@@ -55,5 +62,19 @@ public class RobinManagement {
             throw new RobinException.Panic(RobinExceptionEnum.Panic.CacheHandlerMissing);
         }
         return cacheHandler;
+    }
+
+    public static void registerValidatorConfig(String key, ValidatorConfig config) {
+        VALIDATOR_CONFIG_MAP.put(key, config);
+    }
+
+    public static RobinBasicStrategy getBasicConfig(String key, Class<ValidatorConfig> type) {
+        return VALIDATOR_CONFIG_MAP.get(key).getBasic();
+    }
+
+    public static <T> T getStrategyConfig(String key, Class<T> type) {
+        Object o = VALIDATOR_CONFIG_MAP.get(key).getConfig();
+        //noinspection unchecked
+        return (T) o;
     }
 }

@@ -21,13 +21,10 @@ import java.util.*;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RobinValidFactory {
     /**
-     * 内置策略
+     * 校验策略
      */
-    private static final Map<RobinRuleEnum, RobinValidator> INVOKE_STRATEGY_MAP = new HashMap<>();
-    /**
-     * 用户自定义策略
-     */
-    private static final Set<RobinValidator> INVOKE_STRATEGY_SET = new HashSet<>();
+    private static final Map<String, RobinValidator> INVOKE_STRATEGY_MAP = new HashMap<>();
+
     /**
      * 用于缓存所有用到的策略
      */

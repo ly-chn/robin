@@ -10,9 +10,10 @@ import org.springframework.stereotype.Component;
  * @since 2021/6/9
  */
 @Component
+@RobinValidator.WithConfig(key = "refer")
 public class ReferValidator implements RobinValidator {
     @Override
-    public void execute() {
+    public void preHandle() {
         // if (!SpringContextUtil.referer().contains("nzxy.kim")) {
         //     throw new LyException("你为什么不是来自 nzxy.kim? ");
         // }

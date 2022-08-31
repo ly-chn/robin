@@ -14,7 +14,6 @@ public class MatcherUtil {
      * @param str     可能为空，且只包含从 a-z 的小写字母。
      * @param pattern 可能为空，且只包含从 a-z 的小写字母，以及字符 ? 和 *。
      * @return 为 true 表示匹配
-     * @see <a href="https://leetcode-cn.com/problems/wildcard-matching/">leetcode</a>
      */
     public static boolean str(String str, String pattern) {
         int m = str.length();

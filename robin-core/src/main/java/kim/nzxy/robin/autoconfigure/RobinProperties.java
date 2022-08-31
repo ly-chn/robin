@@ -1,16 +1,11 @@
 package kim.nzxy.robin.autoconfigure;
 
 import kim.nzxy.robin.enums.RobinModeEnum;
-import kim.nzxy.robin.filter.DefaultRobinInterceptorImpl;
-import kim.nzxy.robin.filter.RobinInterceptor;
-import kim.nzxy.robin.handler.RobinMetaDataHandler;
+import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author xy
@@ -18,6 +13,7 @@ import java.util.List;
  */
 @Data
 public class RobinProperties {
+
     /**
      * 基础配置
      */
@@ -29,7 +25,7 @@ public class RobinProperties {
     /**
      * 持续访问策略
      */
-    private List<RobinStrategy<RobinSustainVisit>> sustain = new ArrayList<>();
+    private List<StrategyConfig> strategy = new ArrayList<>();
 
     @Data
     public static class RobinResourcePattern {
@@ -47,40 +43,18 @@ public class RobinProperties {
         private List<String> excludePatterns = new ArrayList<>();
     }
 
-    /**
-     * robin策略配置类
-     */
+    @SuppressWarnings("AlibabaAbstractClassShouldStartWithAbstractNaming")
     @Data
-    public static class RobinBasicStrategy {
-        /**
-         * 锁定时长
-         */
-        private Duration lockDuration;
-        /**
-         * 元数据读取函数
-         */
-        private RobinMetaDataHandler metaDataHandler;
-        /**
-         * 是否启用元数据压缩，防止缓存大key
-         */
-        private Boolean digest;
-        /**
-         * 优先级
-         */
-        private Integer precedence;
-    }
-
-    @Data
-    public static class RobinStrategy<T>{
+    public static abstract class StrategyConfig {
         private RobinBasicStrategy basic;
-        private T config;
     }
 
     /**
      * 持续访问配置类
      */
     @Data
-    public static class RobinSustainVisit{
+    public static class RobinSustainVisit {
+        public static final RobinInterceptor strategyClass = null;
         /**
          * 基础配置
          */
@@ -89,8 +63,6 @@ public class RobinProperties {
          * 拓展配置
          */
         private Config config;
-
-        public static final RobinInterceptor strategyClass = null;
 
         @Data
         public static class Config {

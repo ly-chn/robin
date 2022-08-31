@@ -1,4 +1,4 @@
-package kim.nzxy.robin.filter;
+package kim.nzxy.robin.interceptor;
 
 import kim.nzxy.robin.exception.RobinException;
 

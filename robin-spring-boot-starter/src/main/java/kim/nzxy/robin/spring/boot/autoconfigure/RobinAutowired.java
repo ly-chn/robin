@@ -3,7 +3,7 @@ package kim.nzxy.robin.spring.boot.autoconfigure;
 import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.factory.RobinValidFactory;
-import kim.nzxy.robin.filter.RobinInterceptor;
+import kim.nzxy.robin.interceptor.RobinInterceptor;
 import kim.nzxy.robin.handler.RobinContextHandler;
 import kim.nzxy.robin.spring.boot.RedisRobinCacheHandlerImpl;
 import kim.nzxy.robin.validator.RobinValidator;
