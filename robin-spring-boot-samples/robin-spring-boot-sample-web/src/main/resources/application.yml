@@ -3,6 +3,11 @@ spring:
     host: 127.0.0.1
     port: 6379
 robin:
-  black-white-list:
-    ip:
-      allowlist: 1
+  strategy-basic:
+    digest: false
+    lock-duration: 1s
+  sustain:
+    - basic:
+        digest: off
+      config:
+        abc: false

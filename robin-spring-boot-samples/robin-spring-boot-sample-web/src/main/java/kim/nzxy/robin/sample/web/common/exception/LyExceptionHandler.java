@@ -20,8 +20,8 @@ public class LyExceptionHandler {
     @ExceptionHandler(RobinException.class)
     public Res<?> handler(RobinException e) {
         log.error(e.getError().toString());
-        log.error(e.getTarget());
-        return Res.fail(e.getError().getMessage() + ": " + e.getTarget());
+        log.error("{}",e.getTarget());
+        return Res.fail(e.getError() + ": " + e.getTarget());
     }
 
     /**

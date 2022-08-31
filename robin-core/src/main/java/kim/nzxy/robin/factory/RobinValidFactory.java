@@ -5,8 +5,6 @@ import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.util.RobinUtil;
-import kim.nzxy.robin.validator.SustainVisitValidator;
-import kim.nzxy.robin.validator.FrequentIpAccessValidator;
 import kim.nzxy.robin.validator.RobinValidator;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -25,7 +23,7 @@ public class RobinValidFactory {
     /**
      * 内置策略
      */
-    private static final Map<RobinRuleEnum, RobinValidator> INVOKE_STRATEGY_MAP;
+    private static final Map<RobinRuleEnum, RobinValidator> INVOKE_STRATEGY_MAP = new HashMap<>();
     /**
      * 用户自定义策略
      */
@@ -35,39 +33,13 @@ public class RobinValidFactory {
      */
     private static volatile List<RobinValidator> invokeStrategyList;
 
-    static {
-        INVOKE_STRATEGY_MAP = new HashMap<>();
-        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.FREQUENT_IP_ACCESS, new FrequentIpAccessValidator());
-        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.CONTINUOUS_VISIT, new SustainVisitValidator());
-    }
-
 
     /**
      * @param includeRule 启用的内置策略
      * @return 所有策略(用户定义+内置)
      */
     public static List<RobinValidator> getInvokeStrategy(List<RobinRuleEnum> includeRule) {
-        if (invokeStrategyList == null) {
-            invokeStrategyList = new ArrayList<>();
-            for (RobinRuleEnum robinRuleEnum : includeRule) {
-                if (INVOKE_STRATEGY_MAP.get(robinRuleEnum) != null) {
-                    invokeStrategyList.add(INVOKE_STRATEGY_MAP.get(robinRuleEnum));
-                }
-            }
-            invokeStrategyList.addAll(INVOKE_STRATEGY_SET);
-            invokeStrategyList.sort(Comparator.comparingInt(o -> {
-                val key = RobinUtil.getMapKey(INVOKE_STRATEGY_MAP, o);
-                if (key == null) {
-                    return o.getOrder();
-                }
-                val index = RobinManagement.getRobinProperties().getIncludeRule().indexOf(key);
-                if (index == -1) {
-                    throw new RobinException.Panic(RobinExceptionEnum.Panic.ModeNotImplementedYet);
-                }
-                return index * 100;
-            }));
-        }
-        return invokeStrategyList;
+        return null;
     }
 
 

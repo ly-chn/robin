@@ -5,3 +5,13 @@ Robin 是一个简易的 Java 反爬框架, 目标是填补 Java 没有一个好
 ## Links
 
 - [Documentation](https://ly-chn.github.io/robin/)
+
+todo: 
+
+- IP白名单
+- 大请求校验（频繁请求长时间无响应的数据接口）
+-   mvc:
+    pathmatch:
+    matching-strategy: ant_path_matcher
+- springboot-starter迁移到robin-starter目录, 抽离redis-starter，缓存使用hashmap实现一个
+- 同理samples也抽离出来

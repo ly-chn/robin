@@ -10,19 +10,19 @@ import lombok.val;
  * @since 2021/6/19
  */
 public class CacheAbleUtil {
-    private static final ThreadLocal<Boolean> IP_IN_WHITE_LIST = new ThreadLocal<>();
 
     /**
      * @return 当前ip是否在黑名单中
      */
     public static boolean ipInWhitelist() {
-        if (IP_IN_WHITE_LIST.get() != null) {
-            return IP_IN_WHITE_LIST.get();
-        }
-        val ip = RobinManagement.getContextHandler().ip();
-        val whitelist = RobinManagement.getRobinProperties().getBlackWhiteList().getIp().getAllowlist();
-        val result = MatcherUtil.str(ip, whitelist);
-        IP_IN_WHITE_LIST.set(result);
-        return result;
+        // todo: ip白名单
+        // if (IP_IN_WHITE_LIST.get() != null) {
+        //     return IP_IN_WHITE_LIST.get();
+        // }
+        // val ip = RobinManagement.getContextHandler().ip();
+        // val whitelist = RobinManagement.getRobinProperties().getBlackWhiteList().getIp().getAllowlist();
+        // val result = MatcherUtil.str(ip, whitelist);
+        // IP_IN_WHITE_LIST.set(result);
+        return true;
     }
 }

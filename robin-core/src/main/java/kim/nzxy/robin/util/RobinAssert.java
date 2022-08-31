@@ -1,6 +1,7 @@
 package kim.nzxy.robin.util;
 
 import kim.nzxy.robin.config.RobinManagement;
+import kim.nzxy.robin.config.RobinMetaData;
 import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinBuiltinException;
@@ -18,8 +19,8 @@ public class RobinAssert {
      *
      * @see #assertRobinException(boolean, kim.nzxy.robin.enums.RobinRuleEnum, String)
      */
-    public static void assertLocked(RobinRuleEnum ruleEnum, String target) {
-        assertRobinException(RobinManagement.getCacheHandler().ban(ruleEnum, target), ruleEnum, target);
+    public static void assertLocked(RobinMetaData metaData) {
+        // assertRobinException(RobinManagement.getCacheHandler().locked(metaData));
     }
 
     /**

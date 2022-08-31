@@ -20,6 +20,9 @@ import java.util.List;
  */
 @Slf4j
 public class RobinHandlerInterceptor implements HandlerInterceptor {
+    /**
+     * todo: 获取spring自带matcher
+     */
     @Getter
     private static final PathMatcher pathMatcher = new AntPathMatcher();
 

@@ -25,16 +25,16 @@ public class Robin {
             return;
         }
 
-        val includeRule = RobinManagement.getRobinProperties().getIncludeRule();
-        try {
-            for (RobinValidator validator : RobinValidFactory.getInvokeStrategy(includeRule)) {
-                validator.execute();
-            }
-        } catch (RobinBuiltinException e) {
-            if (!e.getError().equals(RobinBuiltinErrEnum.EXPECTED_USER_BREAK)) {
-                throw e;
-            }
-        }
+        // val includeRule = RobinManagement.getRobinProperties().getIncludeRule();
+        // try {
+        //     for (RobinValidator validator : RobinValidFactory.getInvokeStrategy(includeRule)) {
+        //         validator.execute();
+        //     }
+        // } catch (RobinBuiltinException e) {
+        //     if (!e.getError().equals(RobinBuiltinErrEnum.EXPECTED_USER_BREAK)) {
+        //         throw e;
+        //     }
+        // }
     }
 
     /**
