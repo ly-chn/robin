@@ -5,7 +5,7 @@ import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.enums.RobinRuleEnum;
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.util.RobinUtil;
-import kim.nzxy.robin.validator.ContinuousVisitValidator;
+import kim.nzxy.robin.validator.SustainVisitValidator;
 import kim.nzxy.robin.validator.FrequentIpAccessValidator;
 import kim.nzxy.robin.validator.RobinValidator;
 import lombok.AccessLevel;
@@ -38,7 +38,7 @@ public class RobinValidFactory {
     static {
         INVOKE_STRATEGY_MAP = new HashMap<>();
         INVOKE_STRATEGY_MAP.put(RobinRuleEnum.FREQUENT_IP_ACCESS, new FrequentIpAccessValidator());
-        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.CONTINUOUS_VISIT, new ContinuousVisitValidator());
+        INVOKE_STRATEGY_MAP.put(RobinRuleEnum.CONTINUOUS_VISIT, new SustainVisitValidator());
     }
 
 

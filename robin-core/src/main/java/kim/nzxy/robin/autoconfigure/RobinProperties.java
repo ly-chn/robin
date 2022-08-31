@@ -33,7 +33,7 @@ public class RobinProperties {
     /**
      * IP 持续访问检验规则
      */
-    private IpContinuousVisit continuousVisit = new IpContinuousVisit();
+    private IpSustainVisit sustainVisit = new IpSustainVisit();
     /**
      * 一些细节优化的地方, 可以提升系统效率, 合理分配资源等
      */
@@ -122,7 +122,7 @@ public class RobinProperties {
      * 默认为连续访问达到100次则
      */
     @Data
-    public static class IpContinuousVisit {
+    public static class IpSustainVisit {
         /**
          * 时间窗口
          */

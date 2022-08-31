@@ -19,7 +19,7 @@ public class RobinAssert {
      * @see #assertRobinException(boolean, kim.nzxy.robin.enums.RobinRuleEnum, String)
      */
     public static void assertLocked(RobinRuleEnum ruleEnum, String target) {
-        assertRobinException(RobinManagement.getCacheHandler().lock(ruleEnum, target), ruleEnum, target);
+        assertRobinException(RobinManagement.getCacheHandler().ban(ruleEnum, target), ruleEnum, target);
     }
 
     /**

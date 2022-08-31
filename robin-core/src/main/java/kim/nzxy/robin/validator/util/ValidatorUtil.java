@@ -42,7 +42,7 @@ public class ValidatorUtil {
                 recentVisitsCount >= control.getFrequency(),
                 rule,
                 target,
-                () -> cacheHandler.lock(rule, target, control.getUnlock()));
+                () -> cacheHandler.ban(rule, target, control.getUnlock()));
 
         cacheHandler.accessRecord(rule, mark, now + (int) control.getDuration().getSeconds());
     }

@@ -16,7 +16,7 @@ import java.time.ZoneOffset;
  * @author xy
  * @since 2021/6/15
  */
-public class ContinuousVisitValidator implements RobinValidator {
+public class SustainVisitValidator implements RobinValidator {
     /**
      * todo: 放到配置类，统一管理
      * 用于计算时间窗口的基础时间
@@ -27,7 +27,7 @@ public class ContinuousVisitValidator implements RobinValidator {
     public void execute() {
         val cacheHandler = RobinManagement.getCacheHandler();
         val ip = RobinManagement.getContextHandler().ip();
-        val properties = RobinManagement.getRobinProperties().getContinuousVisit();
+        val properties = RobinManagement.getRobinProperties().getSustainVisit();
         val durationSeconds = properties.getDuration().getSeconds();
         val times = properties.getTimes();
         // todo: 取第一个，再取list的大小即可，没必要全取出来
@@ -42,7 +42,7 @@ public class ContinuousVisitValidator implements RobinValidator {
                         && accessRecord.get(0) == expire,
                 RobinRuleEnum.CONTINUOUS_VISIT,
                 ip,
-                () -> cacheHandler.lock(RobinRuleEnum.CONTINUOUS_VISIT, ip, properties.getUnlock()));
+                () -> cacheHandler.ban(RobinRuleEnum.CONTINUOUS_VISIT, ip, properties.getUnlock()));
         if (!accessRecord.contains(expire)) {
             cacheHandler.accessRecord(RobinRuleEnum.CONTINUOUS_VISIT, ip, expire);
         }
