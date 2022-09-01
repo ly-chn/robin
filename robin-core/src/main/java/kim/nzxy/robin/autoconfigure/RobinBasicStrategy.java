@@ -12,7 +12,7 @@ import java.time.Duration;
  * @since 2022/8/31 15:50
  */
 @Data
-public class RobinBasicStrategy<T extends RobinMetadataHandler> {
+public class RobinBasicStrategy {
     /**
      * 锁定时长
      */

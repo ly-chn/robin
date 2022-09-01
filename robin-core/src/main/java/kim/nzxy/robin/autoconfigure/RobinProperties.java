@@ -22,10 +22,6 @@ public class RobinProperties {
      * 策略默认配置，不推荐使用
      */
     private RobinBasicStrategy strategyBasic = new RobinBasicStrategy();
-    /**
-     * 持续访问策略
-     */
-    private List<StrategyConfig> strategy = new ArrayList<>();
 
     @Data
     public static class RobinResourcePattern {
