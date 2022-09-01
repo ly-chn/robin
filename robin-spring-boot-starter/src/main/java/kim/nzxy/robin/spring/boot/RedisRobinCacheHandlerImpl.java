@@ -1,6 +1,6 @@
 package kim.nzxy.robin.spring.boot;
 
-import kim.nzxy.robin.config.RobinMetaData;
+import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.handler.RobinCacheHandler;
 import kim.nzxy.robin.util.RobinTimeFrameUtil;
 import kim.nzxy.robin.util.RobinUtil;
@@ -41,9 +41,9 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
 
     @Override
-    public int sustainVisit(RobinMetaData metaData, Duration timeFrameSize) {
-        String key = Constant.SUSTAIN_VISIT_PREFIX + metaData.getTopic();
-        String value = metaData.getValue();
+    public int sustainVisit(RobinMetadata metadata, Duration timeFrameSize) {
+        String key = Constant.SUSTAIN_VISIT_PREFIX + metadata.getTopic();
+        String value = metadata.getValue();
         CONTINUOUS_VISIT_TOPIC_MAP.put(key, timeFrameSize);
         int currentTimeFrame = RobinTimeFrameUtil.currentTimeFrame(timeFrameSize);
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -70,14 +70,14 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     }
 
     @Override
-    public void lock(RobinMetaData metaData, Duration lock) {
-        redisTemplate.opsForZSet().add(Constant.LOCKED_PREFIX + metaData.getTopic(), metaData.getValue(), lock.getSeconds() + RobinUtil.now());
+    public void lock(RobinMetadata metadata, Duration lock) {
+        redisTemplate.opsForZSet().add(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getValue(), lock.getSeconds() + RobinUtil.now());
     }
 
     @Override
-    public boolean locked(RobinMetaData metaData) {
+    public boolean locked(RobinMetadata metadata) {
         val score = redisTemplate.opsForZSet()
-                .score(Constant.LOCKED_PREFIX + metaData.getTopic(), metaData.getValue());
+                .score(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getValue());
         if (score == null) {
             return false;
         }
@@ -85,9 +85,9 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     }
 
     @Override
-    public void unlock(RobinMetaData metaData) {
-        if (metaData != null) {
-            redisTemplate.opsForZSet().remove(Constant.LOCKED_PREFIX + metaData.getTopic(), metaData.getValue());
+    public void unlock(RobinMetadata metadata) {
+        if (metadata != null) {
+            redisTemplate.opsForZSet().remove(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getValue());
             return;
         }
         // todo: null for all
@@ -99,13 +99,13 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
             final long anHour = 60 * 60;
             executor.scheduleWithFixedDelay(
                     () -> {
-                        log.debug("cleaning record and ban");
+                        log.debug("robin cleaning");
                         // cleanAccessRecord();
                         // log.debug("access record is cleaned");
                         cleanSustainVisit();
                         log.debug("sustain visit record is cleaned");
                         cleanLock();
-                        log.debug("ban is cleaned");
+                        log.debug("locked record is cleaned");
                     },
                     0,
                     anHour,

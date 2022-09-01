@@ -1,6 +1,6 @@
 package kim.nzxy.robin.autoconfigure;
 
-import kim.nzxy.robin.handler.RobinMetaDataHandler;
+import kim.nzxy.robin.handler.RobinMetadataHandler;
 import lombok.Data;
 
 import java.time.Duration;
@@ -12,7 +12,7 @@ import java.time.Duration;
  * @since 2022/8/31 15:50
  */
 @Data
-public class RobinBasicStrategy {
+public class RobinBasicStrategy<T extends RobinMetadataHandler> {
     /**
      * 锁定时长
      */
@@ -20,7 +20,7 @@ public class RobinBasicStrategy {
     /**
      * 元数据读取函数
      */
-    private RobinMetaDataHandler metaDataHandler;
+    private RobinMetadataHandler metadataHandler;
     /**
      * 是否启用元数据压缩，防止缓存大key
      */

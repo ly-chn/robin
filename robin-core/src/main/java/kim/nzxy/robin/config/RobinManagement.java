@@ -11,6 +11,7 @@ import kim.nzxy.robin.interceptor.DefaultRobinInterceptorImpl;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
@@ -64,8 +65,17 @@ public class RobinManagement {
         return cacheHandler;
     }
 
-    public static void registerValidatorConfig(String key, ValidatorConfig config) {
-        VALIDATOR_CONFIG_MAP.put(key, config);
+    public static void registerValidatorConfig(String topic, ValidatorConfig config) {
+        if (log.isDebugEnabled()) {
+            log.info("register validator, topic: {}, config: {}", topic, config);
+        }
+        VALIDATOR_CONFIG_MAP.put(topic, config);
+    }
+    public static <T extends ValidatorConfig> void registerValidatorConfig(Map<String, T> configMap) {
+        if (log.isDebugEnabled()) {
+            log.info("register validator map: {}", configMap);
+        }
+        VALIDATOR_CONFIG_MAP.putAll(configMap);
     }
 
     public static RobinBasicStrategy getBasicConfig(String key, Class<ValidatorConfig> type) {

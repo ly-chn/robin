@@ -20,7 +20,7 @@ public interface RobinValidator {
      * 可能这不是一个很好的选择，但是目前看来我没有找到更好的方式，或许以后会的
      */
     @Retention(RetentionPolicy.RUNTIME)
-    @Target({ElementType.METHOD, ElementType.PARAMETER})
+    @Target({ElementType.TYPE})
     @interface WithConfig {
         /**
          * @return 策略自动注入的前缀，方便快速读取相关配置
@@ -31,7 +31,7 @@ public interface RobinValidator {
     /**
      * 在Controller执行之前调用
      */
-    void preHandle();
+    void preHandle(String topic, String metadata, RobinBasicStrategy basicConfig, Object validatorConfig);
 
     /**
      * controller执行之后

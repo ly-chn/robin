@@ -1,22 +1,24 @@
 package kim.nzxy.robin.autoconfigure;
 
-import lombok.Data;
-
 /**
  * robin 验证器-拓展配置基类，如有需要自行拓展
  *
  * @author xuyf
  * @since 2022/8/31 15:51
  */
-@SuppressWarnings("AlibabaAbstractClassShouldStartWithAbstractNaming")
-@Data
-public abstract class ValidatorConfig {
+public interface ValidatorConfig {
+
     /**
-     * 基础配置
+     * 读取基础配置
+     *
+     * @return 基础配置
      */
-    private RobinBasicStrategy basic;
+    RobinBasicStrategy getBasic();
+
     /**
-     * 其他配置
+     * 读取拓展配置
+     *
+     * @return 拓展配置
      */
-    private Object config;
+    Object getConfig();
 }

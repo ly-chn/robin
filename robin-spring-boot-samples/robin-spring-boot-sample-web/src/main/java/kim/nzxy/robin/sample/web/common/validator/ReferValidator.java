@@ -1,5 +1,6 @@
 package kim.nzxy.robin.sample.web.common.validator;
 
+import kim.nzxy.robin.autoconfigure.RobinBasicStrategy;
 import kim.nzxy.robin.validator.RobinValidator;
 import org.springframework.stereotype.Component;
 
@@ -12,15 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 @RobinValidator.WithConfig(key = "refer")
 public class ReferValidator implements RobinValidator {
+
     @Override
-    public void preHandle() {
+    public void preHandle(String topic, String metadata, RobinBasicStrategy basicConfig, Object validatorConfig) {
         // if (!SpringContextUtil.referer().contains("nzxy.kim")) {
         //     throw new LyException("你为什么不是来自 nzxy.kim? ");
         // }
     }
-
-    // @Override
-    // public int getOrder() {
-    //     return -1;
-    // }
 }

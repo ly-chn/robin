@@ -9,7 +9,7 @@ import lombok.Data;
  * @since 2022/8/29 12:10
  */
 @Data
-public class RobinMetaData {
+public class RobinMetadata {
     /**
      * 数据主题，如"IP"/"Token"/"UserId"等
      */

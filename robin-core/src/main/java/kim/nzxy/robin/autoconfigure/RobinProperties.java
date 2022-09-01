@@ -48,32 +48,4 @@ public class RobinProperties {
     public static abstract class StrategyConfig {
         private RobinBasicStrategy basic;
     }
-
-    /**
-     * 持续访问配置类
-     */
-    @Data
-    public static class RobinSustainVisit {
-        public static final RobinInterceptor strategyClass = null;
-        /**
-         * 基础配置
-         */
-        private RobinBasicStrategy basic;
-        /**
-         * 拓展配置
-         */
-        private Config config;
-
-        @Data
-        public static class Config {
-            /**
-             * 时间窗口大小
-             */
-            private Duration timeFrameSize;
-            /**
-             * 可访问最大次数
-             */
-            private Integer maxTimes;
-        }
-    }
 }

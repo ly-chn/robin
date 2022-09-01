@@ -1,7 +1,7 @@
 package kim.nzxy.robin.handler;
 
 
-import kim.nzxy.robin.config.RobinMetaData;
+import kim.nzxy.robin.config.RobinMetadata;
 
 import java.time.Duration;
 
@@ -16,32 +16,32 @@ public interface RobinCacheHandler {
     /**
      * 持续访问记录
      *
-     * @param metaData      元数据
+     * @param metadata      元数据
      * @param timeFrameSize 时间窗口大小
      * @return 已经连续访问的次数（含本次）
      */
-    int sustainVisit(RobinMetaData metaData, Duration timeFrameSize);
+    int sustainVisit(RobinMetadata metadata, Duration timeFrameSize);
 
     /**
      * 锁定
      *
-     * @param metaData 元数据
+     * @param metadata 元数据
      * @param lock     锁定时长
      */
-    void lock(RobinMetaData metaData, Duration lock);
+    void lock(RobinMetadata metadata, Duration lock);
 
     /**
      * 判断是否封禁
      *
-     * @param metaData 元数据
+     * @param metadata 元数据
      * @return true表示已封禁
      */
-    boolean locked(RobinMetaData metaData);
+    boolean locked(RobinMetadata metadata);
 
     /**
      * 主动解除封禁
      *
-     * @param metaData 元数据
+     * @param metadata 元数据
      */
-    void unlock(RobinMetaData metaData);
+    void unlock(RobinMetadata metadata);
 }

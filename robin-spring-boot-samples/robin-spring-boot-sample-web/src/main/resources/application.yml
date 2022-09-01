@@ -2,12 +2,19 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+logging:
+  level:
+    kim.nzxy.robin: debug
 robin:
-  strategy-basic:
-    digest: false
-    lock-duration: 1s
-  sustain:
-    - basic:
-        digest: off
-      config:
-        abc: false
+  validator:
+    sustain:
+      ip:
+        basic:
+          lock-duration: 10s
+      referer:
+        basic:
+          lock-duration: 10s
+    bucket:
+      ip-b:
+        basic:
+          lock-duration: 10s

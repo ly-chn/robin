@@ -22,7 +22,11 @@ public interface RobinExceptionEnum {
         /**
          * 未实现的模式
          */
-        ModeNotImplementedYet
+        ModeNotImplementedYet,
+        /**
+         * 未找到对应的元数据处理器
+         */
+        MetadataHandlerMissing
         ;
     }
 
