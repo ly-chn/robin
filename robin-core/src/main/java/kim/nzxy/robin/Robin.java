@@ -3,6 +3,7 @@ package kim.nzxy.robin;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.factory.RobinValidFactory;
+import kim.nzxy.robin.factory.RobinValidatorConfigFactory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -23,21 +24,10 @@ public class Robin {
         if (!interceptor.beforeValidate()) {
             return;
         }
-        for (String topic : RobinManagement.getGlobalValidatorTopic()) {
+        for (String topic : RobinValidatorConfigFactory.getGlobalValidatorTopic()) {
             // RobinValidFactory.getInvokeStrategy();
         }
         System.out.println();
-
-        // val includeRule = RobinManagement.getRobinProperties().getIncludeRule();
-        // try {
-        //     for (RobinValidator validator : RobinValidFactory.getInvokeStrategy()) {
-        //         validator.preHandle();
-        //     }
-        // } catch (RobinBuiltinException e) {
-        //     if (!e.getError().equals(RobinBuiltinErrEnum.EXPECTED_USER_BREAK)) {
-        //         throw e;
-        //     }
-        // }
     }
 
     /**

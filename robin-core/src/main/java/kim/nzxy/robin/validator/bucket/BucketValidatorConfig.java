@@ -1,6 +1,6 @@
 package kim.nzxy.robin.validator.bucket;
 
-import kim.nzxy.robin.autoconfigure.RobinBasicStrategy;
+import kim.nzxy.robin.autoconfigure.RobinValidatorBasicConfig;
 import kim.nzxy.robin.autoconfigure.ValidatorConfig;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class BucketValidatorConfig {
     @Data
     public static class Bucket implements ValidatorConfig {
 
-        private RobinBasicStrategy basic;
+        private RobinValidatorBasicConfig basic = new RobinValidatorBasicConfig();
 
         private Config config;
 

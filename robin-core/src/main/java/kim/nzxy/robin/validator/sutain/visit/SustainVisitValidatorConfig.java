@@ -1,6 +1,6 @@
 package kim.nzxy.robin.validator.sutain.visit;
 
-import kim.nzxy.robin.autoconfigure.RobinBasicStrategy;
+import kim.nzxy.robin.autoconfigure.RobinValidatorBasicConfig;
 import kim.nzxy.robin.autoconfigure.ValidatorConfig;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class SustainVisitValidatorConfig {
     @Data
     public static class SustainVisit implements ValidatorConfig {
 
-        private RobinBasicStrategy basic;
+        private RobinValidatorBasicConfig basic;
 
         private Config config;
 

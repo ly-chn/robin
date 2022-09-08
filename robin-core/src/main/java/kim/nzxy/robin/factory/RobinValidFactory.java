@@ -55,10 +55,10 @@ public class RobinValidFactory {
         if (log.isDebugEnabled()) {
             log.debug("register validator：{}", validator.getClass());
         }
-        if (!validator.getClass().isAnnotationPresent(RobinValidator.ValidatorConfig.class)) {
-            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinValidator.ValidatorConfig.class);
+        if (!validator.getClass().isAnnotationPresent(RobinValidator.RobinValidatorConfig.class)) {
+            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinValidator.RobinValidatorConfig.class);
         }
-        RobinValidator.ValidatorConfig annotation = validator.getClass().getAnnotation(RobinValidator.ValidatorConfig.class);
+        RobinValidator.RobinValidatorConfig annotation = validator.getClass().getAnnotation(RobinValidator.RobinValidatorConfig.class);
         if (annotation == null) {
             throw new RobinException.Panic(RobinExceptionEnum.Panic.AnnotationWithConfigMissing);
         }

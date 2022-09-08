@@ -13,7 +13,7 @@ public interface ValidatorConfig {
      *
      * @return 基础配置
      */
-    RobinBasicStrategy getBasic();
+    RobinValidatorBasicConfig getBasic();
 
     /**
      * 读取拓展配置

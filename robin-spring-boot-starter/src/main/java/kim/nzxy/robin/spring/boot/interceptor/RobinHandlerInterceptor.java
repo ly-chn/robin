@@ -9,6 +9,7 @@ import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,5 +32,11 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
             Robin.start();
         }
         return true;
+    }
+
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        // todo: metadata等数据放到ThreadLocal中
+        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 }

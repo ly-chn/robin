@@ -1,6 +1,6 @@
 package kim.nzxy.robin.validator.bucket;
 
-import kim.nzxy.robin.autoconfigure.RobinBasicStrategy;
+import kim.nzxy.robin.autoconfigure.RobinValidatorBasicConfig;
 import kim.nzxy.robin.validator.RobinValidator;
 
 /**
@@ -9,10 +9,10 @@ import kim.nzxy.robin.validator.RobinValidator;
  * @author lyun-chn
  * @since 2022/9/1 14:03
  */
-@RobinValidator.ValidatorConfig(key = "bucket")
+@RobinValidator.RobinValidatorConfig(key = "bucket")
 public class BucketValidator implements RobinValidator {
     @Override
-    public void preHandle(String topic, String metadata, RobinBasicStrategy basicConfig, Object validatorConfig) {
+    public void preHandle(String topic, String metadata, RobinValidatorBasicConfig basicConfig, Object validatorConfig) {
 
     }
 }
