@@ -1,8 +1,11 @@
 package kim.nzxy.robin;
 
+import kim.nzxy.robin.autoconfigure.RobinEffort;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.factory.RobinEffortFactory;
+import kim.nzxy.robin.factory.RobinMetadataFactory;
+import kim.nzxy.robin.factory.RobinPostureFactory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -23,10 +26,13 @@ public class Robin {
         if (!interceptor.beforeValidate()) {
             return;
         }
-        for (String topic : RobinEffortFactory.getGlobalValidatorTopic()) {
-            // RobinPostureFactory.getInvokeStrategy();
-        }
-        System.out.println();
+        RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey)->{
+            String metadata = RobinMetadataFactory.getMetadataHandler(topic).getMetadata();
+            RobinEffort effort = RobinEffortFactory.getEffort(topic);
+            log.debug("robin running, topic: {}, postureKey: {}, metadata: {}, effort: {}", topic, postureKey, metadata, effort);
+            RobinPostureFactory.getInvokeStrategy(postureKey)
+                    .preHandle(topic, metadata, effort.getBasic(), effort.getConfig());
+        });
     }
 
     /**

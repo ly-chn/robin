@@ -11,12 +11,21 @@ robin:
       ip:
         basic:
           lock-duration: 10s
+          as-default: true
+        config:
+          time-frame-size: 10s
+          max-times: 1
       referer:
         basic:
           lock-duration: 10s
+          as-default: true
+        config:
+          time-frame-size: 10s
+          max-times: 1
     bucket:
       ip-b:
         basic:
           lock-duration: 10s
+          as-default: true
 server:
   port: 9999
