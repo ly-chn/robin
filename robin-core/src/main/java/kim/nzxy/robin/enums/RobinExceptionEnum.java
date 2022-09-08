@@ -3,7 +3,7 @@ package kim.nzxy.robin.enums;
 /**
  * 内置异常类型
  *
- * @author xuyf
+ * @author lyun-chn
  * @since 2022/8/25 17:37
  */
 public interface RobinExceptionEnum {
@@ -26,7 +26,11 @@ public interface RobinExceptionEnum {
         /**
          * 未找到对应的元数据处理器
          */
-        MetadataHandlerMissing
+        MetadataHandlerMissing,
+        /**
+         * 缺乏WithConfig注解
+         */
+        AnnotationWithConfigMissing
         ;
     }
 

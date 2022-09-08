@@ -5,7 +5,7 @@ import java.time.Duration;
 /**
  * 时间窗口相关工具类
  *
- * @author xuyf
+ * @author lyun-chn
  * @since 2022/8/30 11:45
  */
 public class RobinTimeFrameUtil {

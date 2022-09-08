@@ -11,7 +11,7 @@ import java.security.NoSuchAlgorithmException;
 /**
  * 摘要工具类
  *
- * @author xuyf
+ * @author lyun-chn
  * @since 2022/8/25 17:11
  */
 public class RobinDigestUtil {

@@ -1,7 +1,6 @@
 package kim.nzxy.robin.config;
 
 import kim.nzxy.robin.autoconfigure.RobinBasicStrategy;
-import kim.nzxy.robin.autoconfigure.RobinProperties;
 import kim.nzxy.robin.autoconfigure.ValidatorConfig;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
@@ -11,11 +10,12 @@ import kim.nzxy.robin.interceptor.DefaultRobinInterceptorImpl;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author xy
@@ -27,12 +27,6 @@ public class RobinManagement {
      * 验证器的策略配置
      */
     private static final Map<String, ValidatorConfig> VALIDATOR_CONFIG_MAP = new HashMap<>();
-    /**
-     * 配置文件
-     */
-    @Getter
-    @Setter
-    private static RobinProperties robinProperties;
     /**
      * 缓存管理器
      */
@@ -50,6 +44,7 @@ public class RobinManagement {
     @Setter
     private static RobinInterceptor robinInterceptor;
 
+
     public static RobinInterceptor getRobinInterceptor() {
         if (robinInterceptor == null) {
             robinInterceptor = new DefaultRobinInterceptorImpl();
@@ -65,26 +60,19 @@ public class RobinManagement {
         return cacheHandler;
     }
 
-    public static void registerValidatorConfig(String topic, ValidatorConfig config) {
-        if (log.isDebugEnabled()) {
-            log.info("register validator, topic: {}, config: {}", topic, config);
-        }
-        VALIDATOR_CONFIG_MAP.put(topic, config);
-    }
-    public static <T extends ValidatorConfig> void registerValidatorConfig(Map<String, T> configMap) {
-        if (log.isDebugEnabled()) {
-            log.info("register validator map: {}", configMap);
-        }
-        VALIDATOR_CONFIG_MAP.putAll(configMap);
-    }
 
-    public static RobinBasicStrategy getBasicConfig(String key, Class<ValidatorConfig> type) {
-        return VALIDATOR_CONFIG_MAP.get(key).getBasic();
+    /**
+     * @return 全局策略
+     */
+    public static List<String> getGlobalValidatorTopic() {
+        return VALIDATOR_CONFIG_MAP.entrySet().stream()
+                .filter(entry -> entry.getValue().getBasic().getAsDefault())
+                .map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
     public static <T> T getStrategyConfig(String key, Class<T> type) {
         Object o = VALIDATOR_CONFIG_MAP.get(key).getConfig();
-        //noinspection unchecked
+        // noinspection unchecked
         return (T) o;
     }
 }

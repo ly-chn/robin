@@ -1,5 +1,7 @@
 package kim.nzxy.robin.factory;
 
+import kim.nzxy.robin.enums.RobinExceptionEnum;
+import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.validator.RobinValidator;
 import kim.nzxy.robin.validator.bucket.BucketValidator;
 import kim.nzxy.robin.validator.sutain.visit.SustainVisitValidator;
@@ -33,7 +35,14 @@ public class RobinValidFactory {
     /**
      * @return 所有策略(用户定义 + 内置)
      */
-    public static List<RobinValidator> getInvokeStrategy() {
+    public static RobinValidator getInvokeStrategy(String key) {
+        return INVOKE_STRATEGY_MAP.get(key);
+    }
+
+    /**
+     * @return 所有策略(用户定义 + 内置)
+     */
+    public static List<RobinValidator> getGlobalStrategy() {
         return null;
     }
 
@@ -46,9 +55,13 @@ public class RobinValidFactory {
         if (log.isDebugEnabled()) {
             log.debug("register validator：{}", validator.getClass());
         }
-        if (!validator.getClass().isAnnotationPresent(RobinValidator.WithConfig.class)) {
-            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinValidator.WithConfig.class);
+        if (!validator.getClass().isAnnotationPresent(RobinValidator.ValidatorConfig.class)) {
+            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinValidator.ValidatorConfig.class);
         }
-        INVOKE_STRATEGY_MAP.put(validator.getClass().getAnnotation(RobinValidator.WithConfig.class).key(), validator);
+        RobinValidator.ValidatorConfig annotation = validator.getClass().getAnnotation(RobinValidator.ValidatorConfig.class);
+        if (annotation == null) {
+            throw new RobinException.Panic(RobinExceptionEnum.Panic.AnnotationWithConfigMissing);
+        }
+        INVOKE_STRATEGY_MAP.put(annotation.key(), validator);
     }
 }

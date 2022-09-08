@@ -2,6 +2,7 @@ package kim.nzxy.robin.spring.boot.autoconfigure;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.factory.RobinValidFactory;
+import kim.nzxy.robin.factory.RobinValidatorConfigFactory;
 import kim.nzxy.robin.validator.RobinValidator;
 import kim.nzxy.robin.validator.bucket.BucketValidatorConfig;
 import kim.nzxy.robin.validator.sutain.visit.SustainVisitValidatorConfig;
@@ -17,7 +18,7 @@ import java.util.Map;
 /**
  * 验证器自动注入
  *
- * @author xuyf
+ * @author lyun-chn
  * @since 2022/9/1 9:07
  */
 @SuppressWarnings({"ConfigurationProperties", "AlibabaCommentsMustBeJavadocFormat"})
@@ -44,7 +45,7 @@ public class RobinValidatorAutowired {
 
     @Autowired
     public void sustainVisitValidatorConfig(SustainVisitValidatorConfig config) {
-        RobinManagement.registerValidatorConfig(config.getSustain());
+        RobinValidatorConfigFactory.registerValidatorConfig(config.getSustain());
     }
     //</editor-fold>
 
@@ -57,7 +58,7 @@ public class RobinValidatorAutowired {
 
     @Autowired
     public void bucketValidatorConfig(BucketValidatorConfig config) {
-        RobinManagement.registerValidatorConfig(config.getBucket());
+        RobinValidatorConfigFactory.registerValidatorConfig(config.getBucket());
     }
     //</editor-fold>
 }

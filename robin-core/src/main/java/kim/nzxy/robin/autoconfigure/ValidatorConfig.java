@@ -3,7 +3,7 @@ package kim.nzxy.robin.autoconfigure;
 /**
  * robin 验证器-拓展配置基类，如有需要自行拓展
  *
- * @author xuyf
+ * @author lyun-chn
  * @since 2022/8/31 15:51
  */
 public interface ValidatorConfig {

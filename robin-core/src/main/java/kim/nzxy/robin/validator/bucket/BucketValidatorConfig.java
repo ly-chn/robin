@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * 令牌桶配置
  *
- * @author xuyf
+ * @author lyun-chn
  * @since 2022/9/1 9:03
  */
 @Data

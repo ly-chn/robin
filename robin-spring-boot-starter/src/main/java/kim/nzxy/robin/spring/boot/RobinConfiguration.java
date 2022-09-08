@@ -6,6 +6,9 @@ import org.springframework.core.Ordered;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * @author ly
+ */
 @Configuration
 public class RobinConfiguration implements WebMvcConfigurer {
     @Override

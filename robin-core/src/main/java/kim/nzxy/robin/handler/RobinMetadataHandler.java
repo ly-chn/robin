@@ -3,7 +3,7 @@ package kim.nzxy.robin.handler;
 /**
  * 获取元数据
  *
- * @author xuyf
+ * @author lyun-chn
  * @since 2022/8/29 12:14
  */
 public interface RobinMetadataHandler {

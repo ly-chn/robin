@@ -18,3 +18,5 @@ robin:
       ip-b:
         basic:
           lock-duration: 10s
+server:
+  port: 9999

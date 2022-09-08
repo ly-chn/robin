@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @since 2021/6/9
  */
 @Component
-@RobinValidator.WithConfig(key = "refer")
+@RobinValidator.ValidatorConfig(key = "refer")
 public class ReferValidator implements RobinValidator {
 
     @Override

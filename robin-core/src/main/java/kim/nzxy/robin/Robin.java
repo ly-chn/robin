@@ -2,11 +2,7 @@ package kim.nzxy.robin;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.config.RobinMetadata;
-import kim.nzxy.robin.enums.RobinBuiltinErrEnum;
-import kim.nzxy.robin.enums.RobinRuleEnum;
-import kim.nzxy.robin.exception.RobinBuiltinException;
 import kim.nzxy.robin.factory.RobinValidFactory;
-import kim.nzxy.robin.validator.RobinValidator;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -27,7 +23,9 @@ public class Robin {
         if (!interceptor.beforeValidate()) {
             return;
         }
-        RobinManagement.getRobinProperties();
+        for (String topic : RobinManagement.getGlobalValidatorTopic()) {
+            // RobinValidFactory.getInvokeStrategy();
+        }
         System.out.println();
 
         // val includeRule = RobinManagement.getRobinProperties().getIncludeRule();

@@ -1,7 +1,6 @@
 package kim.nzxy.robin.validator;
 
 import kim.nzxy.robin.autoconfigure.RobinBasicStrategy;
-import kim.nzxy.robin.autoconfigure.ValidatorConfig;
 import kim.nzxy.robin.config.RobinManagement;
 
 import java.lang.annotation.ElementType;
@@ -21,7 +20,7 @@ public interface RobinValidator {
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
-    @interface WithConfig {
+    @interface ValidatorConfig {
         /**
          * @return 策略自动注入的前缀，方便快速读取相关配置
          */
@@ -49,13 +48,13 @@ public interface RobinValidator {
 
     /**
      * 读取配置并转为指定类型
-     * 如果没有配置{@link WithConfig}注解，则返回null
+     * 如果没有配置{@link ValidatorConfig}注解，则返回null
      * @param type 配置类型
      * @return 指定类型的配置信息
      * @param <T> 类型
-     * @see WithConfig
+     * @see ValidatorConfig
      */
     default <T> T getStrategyConfig(Class<T> type) {
-        return RobinManagement.getStrategyConfig(this.getClass().getAnnotation(WithConfig.class).key(), type);
+        return RobinManagement.getStrategyConfig(this.getClass().getAnnotation(ValidatorConfig.class).key(), type);
     }
 }
