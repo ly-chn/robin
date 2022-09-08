@@ -55,10 +55,10 @@ public class RobinPostureFactory {
         if (log.isDebugEnabled()) {
             log.debug("register validator：{}", validator.getClass());
         }
-        if (!validator.getClass().isAnnotationPresent(RobinPosture.RobinValidatorConfig.class)) {
-            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinPosture.RobinValidatorConfig.class);
+        if (!validator.getClass().isAnnotationPresent(RobinPosture.PostureConfig.class)) {
+            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinPosture.PostureConfig.class);
         }
-        RobinPosture.RobinValidatorConfig annotation = validator.getClass().getAnnotation(RobinPosture.RobinValidatorConfig.class);
+        RobinPosture.PostureConfig annotation = validator.getClass().getAnnotation(RobinPosture.PostureConfig.class);
         if (annotation == null) {
             throw new RobinException.Panic(RobinExceptionEnum.Panic.AnnotationWithConfigMissing);
         }

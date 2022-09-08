@@ -48,23 +48,24 @@ public interface RobinPosture {
 
     /**
      * 读取配置并转为指定类型
-     * 如果没有配置{@link RobinValidatorConfig}注解，则返回null
+     * 如果没有配置{@link PostureConfig}注解，则返回null
      *
      * @param type 配置类型
      * @param <T>  类型
      * @return 指定类型的配置信息
-     * @see RobinValidatorConfig
+     * @see PostureConfig
      */
     default <T> T getStrategyConfig(Class<T> type) {
-        return RobinEffortFactory.getStrategyConfig(this.getClass().getAnnotation(RobinValidatorConfig.class).key(), type);
+        return RobinEffortFactory.getStrategyConfig(this.getClass().getAnnotation(PostureConfig.class).key(), type);
     }
 
     /**
      * 可能这不是一个很好的选择，但是目前看来我没有找到更好的方式，或许以后会的
+     * todo: 想办法去掉, md绝了
      */
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ElementType.TYPE})
-    @interface RobinValidatorConfig {
+    @interface PostureConfig {
         /**
          * @return 策略自动注入的前缀，方便快速读取相关配置
          */

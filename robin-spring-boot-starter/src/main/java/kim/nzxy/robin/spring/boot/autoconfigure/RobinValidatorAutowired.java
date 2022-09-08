@@ -3,8 +3,8 @@ package kim.nzxy.robin.spring.boot.autoconfigure;
 import kim.nzxy.robin.factory.RobinPostureFactory;
 import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.posture.RobinPosture;
-import kim.nzxy.robin.posture.bucket.BucketValidatorConfig;
-import kim.nzxy.robin.posture.sutain.visit.SustainVisitValidatorConfig;
+import kim.nzxy.robin.posture.bucket.BucketEffort;
+import kim.nzxy.robin.posture.sutain.visit.SustainVisitEffort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -36,12 +36,12 @@ public class RobinValidatorAutowired {
     //<editor-fold desc="持续访问校验">
     @ConfigurationProperties(prefix = "robin.validator")
     @Bean
-    public SustainVisitValidatorConfig sustainVisitValidatorConfig() {
-        return new SustainVisitValidatorConfig();
+    public SustainVisitEffort sustain() {
+        return new SustainVisitEffort();
     }
 
     @Autowired
-    public void sustainVisitValidatorConfig(SustainVisitValidatorConfig config) {
+    public void sustain(SustainVisitEffort config) {
         RobinEffortFactory.register(config.getSustain());
     }
     //</editor-fold>
@@ -49,12 +49,12 @@ public class RobinValidatorAutowired {
     //<editor-fold desc="令牌桶校验">
     @ConfigurationProperties(prefix = "robin.validator")
     @Bean
-    public BucketValidatorConfig bucketValidatorConfig() {
-        return new BucketValidatorConfig();
+    public BucketEffort bucket() {
+        return new BucketEffort();
     }
 
     @Autowired
-    public void bucketValidatorConfig(BucketValidatorConfig config) {
+    public void bucket(BucketEffort config) {
         RobinEffortFactory.register(config.getBucket());
     }
     //</editor-fold>

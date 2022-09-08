@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 2022/9/1 9:03
  */
 @Data
-public class BucketValidatorConfig {
+public class BucketEffort {
     private Map<String, Bucket> bucket = new HashMap<>();
 
     @Data

@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
  * @since 2021/6/9
  */
 @Component
-@RobinPosture.RobinValidatorConfig(key = "refer")
+@RobinPosture.PostureConfig(key = "refer")
 public class ReferPosture implements RobinPosture {
 
     @Override

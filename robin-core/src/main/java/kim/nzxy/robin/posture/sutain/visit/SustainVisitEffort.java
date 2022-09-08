@@ -15,7 +15,7 @@ import java.util.Map;
  * @since 2022/9/1 9:03
  */
 @Data
-public class SustainVisitValidatorConfig {
+public class SustainVisitEffort {
     private Map<String, SustainVisit> sustain = new HashMap<>();
 
     @Data

@@ -9,7 +9,7 @@ import kim.nzxy.robin.posture.RobinPosture;
  * @author lyun-chn
  * @since 2022/9/1 14:03
  */
-@RobinPosture.RobinValidatorConfig(key = "bucket")
+@RobinPosture.PostureConfig(key = "bucket")
 public class BucketPosture implements RobinPosture {
     @Override
     public void preHandle(String topic, String metadata, RobinEffortBasic basicConfig, Object validatorConfig) {
