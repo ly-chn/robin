@@ -1,19 +1,16 @@
 package kim.nzxy.robin.spring.boot.autoconfigure;
 
-import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.factory.RobinValidFactory;
-import kim.nzxy.robin.factory.RobinValidatorConfigFactory;
-import kim.nzxy.robin.validator.RobinValidator;
-import kim.nzxy.robin.validator.bucket.BucketValidatorConfig;
-import kim.nzxy.robin.validator.sutain.visit.SustainVisitValidatorConfig;
+import kim.nzxy.robin.factory.RobinPostureFactory;
+import kim.nzxy.robin.factory.RobinEffortFactory;
+import kim.nzxy.robin.posture.RobinPosture;
+import kim.nzxy.robin.posture.bucket.BucketValidatorConfig;
+import kim.nzxy.robin.posture.sutain.visit.SustainVisitValidatorConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
-
-import java.util.Map;
 
 /**
  * 验证器自动注入
@@ -31,8 +28,8 @@ public class RobinValidatorAutowired {
      */
     @Autowired
     public void define(ApplicationContext applicationContext) {
-        for (RobinValidator validator : applicationContext.getBeansOfType(RobinValidator.class).values()) {
-            RobinValidFactory.register(validator);
+        for (RobinPosture validator : applicationContext.getBeansOfType(RobinPosture.class).values()) {
+            RobinPostureFactory.register(validator);
         }
     }
 
@@ -45,7 +42,7 @@ public class RobinValidatorAutowired {
 
     @Autowired
     public void sustainVisitValidatorConfig(SustainVisitValidatorConfig config) {
-        RobinValidatorConfigFactory.registerValidatorConfig(config.getSustain());
+        RobinEffortFactory.register(config.getSustain());
     }
     //</editor-fold>
 
@@ -58,7 +55,7 @@ public class RobinValidatorAutowired {
 
     @Autowired
     public void bucketValidatorConfig(BucketValidatorConfig config) {
-        RobinValidatorConfigFactory.registerValidatorConfig(config.getBucket());
+        RobinEffortFactory.register(config.getBucket());
     }
     //</editor-fold>
 }

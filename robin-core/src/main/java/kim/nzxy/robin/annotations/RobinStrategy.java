@@ -1,7 +1,5 @@
 package kim.nzxy.robin.annotations;
 
-import kim.nzxy.robin.autoconfigure.ValidatorConfig;
-
 /**
  * robin策略
  *

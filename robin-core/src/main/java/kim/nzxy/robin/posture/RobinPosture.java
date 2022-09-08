@@ -1,8 +1,8 @@
-package kim.nzxy.robin.validator;
+package kim.nzxy.robin.posture;
 
-import kim.nzxy.robin.autoconfigure.RobinValidatorBasicConfig;
-import kim.nzxy.robin.autoconfigure.ValidatorConfig;
-import kim.nzxy.robin.factory.RobinValidatorConfigFactory;
+import kim.nzxy.robin.autoconfigure.RobinEffort;
+import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
+import kim.nzxy.robin.factory.RobinEffortFactory;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -15,7 +15,7 @@ import java.lang.annotation.Target;
  * @author xy
  * @since 2021/6/4
  */
-public interface RobinValidator {
+public interface RobinPosture {
     /**
      * 在Controller执行之前调用
      *
@@ -24,7 +24,7 @@ public interface RobinValidator {
      * @param basicConfig     基础配置
      * @param validatorConfig 附加配置
      */
-    void preHandle(String topic, String metadata, RobinValidatorBasicConfig basicConfig, Object validatorConfig);
+    void preHandle(String topic, String metadata, RobinEffortBasic basicConfig, Object validatorConfig);
 
     /**
      * controller执行之后
@@ -34,7 +34,7 @@ public interface RobinValidator {
      * @param basicConfig     基础配置
      * @param validatorConfig 附加配置
      */
-    default void postHandle(String topic, String metadata, RobinValidatorBasicConfig basicConfig, Object validatorConfig) {
+    default void postHandle(String topic, String metadata, RobinEffortBasic basicConfig, Object validatorConfig) {
     }
 
     /**
@@ -42,7 +42,7 @@ public interface RobinValidator {
      *
      * @return 基础配置
      */
-    default RobinValidatorBasicConfig getBasicConfig() {
+    default RobinEffortBasic getBasicConfig() {
         return null;
     }
 
@@ -56,7 +56,7 @@ public interface RobinValidator {
      * @see RobinValidatorConfig
      */
     default <T> T getStrategyConfig(Class<T> type) {
-        return RobinValidatorConfigFactory.getStrategyConfig(this.getClass().getAnnotation(RobinValidatorConfig.class).key(), type);
+        return RobinEffortFactory.getStrategyConfig(this.getClass().getAnnotation(RobinValidatorConfig.class).key(), type);
     }
 
     /**
@@ -73,6 +73,6 @@ public interface RobinValidator {
         /**
          * @return 对应的配置类, 默认没有对应配置类, 会抛出异常
          */
-        Class<ValidatorConfig> configClass() default ValidatorConfig.class;
+        Class<RobinEffort> configClass() default RobinEffort.class;
     }
 }

@@ -3,7 +3,7 @@ package kim.nzxy.robin.interceptor;
 import kim.nzxy.robin.exception.RobinException;
 
 /**
- * Validator验证钩子
+ * Robin验证钩子
  *
  * @author xy
  * @since 2021/6/16

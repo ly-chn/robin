@@ -1,7 +1,7 @@
-package kim.nzxy.robin.validator.sutain.visit;
+package kim.nzxy.robin.posture.sutain.visit;
 
-import kim.nzxy.robin.autoconfigure.RobinValidatorBasicConfig;
-import kim.nzxy.robin.autoconfigure.ValidatorConfig;
+import kim.nzxy.robin.autoconfigure.RobinEffort;
+import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import lombok.Data;
 
 import java.time.Duration;
@@ -19,9 +19,9 @@ public class SustainVisitValidatorConfig {
     private Map<String, SustainVisit> sustain = new HashMap<>();
 
     @Data
-    public static class SustainVisit implements ValidatorConfig {
+    public static class SustainVisit implements RobinEffort {
 
-        private RobinValidatorBasicConfig basic;
+        private RobinEffortBasic basic;
 
         private Config config;
 

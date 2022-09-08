@@ -1,7 +1,7 @@
-package kim.nzxy.robin.validator.bucket;
+package kim.nzxy.robin.posture.bucket;
 
-import kim.nzxy.robin.autoconfigure.RobinValidatorBasicConfig;
-import kim.nzxy.robin.autoconfigure.ValidatorConfig;
+import kim.nzxy.robin.autoconfigure.RobinEffort;
+import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import lombok.Data;
 
 import java.time.Duration;
@@ -19,9 +19,9 @@ public class BucketValidatorConfig {
     private Map<String, Bucket> bucket = new HashMap<>();
 
     @Data
-    public static class Bucket implements ValidatorConfig {
+    public static class Bucket implements RobinEffort {
 
-        private RobinValidatorBasicConfig basic = new RobinValidatorBasicConfig();
+        private RobinEffortBasic basic = new RobinEffortBasic();
 
         private Config config;
 

@@ -6,14 +6,14 @@ package kim.nzxy.robin.autoconfigure;
  * @author lyun-chn
  * @since 2022/8/31 15:51
  */
-public interface ValidatorConfig {
+public interface RobinEffort {
 
     /**
      * 读取基础配置
      *
      * @return 基础配置
      */
-    RobinValidatorBasicConfig getBasic();
+    RobinEffortBasic getBasic();
 
     /**
      * 读取拓展配置

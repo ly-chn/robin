@@ -11,7 +11,7 @@ import java.time.Duration;
  * @since 2022/8/31 15:50
  */
 @Data
-public class RobinValidatorBasicConfig {
+public class RobinEffortBasic {
     /**
      * 锁定时长
      */

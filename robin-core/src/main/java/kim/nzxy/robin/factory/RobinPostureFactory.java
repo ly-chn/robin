@@ -2,9 +2,9 @@ package kim.nzxy.robin.factory;
 
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
-import kim.nzxy.robin.validator.RobinValidator;
-import kim.nzxy.robin.validator.bucket.BucketValidator;
-import kim.nzxy.robin.validator.sutain.visit.SustainVisitValidator;
+import kim.nzxy.robin.posture.RobinPosture;
+import kim.nzxy.robin.posture.bucket.BucketPosture;
+import kim.nzxy.robin.posture.sutain.visit.SustainVisitPosture;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,28 +21,28 @@ import java.util.Map;
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
-public class RobinValidFactory {
+public class RobinPostureFactory {
     /**
      * 校验策略
      */
-    private static final Map<String, RobinValidator> INVOKE_STRATEGY_MAP = new HashMap<>();
+    private static final Map<String, RobinPosture> INVOKE_STRATEGY_MAP = new HashMap<>();
 
     static {
-        register(new SustainVisitValidator());
-        register(new BucketValidator());
+        register(new SustainVisitPosture());
+        register(new BucketPosture());
     }
 
     /**
      * @return 所有策略(用户定义 + 内置)
      */
-    public static RobinValidator getInvokeStrategy(String key) {
+    public static RobinPosture getInvokeStrategy(String key) {
         return INVOKE_STRATEGY_MAP.get(key);
     }
 
     /**
      * @return 所有策略(用户定义 + 内置)
      */
-    public static List<RobinValidator> getGlobalStrategy() {
+    public static List<RobinPosture> getGlobalStrategy() {
         return null;
     }
 
@@ -51,14 +51,14 @@ public class RobinValidFactory {
      *
      * @param validator 自定义策略
      */
-    public static void register(RobinValidator validator) {
+    public static void register(RobinPosture validator) {
         if (log.isDebugEnabled()) {
             log.debug("register validator：{}", validator.getClass());
         }
-        if (!validator.getClass().isAnnotationPresent(RobinValidator.RobinValidatorConfig.class)) {
-            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinValidator.RobinValidatorConfig.class);
+        if (!validator.getClass().isAnnotationPresent(RobinPosture.RobinValidatorConfig.class)) {
+            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinPosture.RobinValidatorConfig.class);
         }
-        RobinValidator.RobinValidatorConfig annotation = validator.getClass().getAnnotation(RobinValidator.RobinValidatorConfig.class);
+        RobinPosture.RobinValidatorConfig annotation = validator.getClass().getAnnotation(RobinPosture.RobinValidatorConfig.class);
         if (annotation == null) {
             throw new RobinException.Panic(RobinExceptionEnum.Panic.AnnotationWithConfigMissing);
         }

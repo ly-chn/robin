@@ -2,8 +2,7 @@ package kim.nzxy.robin;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.config.RobinMetadata;
-import kim.nzxy.robin.factory.RobinValidFactory;
-import kim.nzxy.robin.factory.RobinValidatorConfigFactory;
+import kim.nzxy.robin.factory.RobinEffortFactory;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
@@ -24,8 +23,8 @@ public class Robin {
         if (!interceptor.beforeValidate()) {
             return;
         }
-        for (String topic : RobinValidatorConfigFactory.getGlobalValidatorTopic()) {
-            // RobinValidFactory.getInvokeStrategy();
+        for (String topic : RobinEffortFactory.getGlobalValidatorTopic()) {
+            // RobinPostureFactory.getInvokeStrategy();
         }
         System.out.println();
     }
