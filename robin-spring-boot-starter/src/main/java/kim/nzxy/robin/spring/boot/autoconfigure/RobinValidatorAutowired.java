@@ -42,7 +42,7 @@ public class RobinValidatorAutowired {
 
     @Autowired
     public void sustain(SustainVisitEffort config) {
-        RobinEffortFactory.register(config.getSustain());
+        RobinEffortFactory.register("sustain", config.getSustain());
     }
     //</editor-fold>
 
@@ -55,7 +55,7 @@ public class RobinValidatorAutowired {
 
     @Autowired
     public void bucket(BucketEffort config) {
-        RobinEffortFactory.register(config.getBucket());
+        RobinEffortFactory.register("bucket", config.getBucket());
     }
     //</editor-fold>
 }

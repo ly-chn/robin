@@ -25,6 +25,10 @@ public class RobinEffortFactory {
      * 校验策略
      */
     private static final Map<String, RobinEffort> EFFORT_MAP = new HashMap<>();
+    /**
+     * key为topic, value为postureKey
+     */
+    private static final Map<String, String> TOPIC_POSTURE_KEY_MAP = new HashMap<>();
 
     /**
      * 注册配置内容
@@ -41,10 +45,11 @@ public class RobinEffortFactory {
      * @param topic  主题
      * @param config 配置内容
      */
-    public static void register(String topic, RobinEffort config) {
+    public static void register(String topic, String postureKey, RobinEffort config) {
         if (log.isDebugEnabled()) {
             log.info("register validator config, topic: {}, config: {}", topic, config);
         }
+        TOPIC_POSTURE_KEY_MAP.put(topic, postureKey);
         EFFORT_MAP.put(topic, config);
     }
 
@@ -54,9 +59,12 @@ public class RobinEffortFactory {
      * @param configMap 配置
      * @param <T>       RobinEffort
      */
-    public static <T extends RobinEffort> void register(Map<String, T> configMap) {
+    public static <T extends RobinEffort> void register(String postureKey, Map<String, T> configMap) {
         if (log.isDebugEnabled()) {
             log.info("register validator map: {}", configMap);
+        }
+        for (Map.Entry<String, T> entry : configMap.entrySet()) {
+            TOPIC_POSTURE_KEY_MAP.put(entry.getKey(), postureKey);
         }
         EFFORT_MAP.putAll(configMap);
     }
@@ -70,10 +78,11 @@ public class RobinEffortFactory {
     public static RobinEffortBasic getEffortBasic(String topic) {
         return EFFORT_MAP.get(topic).getBasic();
     }
+
     /**
-     * todo: 返回topic和key, topic即当前类中, key在RobinValidatorFactory中获取, 但是不见得唯一
+     * todo: 缓存起来, 不必每次计算
      * 注册时还是需要手动维护config与配置的关系
-     * @return 全局策略
+     * @return key为topic, value为postureKey
      */
     public static List<String> getGlobalValidatorTopic() {
         return EFFORT_MAP.entrySet().stream()
@@ -86,5 +95,13 @@ public class RobinEffortFactory {
         Object o = EFFORT_MAP.get(key).getConfig();
         // noinspection unchecked
         return (T) o;
+    }
+
+    /**
+     * 计算验证策略(含排序)
+     * LinkedHashMap
+     */
+    private static void calcGlobalConfig() {
+
     }
 }
