@@ -12,14 +12,14 @@ robin:
         basic:
           lock-duration: 10s
           as-default: true
-        config:
+        expand:
           time-frame-size: 10s
           max-times: 1
       referer:
         basic:
           lock-duration: 10s
           as-default: true
-        config:
+        expand:
           time-frame-size: 10s
           max-times: 1
     bucket:

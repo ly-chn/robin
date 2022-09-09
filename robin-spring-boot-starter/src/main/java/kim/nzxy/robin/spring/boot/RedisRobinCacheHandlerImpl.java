@@ -43,7 +43,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     @Override
     public int sustainVisit(RobinMetadata metadata, Duration timeFrameSize) {
         String key = Constant.SUSTAIN_VISIT_PREFIX + metadata.getTopic();
-        String value = metadata.getValue();
+        String value = metadata.getMetadata();
         CONTINUOUS_VISIT_TOPIC_MAP.put(key, timeFrameSize);
         int currentTimeFrame = RobinTimeFrameUtil.currentTimeFrame(timeFrameSize);
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -71,13 +71,13 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
     @Override
     public void lock(RobinMetadata metadata, Duration lock) {
-        redisTemplate.opsForZSet().add(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getValue(), lock.getSeconds() + RobinUtil.now());
+        redisTemplate.opsForZSet().add(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getMetadata(), lock.getSeconds() + RobinUtil.now());
     }
 
     @Override
     public boolean locked(RobinMetadata metadata) {
         val score = redisTemplate.opsForZSet()
-                .score(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getValue());
+                .score(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getMetadata());
         if (score == null) {
             return false;
         }
@@ -87,7 +87,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     @Override
     public void unlock(RobinMetadata metadata) {
         if (metadata != null) {
-            redisTemplate.opsForZSet().remove(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getValue());
+            redisTemplate.opsForZSet().remove(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getMetadata());
             return;
         }
         // todo: null for all

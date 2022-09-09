@@ -20,5 +20,5 @@ public interface RobinEffort {
      *
      * @return 拓展配置
      */
-    Object getConfig();
+    Object getExpand();
 }

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class RobinEffortFactory {
     /**
-     * 校验策略
+     * 配置内容, key为topic, value为Effort
      */
     private static final Map<String, RobinEffort> EFFORT_MAP = new HashMap<>();
     /**
@@ -81,8 +81,14 @@ public class RobinEffortFactory {
         return GLOBAL_TOPIC_POSTURE_KEY_MAP;
     }
 
-    public static <T> T getStrategyConfig(String key, Class<T> type) {
-        Object o = EFFORT_MAP.get(key).getConfig();
+    /**
+     * 读取拓展配置
+     * @param topic  主题
+     * @param <T>  type of posture config
+     * @return 拓展配置
+     */
+    public static <T> T getExpandConfig(String topic) {
+        Object o = EFFORT_MAP.get(topic).getExpand();
         // noinspection unchecked
         return (T) o;
     }

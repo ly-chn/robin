@@ -26,12 +26,17 @@ public class Robin {
         if (!interceptor.beforeValidate()) {
             return;
         }
-        RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey)->{
+        RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey) -> {
             String metadata = RobinMetadataFactory.getMetadataHandler(topic).getMetadata();
             RobinEffort effort = RobinEffortFactory.getEffort(topic);
+            RobinMetadata robinMetadata = new RobinMetadata(topic, metadata, effort.getBasic().getDigest());
             log.debug("robin running, topic: {}, postureKey: {}, metadata: {}, effort: {}", topic, postureKey, metadata, effort);
-            RobinPostureFactory.getInvokeStrategy(postureKey)
-                    .preHandle(topic, metadata, effort.getBasic(), effort.getConfig());
+            boolean preHandleSuccess = RobinPostureFactory.getInvokeStrategy(postureKey)
+                    .preHandle(robinMetadata);
+            if (!preHandleSuccess) {
+                RobinManagement.getCacheHandler().lock(robinMetadata, effort.getBasic().getLockDuration());
+            }
+            log.error("拒绝访问: {}", robinMetadata);
         });
     }
 

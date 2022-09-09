@@ -23,10 +23,10 @@ public class SustainVisitEffort {
 
         private RobinEffortBasic basic;
 
-        private Config config;
+        private EffortExpand expand;
 
         @Data
-        public static class Config {
+        public static class EffortExpand {
             /**
              * 时间窗口大小
              */

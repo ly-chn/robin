@@ -23,10 +23,10 @@ public class BucketEffort {
 
         private RobinEffortBasic basic = new RobinEffortBasic();
 
-        private Config config;
+        private EffortExpand expand;
 
         @Data
-        public static class Config {
+        public static class EffortExpand {
             /**
              * 时间窗口大小
              */

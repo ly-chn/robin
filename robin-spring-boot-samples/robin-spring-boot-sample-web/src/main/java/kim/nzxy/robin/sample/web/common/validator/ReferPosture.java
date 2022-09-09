@@ -1,6 +1,6 @@
 package kim.nzxy.robin.sample.web.common.validator;
 
-import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
+import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import org.springframework.stereotype.Component;
 
@@ -15,9 +15,11 @@ import org.springframework.stereotype.Component;
 public class ReferPosture implements RobinPosture {
 
     @Override
-    public void preHandle(String topic, String metadata, RobinEffortBasic basicConfig, Object validatorConfig) {
+    public boolean preHandle(RobinMetadata robinMetadata) {
+        // Object expandEffort = getExpandEffort(robinMetadata.getTopic());
         // if (!SpringContextUtil.referer().contains("nzxy.kim")) {
         //     throw new LyException("你为什么不是来自 nzxy.kim? ");
         // }
+        return false;
     }
 }

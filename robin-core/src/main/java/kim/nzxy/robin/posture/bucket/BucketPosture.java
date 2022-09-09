@@ -1,6 +1,6 @@
 package kim.nzxy.robin.posture.bucket;
 
-import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
+import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 
 /**
@@ -12,7 +12,8 @@ import kim.nzxy.robin.posture.RobinPosture;
 @RobinPosture.PostureConfig(key = "bucket")
 public class BucketPosture implements RobinPosture {
     @Override
-    public void preHandle(String topic, String metadata, RobinEffortBasic basicConfig, Object validatorConfig) {
+    public boolean preHandle(RobinMetadata robinMetadata) {
 
+        return false;
     }
 }

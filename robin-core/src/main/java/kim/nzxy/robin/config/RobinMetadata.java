@@ -1,5 +1,6 @@
 package kim.nzxy.robin.config;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -9,6 +10,7 @@ import lombok.Data;
  * @since 2022/8/29 12:10
  */
 @Data
+@AllArgsConstructor
 public class RobinMetadata {
     /**
      * 数据主题，如"IP"/"Token"/"UserId"等
@@ -17,5 +19,9 @@ public class RobinMetadata {
     /**
      * 数据值，如具体IP地址，Token值，用户Id值等
      */
-    private String value;
+    private String metadata;
+    /**
+     * 是否启用压缩, 暂未找到生效方案
+     */
+    private Boolean digest;
 }
