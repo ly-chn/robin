@@ -39,6 +39,10 @@ public interface RobinExceptionEnum {
      */
     enum Verify implements RobinExceptionEnum {
         /**
+         * 元数据已被锁定
+         */
+        MetadataHasLocked,
+        /**
          * 访问频率过高
          */
         FrequentAccess,

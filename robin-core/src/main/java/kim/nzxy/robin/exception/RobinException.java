@@ -29,7 +29,7 @@ public class RobinException extends RuntimeException {
      * 严重异常，将导致robin无法正常运行
      */
     public static class Panic extends RobinException {
-        public Panic(RobinExceptionEnum error) {
+        public Panic(RobinExceptionEnum.Panic error) {
             super(error, null);
         }
     }
@@ -37,7 +37,7 @@ public class RobinException extends RuntimeException {
      * 校验异常, 校验过程中的异常
      */
     public static class Verify extends RobinException {
-        public Verify(RobinExceptionEnum error, RobinMetadata target) {
+        public Verify(RobinExceptionEnum.Verify error, RobinMetadata target) {
             super(error, target);
         }
     }
