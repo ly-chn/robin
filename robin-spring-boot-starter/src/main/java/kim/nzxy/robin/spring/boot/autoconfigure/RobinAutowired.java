@@ -1,13 +1,11 @@
 package kim.nzxy.robin.spring.boot.autoconfigure;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.interceptor.RobinInterceptor;
 import kim.nzxy.robin.handler.RobinContextHandler;
+import kim.nzxy.robin.interceptor.RobinInterceptor;
 import kim.nzxy.robin.spring.boot.RedisRobinCacheHandlerImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 /**

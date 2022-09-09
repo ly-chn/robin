@@ -11,7 +11,9 @@ import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.ScheduledExecutorService;
@@ -113,6 +115,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
             return null;
         }).run();
     }
+
     private void cleanLock() {
         redisTemplate.opsForZSet().removeRange(Constant.LOCKED_PREFIX, 0, RobinUtil.now());
     }
@@ -137,6 +140,6 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         /**
          * 锁定元数据
          */
-        String LOCKED_PREFIX = CACHE_PREFIX+"lock";
+        String LOCKED_PREFIX = CACHE_PREFIX + "lock";
     }
 }

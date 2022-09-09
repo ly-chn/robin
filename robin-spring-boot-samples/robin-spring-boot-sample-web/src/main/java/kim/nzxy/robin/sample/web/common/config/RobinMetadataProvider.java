@@ -5,8 +5,6 @@ import kim.nzxy.robin.sample.web.common.util.SpringContextUtil;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * 元数据处理
  *

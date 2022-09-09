@@ -18,12 +18,13 @@ public class SpringContextUtil {
      * 获取当前 HttpServletRequest
      */
     public static HttpServletRequest currentRequest() {
-        //noinspection ConstantConditions
+        // noinspection ConstantConditions
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
 
     /**
      * get referer
+     *
      * @return referer
      */
     public static String referer() {

@@ -9,6 +9,7 @@ package kim.nzxy.robin.handler;
 public interface RobinMetadataHandler {
     /**
      * 获取元数据
+     *
      * @return 元数据信息
      */
     String getMetadata();

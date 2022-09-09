@@ -5,6 +5,7 @@ package kim.nzxy.robin.enums;
  * 暂时先不用吧, 复用就复用吧
  * 暂定改为map，key为类型， value为提供值。
  * 每个策略提供读取依赖key， 读取依赖时间周期属性
+ *
  * @author xy
  * @since 2021/6/9
  */

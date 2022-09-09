@@ -1,8 +1,5 @@
 package kim.nzxy.robin.util;
 
-import kim.nzxy.robin.config.RobinManagement;
-import lombok.val;
-
 /**
  * 工具类的调用结果会保存在ThreadLocal之中
  *

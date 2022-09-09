@@ -30,8 +30,7 @@ public interface RobinExceptionEnum {
         /**
          * 缺乏WithConfig注解
          */
-        AnnotationWithConfigMissing
-        ;
+        AnnotationWithConfigMissing;
     }
 
     /**

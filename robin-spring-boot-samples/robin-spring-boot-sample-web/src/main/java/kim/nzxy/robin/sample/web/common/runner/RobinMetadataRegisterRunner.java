@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 public class RobinMetadataRegisterRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
-        RobinMetadataFactory.register("ip-1", ()->{
+        RobinMetadataFactory.register("ip-1", () -> {
             return "";
         });
     }

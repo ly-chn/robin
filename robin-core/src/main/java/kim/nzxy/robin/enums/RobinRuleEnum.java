@@ -32,6 +32,7 @@ public enum RobinRuleEnum implements RobinEnum {
     CONTINUOUS_VISIT(1003, "IP 持续访问"),
     /**
      * 算是{@link #FREQUENT_IP_ACCESS}的简单优化版本, 将根据IP/UA等多重标志, 防止同一个网络下多个用户进行访问, 但是防范的目标是 IP
+     *
      * @see #FREQUENT_IP_ACCESS
      */
     FREQUENT_BETTER_IP_ACCESS(1001, "IP 访问频繁");

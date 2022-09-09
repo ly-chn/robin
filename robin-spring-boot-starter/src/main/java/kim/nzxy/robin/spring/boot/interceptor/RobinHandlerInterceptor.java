@@ -1,13 +1,8 @@
 package kim.nzxy.robin.spring.boot.interceptor;
 
-import kim.nzxy.robin.Robin;
 import kim.nzxy.robin.annotations.RobinSkip;
 import kim.nzxy.robin.daily.RobinGetUp;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.MDC;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.util.PathMatcher;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -15,7 +10,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * @author xy

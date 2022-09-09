@@ -22,6 +22,7 @@ public class LyExceptionHandler {
         log.error("robin config has error: {}", e.getError());
         return Res.fail("系统配置有点问题, 问题原因我就不告诉你了");
     }
+
     /**
      * robin异常拦截
      */

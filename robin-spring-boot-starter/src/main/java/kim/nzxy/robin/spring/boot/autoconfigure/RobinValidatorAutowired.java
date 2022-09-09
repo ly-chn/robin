@@ -1,7 +1,7 @@
 package kim.nzxy.robin.spring.boot.autoconfigure;
 
-import kim.nzxy.robin.factory.RobinPostureFactory;
 import kim.nzxy.robin.factory.RobinEffortFactory;
+import kim.nzxy.robin.factory.RobinPostureFactory;
 import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.bucket.BucketEffort;
 import kim.nzxy.robin.posture.sutain.visit.SustainVisitEffort;

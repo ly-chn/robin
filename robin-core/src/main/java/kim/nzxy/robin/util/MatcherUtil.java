@@ -44,7 +44,7 @@ public class MatcherUtil {
      */
     public static boolean str(String str, Collection<String> patterns) {
         for (String pattern : patterns) {
-            if (str(str,pattern)) {
+            if (str(str, pattern)) {
                 return true;
             }
         }

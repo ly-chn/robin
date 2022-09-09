@@ -33,6 +33,7 @@ public class RobinException extends RuntimeException {
             super(error, null);
         }
     }
+
     /**
      * 校验异常, 校验过程中的异常
      */

@@ -83,8 +83,9 @@ public class RobinEffortFactory {
 
     /**
      * 读取拓展配置
-     * @param topic  主题
-     * @param <T>  type of posture config
+     *
+     * @param topic 主题
+     * @param <T>   type of posture config
      * @return 拓展配置
      */
     public static <T> T getExpandConfig(String topic) {
