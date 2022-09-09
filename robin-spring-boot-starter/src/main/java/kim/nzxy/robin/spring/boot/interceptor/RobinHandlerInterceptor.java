@@ -2,6 +2,7 @@ package kim.nzxy.robin.spring.boot.interceptor;
 
 import kim.nzxy.robin.Robin;
 import kim.nzxy.robin.annotations.RobinSkip;
+import kim.nzxy.robin.daily.RobinGetUp;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
@@ -29,7 +30,7 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
             if (method.isAnnotationPresent(RobinSkip.class) || method.getDeclaringClass().isAnnotationPresent(RobinSkip.class)) {
                 return true;
             }
-            Robin.start();
+            RobinGetUp.preHandle();
         }
         return true;
     }

@@ -20,42 +20,6 @@ import lombok.val;
  */
 @Slf4j
 public class Robin {
-    /**
-     * 逐个执行策略
-     */
-    public static void start() {
-        log.debug("robin start");
-        // 用户取消拦截
-        val interceptor = RobinManagement.getRobinInterceptor();
-        if (!interceptor.beforeCatch()) {
-            return;
-        }
-        // 缓存
-        RobinCacheHandler cacheHandler = RobinManagement.getCacheHandler();
-        try {
-            RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey) -> {
-                String metadata = RobinMetadataFactory.getMetadataHandler(topic).getMetadata();
-                RobinEffort effort = RobinEffortFactory.getEffort(topic);
-                RobinMetadata robinMetadata = new RobinMetadata(topic, metadata, effort.getBasic().getDigest());
-                if (cacheHandler.locked(robinMetadata)) {
-                    throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
-                }
-                log.debug("robin running, topic: {}, postureKey: {}, metadata: {}, effort: {}", topic, postureKey, metadata, effort);
-                boolean preHandleSuccess = RobinPostureFactory.getInvokeStrategy(postureKey)
-                        .preHandle(robinMetadata);
-                if (!preHandleSuccess) {
-                    cacheHandler.lock(robinMetadata, effort.getBasic().getLockDuration());
-                }
-                log.error("拒绝访问: {}", robinMetadata);
-            });
-        } catch (RobinException.Verify e) {
-            if (interceptor.onCatch(e)) {
-                throw e;
-            }
-        } finally {
-            interceptor.beforeCatch();
-        }
-    }
 
     /**
      * 解除对某限制的封禁
