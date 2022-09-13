@@ -32,6 +32,6 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         // todo: metadata等数据放到ThreadLocal中
-        HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+        // HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
     }
 }

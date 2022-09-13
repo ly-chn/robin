@@ -29,29 +29,31 @@ public class RobinGetUp {
         }
         // 缓存
         RobinCacheHandler cacheHandler = RobinManagement.getCacheHandler();
-        try {
-            RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey) -> {
-                String metadata = RobinMetadataFactory.getMetadataHandler(topic).getMetadata();
-                RobinEffort effort = RobinEffortFactory.getEffort(topic);
-                RobinMetadata robinMetadata = new RobinMetadata(topic, metadata, effort.getBasic().getDigest());
-                if (cacheHandler.locked(robinMetadata)) {
-                    throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
-                }
-                log.debug("robin running, topic: {}, postureKey: {}, metadata: {}, effort: {}", topic, postureKey, metadata, effort);
+        RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey) -> {
+            // 元数据
+            String metadata = RobinMetadataFactory.getMetadataHandler(topic).getMetadata();
+            // 配置信息
+            RobinEffort effort = RobinEffortFactory.getEffort(topic);
+            // 包装元数据
+            RobinMetadata robinMetadata = new RobinMetadata(topic, metadata, effort.getBasic().getDigest());
+            if (cacheHandler.locked(robinMetadata)) {
+                throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
+            }
+            log.debug("robin running, topic: {}, postureKey: {}, metadata: {}, effort: {}", topic, postureKey, metadata, effort);
+            try {
+                // 执行逻辑
                 boolean preHandleSuccess = RobinPostureFactory.getInvokeStrategy(postureKey)
                         .preHandle(robinMetadata);
-                if (!preHandleSuccess) {
+                // 判断执行结果
+                if (!preHandleSuccess && interceptor.onCatch(robinMetadata)) {
                     cacheHandler.lock(robinMetadata, effort.getBasic().getLockDuration());
+                    throw new RobinException.Verify(RobinExceptionEnum.Verify.VerifyFailed, robinMetadata);
                 }
-                log.error("拒绝访问: {}", robinMetadata);
-            });
-        } catch (RobinException.Verify e) {
-            if (interceptor.onCatch(e)) {
-                throw e;
+            } catch (Exception e) {
+                log.error("posture drop the ball", e);
+                throw new RobinException.Verify(RobinExceptionEnum.Verify.RobinPostureDropTheBall, robinMetadata);
             }
-        } finally {
-            interceptor.beforeCatch();
-        }
+        });
     }
 
     public static void postHandle() {

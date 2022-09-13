@@ -13,16 +13,14 @@ public interface RobinExceptionEnum {
     enum Panic implements RobinExceptionEnum {
         /**
          * 摘要算法初始化异常
+         * todo: 感觉不大可能, 不过还是留着吧
          */
         DigestUtilInitError,
         /**
          * 未找到缓存处理器
+         * todo: 去掉, 添加默认缓存处理器
          */
         CacheHandlerMissing,
-        /**
-         * 未实现的模式
-         */
-        ModeNotImplementedYet,
         /**
          * 未找到对应的元数据处理器
          */
@@ -30,7 +28,8 @@ public interface RobinExceptionEnum {
         /**
          * 缺乏WithConfig注解
          */
-        AnnotationWithConfigMissing;
+        AnnotationWithConfigMissing,
+        ;
     }
 
     /**
@@ -42,10 +41,13 @@ public interface RobinExceptionEnum {
          */
         MetadataHasLocked,
         /**
-         * 访问频率过高
+         * 校验未通过
          */
-        FrequentAccess,
-
+        VerifyFailed,
+        /**
+         * 验证器发生异常
+         */
+        RobinPostureDropTheBall
         ;
     }
 }
