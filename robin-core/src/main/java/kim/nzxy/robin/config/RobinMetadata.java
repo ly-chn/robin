@@ -21,7 +21,7 @@ public class RobinMetadata {
      */
     private String metadata;
     /**
-     * 是否启用压缩, 暂未找到生效方案
+     * 是否启用元数据压缩，防止缓存大key, 但是Robin不会缓存压缩前的数据
      */
     private Boolean digest;
 }
