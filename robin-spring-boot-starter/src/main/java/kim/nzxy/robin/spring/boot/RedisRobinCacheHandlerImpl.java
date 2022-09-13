@@ -5,7 +5,6 @@ import kim.nzxy.robin.handler.RobinCacheHandler;
 import kim.nzxy.robin.util.RobinTimeFrameUtil;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
@@ -78,7 +77,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
     @Override
     public boolean locked(RobinMetadata metadata) {
-        val score = redisTemplate.opsForZSet()
+        Double score = redisTemplate.opsForZSet()
                 .score(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getMetadata());
         if (score == null) {
             return false;

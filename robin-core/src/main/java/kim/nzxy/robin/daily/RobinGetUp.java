@@ -9,8 +9,8 @@ import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.factory.RobinMetadataFactory;
 import kim.nzxy.robin.factory.RobinPostureFactory;
 import kim.nzxy.robin.handler.RobinCacheHandler;
+import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.extern.slf4j.Slf4j;
-import lombok.val;
 
 /**
  * 工作周期
@@ -23,7 +23,7 @@ public class RobinGetUp {
     public static void preHandle() {
         log.debug("robin start");
         // 用户取消拦截
-        val interceptor = RobinManagement.getRobinInterceptor();
+        RobinInterceptor interceptor = RobinManagement.getRobinInterceptor();
         if (!interceptor.beforeCatch()) {
             return;
         }

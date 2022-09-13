@@ -47,7 +47,6 @@ public interface RobinExceptionEnum {
         /**
          * 验证器发生异常
          */
-        RobinPostureDropTheBall
-        ;
+        RobinPostureDropTheBall;
     }
 }

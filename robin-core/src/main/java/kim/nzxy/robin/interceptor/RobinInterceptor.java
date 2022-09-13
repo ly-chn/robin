@@ -1,7 +1,6 @@
 package kim.nzxy.robin.interceptor;
 
 import kim.nzxy.robin.config.RobinMetadata;
-import kim.nzxy.robin.exception.RobinException;
 
 /**
  * Robin验证钩子
