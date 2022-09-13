@@ -13,14 +13,8 @@ public interface RobinExceptionEnum {
     enum Panic implements RobinExceptionEnum {
         /**
          * 摘要算法初始化异常
-         * todo: 感觉不大可能, 不过还是留着吧
          */
         DigestUtilInitError,
-        /**
-         * 未找到缓存处理器
-         * todo: 去掉, 添加默认缓存处理器
-         */
-        CacheHandlerMissing,
         /**
          * 未找到对应的元数据处理器
          */

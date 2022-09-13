@@ -7,7 +7,6 @@ import java.time.Duration;
 
 /**
  * 缓存, 本接口命名尽可能与 redis 一致, 超时单位默认是秒级
- * todo: 修改为redis工具类形式, 不再做详细封装
  *
  * @author xy
  * @since 2021/6/4
@@ -45,4 +44,9 @@ public interface RobinCacheHandler {
      * @param metadata 元数据
      */
     void unlock(RobinMetadata metadata);
+
+    /**
+     * 清理缓存
+     */
+    void freshenUp();
 }

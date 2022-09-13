@@ -1,14 +1,13 @@
 package kim.nzxy.robin.config;
 
-import kim.nzxy.robin.enums.RobinExceptionEnum;
-import kim.nzxy.robin.exception.RobinException;
+import kim.nzxy.robin.handler.DefaultRobinCacheHandle;
 import kim.nzxy.robin.handler.RobinCacheHandler;
-import kim.nzxy.robin.handler.RobinContextHandler;
 import kim.nzxy.robin.interceptor.DefaultRobinInterceptorImpl;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
-import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * @author xy
@@ -19,19 +18,17 @@ public class RobinManagement {
     /**
      * 缓存管理器
      */
-    @Setter
-    private static RobinCacheHandler cacheHandler;
-    /**
-     * 上下文管理器
-     */
-    @Getter
-    @Setter
-    private static RobinContextHandler contextHandler;
+    private static volatile RobinCacheHandler cacheHandler;
     /**
      * 过滤器
      */
-    @Setter
     private static RobinInterceptor robinInterceptor;
+
+    /**
+     * 垃圾清理线程池
+     */
+    @SuppressWarnings({"AlibabaThreadPoolCreation", "AlibabaConstantFieldShouldBeUpperCase"})
+    private static final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
 
     public static RobinInterceptor getRobinInterceptor() {
         if (robinInterceptor == null) {
@@ -40,11 +37,28 @@ public class RobinManagement {
         return robinInterceptor;
     }
 
+    public static void setRobinInterceptor(RobinInterceptor robinInterceptor) {
+        RobinManagement.robinInterceptor = robinInterceptor;
+    }
+
     public static RobinCacheHandler getCacheHandler() {
         if (cacheHandler == null) {
-            // todo: default cache handler
-            throw new RobinException.Panic(RobinExceptionEnum.Panic.CacheHandlerMissing);
+            synchronized (RobinManagement.class) {
+                if (cacheHandler == null) {
+                    setCacheHandler(new DefaultRobinCacheHandle());
+                }
+            }
         }
         return cacheHandler;
+    }
+
+    public synchronized static void setCacheHandler(RobinCacheHandler cacheHandler) {
+        // 停止原来缓存清理器
+        if (RobinManagement.cacheHandler != null) {
+            // todo: 定时清理缓存
+            // cacheHandler.freshenUp();
+        }
+        RobinManagement.cacheHandler = cacheHandler;
+        // 启用新的缓存清理器
     }
 }

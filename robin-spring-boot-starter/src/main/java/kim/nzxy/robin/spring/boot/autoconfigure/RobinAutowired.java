@@ -1,7 +1,6 @@
 package kim.nzxy.robin.spring.boot.autoconfigure;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.handler.RobinContextHandler;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
 import kim.nzxy.robin.spring.boot.RedisRobinCacheHandlerImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +19,6 @@ public class RobinAutowired {
     @Autowired
     public void define(RedisRobinCacheHandlerImpl handler) {
         RobinManagement.setCacheHandler(handler);
-    }
-
-    /**
-     * 上下文管理器
-     */
-    @Autowired
-    public void define(RobinContextHandler handler) {
-        RobinManagement.setContextHandler(handler);
     }
 
     /**

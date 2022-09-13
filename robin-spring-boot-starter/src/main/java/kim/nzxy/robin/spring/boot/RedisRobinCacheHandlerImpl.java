@@ -26,18 +26,13 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     /**
-     * key通配符
-     */
-    private static final String ASTERISK = "*";
-    /**
      * 持续访问记录key列表，用于定期清理数据
      */
-    private static final Map<String, Duration> CONTINUOUS_VISIT_TOPIC_MAP = new HashMap<>();
+    public static final Map<String, Duration> SUSTAIN_TOPIC_MAP = new HashMap<>();
     private final StringRedisTemplate redisTemplate;
 
     public RedisRobinCacheHandlerImpl(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
-        this.clean();
     }
 
 
@@ -45,7 +40,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     public int sustainVisit(RobinMetadata metadata, Duration timeFrameSize) {
         String key = Constant.SUSTAIN_VISIT_PREFIX + metadata.getTopic();
         String value = metadata.getMetadata();
-        CONTINUOUS_VISIT_TOPIC_MAP.put(key, timeFrameSize);
+        SUSTAIN_TOPIC_MAP.put(key, timeFrameSize);
         int currentTimeFrame = RobinTimeFrameUtil.currentTimeFrame(timeFrameSize);
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         Double latestVisit = zSetOperations.score(key, value);
@@ -65,7 +60,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
     private void cleanSustainVisit() {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
-        for (Map.Entry<String, Duration> entry : CONTINUOUS_VISIT_TOPIC_MAP.entrySet()) {
+        for (Map.Entry<String, Duration> entry : SUSTAIN_TOPIC_MAP.entrySet()) {
             zSetOperations.removeRangeByScore(entry.getKey(), 0, RobinTimeFrameUtil.currentTimeFrame(entry.getValue()) - 1);
         }
     }
@@ -94,25 +89,13 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         // todo: null for all
     }
 
-    public void clean() {
-        new FutureTask<>(() -> {
-            ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-            final long anHour = 60 * 60;
-            executor.scheduleWithFixedDelay(
-                    () -> {
-                        log.debug("robin cleaning");
-                        // cleanAccessRecord();
-                        // log.debug("access record is cleaned");
-                        cleanSustainVisit();
-                        log.debug("sustain visit record is cleaned");
-                        cleanLock();
-                        log.debug("locked record is cleaned");
-                    },
-                    0,
-                    anHour,
-                    TimeUnit.SECONDS);
-            return null;
-        }).run();
+    @Override
+    public void freshenUp() {
+        log.debug("robin cleaning");
+        cleanSustainVisit();
+        log.debug("sustain visit record is cleaned");
+        cleanLock();
+        log.debug("locked record is cleaned");
     }
 
     private void cleanLock() {
