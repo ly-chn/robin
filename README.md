@@ -10,14 +10,6 @@ todo:
 
 - IP白名单
 - 大请求校验（频繁请求长时间无响应的数据接口）
-- mvc:
-  pathmatch:
-  matching-strategy: ant_path_matcher
 - springboot-starter迁移到robin-starter目录, 抽离redis-starter，缓存使用hashmap实现一个
 - 同理samples也抽离出来
 - 不建议通过副作用实现其他功能，如用户连续上线时间等
-
-重命名一些东西:
-
-1. 执行器(validator) -> posture
-2. 执行器配置(validator-config) -> effort
