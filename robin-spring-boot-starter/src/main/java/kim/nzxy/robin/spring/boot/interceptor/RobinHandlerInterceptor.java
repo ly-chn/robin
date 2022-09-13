@@ -19,11 +19,7 @@ import java.lang.reflect.Method;
 public class RobinHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        if (handler instanceof HandlerMethod) {
-            Method method = ((HandlerMethod) handler).getMethod();
-            if (method.isAnnotationPresent(RobinSkip.class) || method.getDeclaringClass().isAnnotationPresent(RobinSkip.class)) {
-                return true;
-            }
+        if (catchAble(handler)) {
             RobinGetUp.preHandle();
         }
         return true;
@@ -31,7 +27,20 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        // todo: metadata等数据放到ThreadLocal中
-        // HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
+        if (catchAble(handler)) {
+            RobinGetUp.postHandle();
+        }
+    }
+
+    /**
+     * @param handler 处理类
+     * @return 返回true表示需要Robin处理, 否则不需要
+     */
+    private boolean catchAble(Object handler) {
+        if (handler instanceof HandlerMethod) {
+            Method method = ((HandlerMethod) handler).getMethod();
+            return !method.isAnnotationPresent(RobinSkip.class) && !method.getDeclaringClass().isAnnotationPresent(RobinSkip.class);
+        }
+        return false;
     }
 }

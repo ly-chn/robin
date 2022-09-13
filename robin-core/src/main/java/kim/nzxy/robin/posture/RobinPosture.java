@@ -62,7 +62,7 @@ public interface RobinPosture {
     @Target({ElementType.TYPE})
     @interface PostureConfig {
         /**
-         * @return 策略自动注入的前缀，方便快速读取相关配置
+         * @return 策略自动注入的前缀，用于读取相关配置
          */
         String key();
     }
