@@ -77,7 +77,7 @@ public class RobinEffortFactory {
      *
      * @return key为topic, value为postureKey
      */
-    public static Map<String, String> getGlobalValidatorTopic() {
+    public static Map<String, String> getValidatorTopic() {
         return GLOBAL_TOPIC_POSTURE_KEY_MAP;
     }
 

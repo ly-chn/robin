@@ -21,7 +21,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class RobinGetUp {
-    public static void preHandle() {
+    public static void preHandle(String[] extraTopic) {
         log.debug("robin pre handle");
         // 用户取消拦截
         RobinInterceptor interceptor = RobinManagement.getRobinInterceptor();
@@ -30,7 +30,7 @@ public class RobinGetUp {
         }
         // 缓存
         RobinCacheHandler cacheHandler = RobinManagement.getCacheHandler();
-        RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey) -> {
+        RobinEffortFactory.getValidatorTopic().forEach((topic, postureKey) -> {
             // 配置信息
             RobinEffort effort = RobinEffortFactory.getEffort(topic);
             // 包装元数据
@@ -58,7 +58,7 @@ public class RobinGetUp {
 
     public static void postHandle() {
         log.debug("robin post handle");
-        RobinEffortFactory.getGlobalValidatorTopic().forEach((topic, postureKey) -> {
+        RobinEffortFactory.getValidatorTopic().forEach((topic, postureKey) -> {
             // 配置信息
             RobinEffort effort = RobinEffortFactory.getEffort(topic);
             // 包装元数据
