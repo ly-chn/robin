@@ -7,7 +7,6 @@ import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,7 +25,7 @@ public class RobinManagement {
     private static volatile RobinInterceptor robinInterceptor;
 
     static {
-        //noinspection AlibabaThreadPoolCreation
+        // noinspection AlibabaThreadPoolCreation
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(() -> {
             try {
                 log.debug("robin clean cache");
@@ -40,7 +39,11 @@ public class RobinManagement {
 
     public static RobinInterceptor getRobinInterceptor() {
         if (robinInterceptor == null) {
-            robinInterceptor = new DefaultRobinInterceptorImpl();
+            synchronized (RobinManagement.class) {
+                if (robinInterceptor == null) {
+                    setRobinInterceptor(new DefaultRobinInterceptorImpl());
+                }
+            }
         }
         return robinInterceptor;
     }
