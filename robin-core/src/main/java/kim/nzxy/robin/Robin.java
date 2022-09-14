@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author xy
  * @since 2021/6/4
  */
+@SuppressWarnings("unused")
 @Slf4j
 public class Robin {
 

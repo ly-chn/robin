@@ -91,7 +91,6 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
 
     @Override
     public void freshenUp() {
-        log.debug("robin cleaning");
         cleanSustainVisit();
         log.debug("sustain visit record is cleaned");
         cleanLock();

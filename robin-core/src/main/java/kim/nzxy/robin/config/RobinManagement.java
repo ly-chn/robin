@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author xy
@@ -22,13 +23,20 @@ public class RobinManagement {
     /**
      * 过滤器
      */
-    private static RobinInterceptor robinInterceptor;
+    private static volatile RobinInterceptor robinInterceptor;
 
-    /**
-     * 垃圾清理线程池
-     */
-    @SuppressWarnings({"AlibabaThreadPoolCreation", "AlibabaConstantFieldShouldBeUpperCase"})
-    private static final ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    static {
+        //noinspection AlibabaThreadPoolCreation
+        Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(() -> {
+            try {
+                log.debug("robin clean cache");
+                getCacheHandler().freshenUp();
+                log.info("robin clean cache over");
+            } catch (Exception e) {
+                log.error("robin clean cache error: {}", e.getMessage());
+            }
+        }, 1, 60, TimeUnit.MINUTES);
+    }
 
     public static RobinInterceptor getRobinInterceptor() {
         if (robinInterceptor == null) {
@@ -53,12 +61,6 @@ public class RobinManagement {
     }
 
     public synchronized static void setCacheHandler(RobinCacheHandler cacheHandler) {
-        // 停止原来缓存清理器
-        if (RobinManagement.cacheHandler != null) {
-            // todo: 定时清理缓存
-            // cacheHandler.freshenUp();
-        }
         RobinManagement.cacheHandler = cacheHandler;
-        // 启用新的缓存清理器
     }
 }
