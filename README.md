@@ -13,3 +13,4 @@ todo:
 - springboot-starter迁移到robin-starter目录, 抽离redis-starter，缓存使用hashmap实现一个
 - 同理samples也抽离出来
 - 不建议通过副作用实现其他功能，如用户连续上线时间等
+- 注解实现

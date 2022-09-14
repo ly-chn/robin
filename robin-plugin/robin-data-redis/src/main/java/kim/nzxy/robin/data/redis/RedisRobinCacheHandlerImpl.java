@@ -1,4 +1,4 @@
-package kim.nzxy.robin.spring.boot;
+package kim.nzxy.robin.data.redis;
 
 import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.handler.RobinCacheHandler;
