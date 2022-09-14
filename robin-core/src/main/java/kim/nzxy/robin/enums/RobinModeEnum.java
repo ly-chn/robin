@@ -1,7 +1,7 @@
 package kim.nzxy.robin.enums;
 
 /**
- * @author xy
+ * @author lyun-chn
  * @since 2021/6/4
  */
 public enum RobinModeEnum {

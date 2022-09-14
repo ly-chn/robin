@@ -8,7 +8,7 @@ import java.time.Duration;
 /**
  * 缓存, 本接口命名尽可能与 redis 一致, 超时单位默认是秒级
  *
- * @author xy
+ * @author lyun-chn
  * @since 2021/6/4
  */
 public interface RobinCacheHandler {

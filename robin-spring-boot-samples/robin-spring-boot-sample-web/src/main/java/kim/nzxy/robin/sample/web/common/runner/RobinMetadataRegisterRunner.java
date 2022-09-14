@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * robin元数据注册
  *
- * @author ly-chn
+ * @author lyun-chn
  * @since 2022/9/8 17:07
  */
 @Component

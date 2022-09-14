@@ -5,7 +5,7 @@ import kim.nzxy.robin.enums.RobinExceptionEnum;
 import lombok.Getter;
 
 /**
- * @author xy
+ * @author lyun-chn
  * @since 2021/6/4
  */
 @Getter

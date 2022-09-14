@@ -7,7 +7,7 @@ import kim.nzxy.robin.exception.RobinException;
 /**
  * 断言类
  *
- * @author xy
+ * @author lyun-chn
  * @since 2021/6/4
  */
 public class RobinAssert {

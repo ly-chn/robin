@@ -1,7 +1,7 @@
 package kim.nzxy.robin.sample.web.common.exception;
 
 /**
- * @author xy
+ * @author lyun-chn
  * @since 2021/6/9
  */
 public class LyException extends RuntimeException {

@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 内置异常类型
  *
- * @author xy
+ * @author lyun-chn
  * @since 2021/6/4
  */
 @AllArgsConstructor

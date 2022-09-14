@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
- * @author ly
+ * @author lyun-chn
  */
 @Configuration
 public class RobinConfiguration implements WebMvcConfigurer {

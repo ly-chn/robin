@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
- * @author ly
+ * @author lyun-chn
  */
 @SpringBootApplication
 public class RobinSpringBootSampleWebApplication {

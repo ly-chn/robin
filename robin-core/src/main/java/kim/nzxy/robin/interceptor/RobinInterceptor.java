@@ -5,7 +5,7 @@ import kim.nzxy.robin.config.RobinMetadata;
 /**
  * Robin验证钩子
  *
- * @author xy
+ * @author lyun-chn
  * @since 2021/6/16
  */
 public interface RobinInterceptor {

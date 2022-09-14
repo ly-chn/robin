@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * @author ly
+ * @author lyun-chn
  */
 @Component
 @Slf4j
