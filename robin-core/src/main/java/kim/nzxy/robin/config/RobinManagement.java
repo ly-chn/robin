@@ -64,6 +64,7 @@ public class RobinManagement {
     }
 
     public synchronized static void setCacheHandler(RobinCacheHandler cacheHandler) {
+        log.info("register cache handler: {}", cacheHandler.getClass());
         RobinManagement.cacheHandler = cacheHandler;
     }
 }
