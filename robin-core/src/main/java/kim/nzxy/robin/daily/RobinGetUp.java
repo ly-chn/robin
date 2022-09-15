@@ -37,7 +37,9 @@ public class RobinGetUp {
             RobinEffort effort = RobinEffortFactory.getEffort(topic);
             // 包装元数据
             RobinPosture posture = RobinPostureFactory.getInvokeStrategy(postureKey);
-            RobinMetadata robinMetadata = getMetadata(topic, posture, effort.getBasic().getDigest());
+            RobinMetadata robinMetadata = new RobinMetadata(topic,
+                    RobinMetadataFactory.getMetadataHandler(topic).getMetadata(),
+                    effort.getBasic().getDigest());
             if (cacheHandler.locked(robinMetadata)) {
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
             }
@@ -56,37 +58,5 @@ public class RobinGetUp {
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.VerifyFailed, robinMetadata);
             }
         });
-    }
-
-    public static void postHandle(String[] extraTopic) {
-        log.debug("robin post handle");
-        RobinEffortFactory.getValidatorTopic(extraTopic).forEach((topic, postureKey) -> {
-            // 配置信息
-            RobinEffort effort = RobinEffortFactory.getEffort(topic);
-            // 包装元数据
-            RobinPosture posture = RobinPostureFactory.getInvokeStrategy(postureKey);
-            RobinMetadata robinMetadata = getMetadata(topic, posture, effort.getBasic().getDigest());
-            log.debug("robin post handle run, postureKey: {}, metadata: {}, effort: {}", postureKey, robinMetadata, effort);
-            posture.postHandle(robinMetadata);
-        });
-        cleanMetadata();
-    }
-
-    /**
-     * 包装元数据
-     */
-    private static RobinMetadata getMetadata(String topic, RobinPosture posture, Boolean digest) {
-        // log.error("判断重写: {}", Arrays.toString(posture.getClass().getDeclaredMethods()));
-        // todo : 判断是否需要缓存metadata, 感觉意义不大, 后续处理, 目测很少有需要后续清理工作的posture
-        // 元数据
-        String metadata = RobinMetadataFactory.getMetadataHandler(topic).getMetadata();
-        return new RobinMetadata(topic, metadata, digest);
-    }
-
-    /**
-     * 元数据清理工作
-     */
-    private static void cleanMetadata() {
-
     }
 }

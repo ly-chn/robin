@@ -14,6 +14,6 @@ public class BucketPosture implements RobinPosture {
     @Override
     public boolean preHandle(RobinMetadata robinMetadata) {
 
-        return false;
+        return true;
     }
 }

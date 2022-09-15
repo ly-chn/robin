@@ -21,6 +21,11 @@
             <version>${revision}</version>
         </dependency>
         <dependency>
+            <groupId>kim.nzxy</groupId>
+            <artifactId>robin-data-redis</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>

@@ -16,7 +16,6 @@
 
     <modules>
         <module>robin-spring-boot-sample-web</module>
-        <module>robin-spring-boot-sample-web-redis</module>
     </modules>
 
     <properties>

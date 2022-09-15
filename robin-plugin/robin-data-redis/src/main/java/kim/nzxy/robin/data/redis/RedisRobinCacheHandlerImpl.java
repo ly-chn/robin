@@ -116,6 +116,6 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         /**
          * 锁定元数据
          */
-        String LOCKED_PREFIX = CACHE_PREFIX + "lock";
+        String LOCKED_PREFIX = CACHE_PREFIX + "lock:";
     }
 }

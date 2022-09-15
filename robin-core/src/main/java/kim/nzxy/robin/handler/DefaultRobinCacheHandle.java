@@ -60,11 +60,11 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         for (Map.Entry<String, Duration> entry : SUSTAIN_TOPIC_MAP.entrySet()) {
             int usefulTimeFrame = RobinUtil.currentTimeFrame(entry.getValue()) - 1;
             HashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(entry.getKey());
-            topicMap.forEach((value, timeFrame) -> {
-                if (topicMap.get(value) < usefulTimeFrame) {
-                    topicMap.remove(value);
+            for (String latestVisit : topicMap.keySet()) {
+                if (topicMap.get(latestVisit) < usefulTimeFrame) {
+                    topicMap.remove(latestVisit);
                 }
-            });
+            }
         }
     }
 

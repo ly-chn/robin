@@ -14,18 +14,19 @@ robin:
           as-default: true
         expand:
           time-frame-size: 10s
-          max-times: 1
+          max-times: 100
       referer:
         basic:
           lock-duration: 10s
           as-default: true
         expand:
           time-frame-size: 10s
-          max-times: 1
+          max-times: 100
     bucket:
       ip-b:
         basic:
           lock-duration: 10s
           as-default: true
+
 server:
   port: 9999

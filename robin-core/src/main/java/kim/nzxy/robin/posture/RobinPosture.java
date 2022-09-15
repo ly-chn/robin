@@ -25,14 +25,6 @@ public interface RobinPosture {
     boolean preHandle(RobinMetadata robinMetadata);
 
     /**
-     * controller执行之后
-     *
-     * @param robinMetadata 元数据
-     */
-    default void postHandle(RobinMetadata robinMetadata) {
-    }
-
-    /**
      * 读取基础配置
      *
      * @return 基础配置
