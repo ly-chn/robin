@@ -29,7 +29,8 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         if (catchAble(handler)) {
-            RobinGetUp.postHandle();
+            // todo: 缓存一下, 重新计算怪麻烦
+            RobinGetUp.postHandle(getExtraTopic(handler));
         }
     }
 

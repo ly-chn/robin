@@ -13,6 +13,8 @@ import kim.nzxy.robin.interceptor.RobinInterceptor;
 import kim.nzxy.robin.posture.RobinPosture;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Arrays;
+
 /**
  * 工作周期
  *
@@ -22,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RobinGetUp {
     public static void preHandle(String[] extraTopic) {
-        log.debug("robin pre handle");
+        log.debug("robin pre handle, extra topic: {}", Arrays.toString(extraTopic));
         // 用户取消拦截
         RobinInterceptor interceptor = RobinManagement.getRobinInterceptor();
         if (!interceptor.beforeCatch()) {
@@ -56,7 +58,7 @@ public class RobinGetUp {
         });
     }
 
-    public static void postHandle() {
+    public static void postHandle(String[] extraTopic) {
         log.debug("robin post handle");
         RobinEffortFactory.getValidatorTopic().forEach((topic, postureKey) -> {
             // 配置信息

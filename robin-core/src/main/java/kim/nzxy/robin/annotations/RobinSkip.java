@@ -1,9 +1,6 @@
 package kim.nzxy.robin.annotations;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * 跳过robin检测
@@ -11,6 +8,7 @@ import java.lang.annotation.Target;
  * @author lyun-chn
  * @since 2022/9/8 10:13
  */
+@Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE})
 public @interface RobinSkip {

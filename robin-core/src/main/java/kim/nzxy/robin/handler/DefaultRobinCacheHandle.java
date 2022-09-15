@@ -115,11 +115,12 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         }
         int now = RobinUtil.now();
         for (HashMap<String, Integer> topicMap : LOCK_CACHE_MAP.values()) {
-            topicMap.forEach((metadata, lockTo)->{
-                if (lockTo<=now) {
+            for (String metadata : topicMap.keySet()) {
+                Integer lockTo = topicMap.get(metadata);
+                if (lockTo == null||lockTo<now) {
                     topicMap.remove(metadata);
                 }
-            });
+            }
         }
     }
 

@@ -32,6 +32,7 @@ public class RobinManagement {
                 getCacheHandler().freshenUp();
                 log.info("robin clean cache over");
             } catch (Exception e) {
+                e.printStackTrace();
                 log.error("robin clean cache error: {}", e.getMessage());
             }
         }, 1, 60, TimeUnit.MINUTES);

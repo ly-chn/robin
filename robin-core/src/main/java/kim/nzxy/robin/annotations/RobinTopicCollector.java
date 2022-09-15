@@ -3,15 +3,13 @@ package kim.nzxy.robin.annotations;
 import java.lang.annotation.*;
 
 /**
- * RobinTopic
- *
  * @author xuyf
- * @since 2022/9/14 16:57
+ * @see RobinTopic
+ * @since 2022/9/15 8:44
  */
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.TYPE, ElementType.METHOD})
-@Repeatable(RobinTopicCollector.class)
-public @interface RobinTopic {
-    String value();
+public @interface RobinTopicCollector {
+    RobinTopic[] value();
 }
