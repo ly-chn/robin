@@ -1,6 +1,8 @@
 package kim.nzxy.robin.factory;
 
 import kim.nzxy.robin.autoconfigure.RobinEffort;
+import kim.nzxy.robin.enums.RobinExceptionEnum;
+import kim.nzxy.robin.exception.RobinException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +28,9 @@ public class RobinEffortFactory {
      */
     private static final Map<String, String> TOPIC_POSTURE_KEY_MAP = new HashMap<>();
     /**
-     * 全局的策略, key为topic, value为postureKey
+     * 默认适用的topic
      */
-    private static final Map<String, String> GLOBAL_TOPIC_POSTURE_KEY_MAP = new LinkedHashMap<>();
+    private static final Set<String> DEFAULT_TOPIC_SET = new HashSet<>();
 
     /**
      * 注册配置内容
@@ -51,7 +53,7 @@ public class RobinEffortFactory {
         }
         TOPIC_POSTURE_KEY_MAP.put(topic, postureKey);
         EFFORT_MAP.put(topic, config);
-        calcGlobalEffort();
+        resetDefaultTopic();
     }
 
     /**
@@ -68,26 +70,28 @@ public class RobinEffortFactory {
             TOPIC_POSTURE_KEY_MAP.put(entry.getKey(), postureKey);
         }
         EFFORT_MAP.putAll(effortMap);
-        calcGlobalEffort();
+        resetDefaultTopic();
     }
 
     /**
-     * todo: 缓存起来, 不必每次计算
      * 注册时还是需要手动维护config与配置的关系
      *
      * @return key为topic, value为postureKey
      */
     public static Map<String, String> getValidatorTopic(String[] extraTopic) {
-        List<String> topicList = EFFORT_MAP.entrySet().stream()
-                .filter(entry -> entry.getValue().getBasic().getAsDefault())
-                .sorted(Comparator.comparingInt(it -> it.getValue().getBasic().getPrecedence()))
-                .map(Map.Entry::getKey).collect(Collectors.toList());
-        GLOBAL_TOPIC_POSTURE_KEY_MAP.clear();
-        for (String topic : topicList) {
-            GLOBAL_TOPIC_POSTURE_KEY_MAP.put(topic, TOPIC_POSTURE_KEY_MAP.get(topic));
+        Set<String> topicSet = new HashSet<>(DEFAULT_TOPIC_SET);
+        topicSet.addAll(Arrays.asList(extraTopic));
+        for (String s : topicSet) {
+            if (!EFFORT_MAP.containsKey(s)) {
+                log.error("topic [{}] has not configured", s);
+                throw new RobinException.Panic(RobinExceptionEnum.Panic.TopicIsNotConfigured);
+            }
         }
-        log.debug("update global effort: {}", GLOBAL_TOPIC_POSTURE_KEY_MAP);
-        return GLOBAL_TOPIC_POSTURE_KEY_MAP;
+        Map<String, String> result = new LinkedHashMap<>();
+        EFFORT_MAP.entrySet().stream().filter(it->topicSet.contains(it.getKey()))
+                .sorted(Comparator.comparingInt(it->it.getValue().getBasic().getPrecedence()))
+                .forEach(it-> result.put(it.getKey(), TOPIC_POSTURE_KEY_MAP.get(it.getKey())));
+        return result;
     }
 
     /**
@@ -107,15 +111,12 @@ public class RobinEffortFactory {
      * 计算验证策略(含排序)
      * LinkedHashMap
      */
-    private static void calcGlobalEffort() {
-        List<String> topicList = EFFORT_MAP.entrySet().stream()
+    private static void resetDefaultTopic() {
+        Set<String> topicList = EFFORT_MAP.entrySet().stream()
                 .filter(entry -> entry.getValue().getBasic().getAsDefault())
-                .sorted(Comparator.comparingInt(it -> it.getValue().getBasic().getPrecedence()))
-                .map(Map.Entry::getKey).collect(Collectors.toList());
-        GLOBAL_TOPIC_POSTURE_KEY_MAP.clear();
-        for (String topic : topicList) {
-            GLOBAL_TOPIC_POSTURE_KEY_MAP.put(topic, TOPIC_POSTURE_KEY_MAP.get(topic));
-        }
-        log.debug("update global effort: {}", GLOBAL_TOPIC_POSTURE_KEY_MAP);
+                .map(Map.Entry::getKey).collect(Collectors.toSet());
+        DEFAULT_TOPIC_SET.clear();
+        DEFAULT_TOPIC_SET.addAll(topicList);
+        log.debug("update default topic: {}", DEFAULT_TOPIC_SET);
     }
 }

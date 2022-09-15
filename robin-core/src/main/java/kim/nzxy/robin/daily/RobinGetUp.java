@@ -77,7 +77,7 @@ public class RobinGetUp {
      */
     private static RobinMetadata getMetadata(String topic, RobinPosture posture, Boolean digest) {
         // log.error("判断重写: {}", Arrays.toString(posture.getClass().getDeclaredMethods()));
-        // todo: 判断是否需要缓存metadata, 感觉意义不大, 后续处理, 目测很少有需要后续清理工作的posture
+        // todo : 判断是否需要缓存metadata, 感觉意义不大, 后续处理, 目测很少有需要后续清理工作的posture
         // 元数据
         String metadata = RobinMetadataFactory.getMetadataHandler(topic).getMetadata();
         return new RobinMetadata(topic, metadata, digest);

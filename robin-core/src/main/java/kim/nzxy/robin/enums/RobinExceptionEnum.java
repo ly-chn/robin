@@ -1,5 +1,7 @@
 package kim.nzxy.robin.enums;
 
+import kim.nzxy.robin.posture.RobinPosture;
+
 /**
  * 内置异常类型
  *
@@ -21,8 +23,14 @@ public interface RobinExceptionEnum {
         MetadataHandlerMissing,
         /**
          * 缺乏WithConfig注解
+         * @see RobinPosture
+         * @see RobinPosture.PostureConfig
          */
         AnnotationWithConfigMissing,
+        /**
+         * 对应主题未经过配置
+         */
+        TopicIsNotConfigured
         ;
     }
 

@@ -50,20 +50,17 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
      * 获取类/方法上添加的topic
      */
     private String[] getExtraTopic(Object handler) {
-        if (handler instanceof HandlerMethod) {
-            Method method = ((HandlerMethod) handler).getMethod();
-            RobinTopic[] methodTopics = method.getAnnotationsByType(RobinTopic.class);
-            RobinTopic[] classTopics = method.getDeclaringClass().getAnnotationsByType(RobinTopic.class);
-            int methodTopicsLength = methodTopics.length;
-            String[] result = new String[methodTopicsLength + classTopics.length];
-            for (int i = 0; i < methodTopicsLength; i++) {
-                result[i] = methodTopics[i].value();
-            }
-            for (int i = 0; i < classTopics.length; i++) {
-                result[i] = classTopics[methodTopicsLength + i].value();
-            }
-            return result;
+        Method method = ((HandlerMethod) handler).getMethod();
+        RobinTopic[] methodTopics = method.getAnnotationsByType(RobinTopic.class);
+        RobinTopic[] classTopics = method.getDeclaringClass().getAnnotationsByType(RobinTopic.class);
+        int methodTopicsLength = methodTopics.length;
+        String[] result = new String[methodTopicsLength + classTopics.length];
+        for (int i = 0; i < methodTopicsLength; i++) {
+            result[i] = methodTopics[i].value();
         }
-        return null;
+        for (int i = 0; i < classTopics.length; i++) {
+            result[i] = classTopics[methodTopicsLength + i].value();
+        }
+        return result;
     }
 }
