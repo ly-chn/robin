@@ -32,7 +32,7 @@ public class RobinGetUp {
         }
         // 缓存
         RobinCacheHandler cacheHandler = RobinManagement.getCacheHandler();
-        RobinEffortFactory.getValidatorTopic().forEach((topic, postureKey) -> {
+        RobinEffortFactory.getValidatorTopic(extraTopic).forEach((topic, postureKey) -> {
             // 配置信息
             RobinEffort effort = RobinEffortFactory.getEffort(topic);
             // 包装元数据
@@ -60,7 +60,7 @@ public class RobinGetUp {
 
     public static void postHandle(String[] extraTopic) {
         log.debug("robin post handle");
-        RobinEffortFactory.getValidatorTopic().forEach((topic, postureKey) -> {
+        RobinEffortFactory.getValidatorTopic(extraTopic).forEach((topic, postureKey) -> {
             // 配置信息
             RobinEffort effort = RobinEffortFactory.getEffort(topic);
             // 包装元数据

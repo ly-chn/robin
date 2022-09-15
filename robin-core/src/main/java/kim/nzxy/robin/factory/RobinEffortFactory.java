@@ -77,7 +77,16 @@ public class RobinEffortFactory {
      *
      * @return key为topic, value为postureKey
      */
-    public static Map<String, String> getValidatorTopic() {
+    public static Map<String, String> getValidatorTopic(String[] extraTopic) {
+        List<String> topicList = EFFORT_MAP.entrySet().stream()
+                .filter(entry -> entry.getValue().getBasic().getAsDefault())
+                .sorted(Comparator.comparingInt(it -> it.getValue().getBasic().getPrecedence()))
+                .map(Map.Entry::getKey).collect(Collectors.toList());
+        GLOBAL_TOPIC_POSTURE_KEY_MAP.clear();
+        for (String topic : topicList) {
+            GLOBAL_TOPIC_POSTURE_KEY_MAP.put(topic, TOPIC_POSTURE_KEY_MAP.get(topic));
+        }
+        log.debug("update global effort: {}", GLOBAL_TOPIC_POSTURE_KEY_MAP);
         return GLOBAL_TOPIC_POSTURE_KEY_MAP;
     }
 

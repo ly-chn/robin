@@ -1,17 +1,12 @@
 package kim.nzxy.robin.handler;
 
 import kim.nzxy.robin.config.RobinMetadata;
-import kim.nzxy.robin.util.RobinTimeFrameUtil;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 默认的缓存处理器
@@ -38,7 +33,7 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
     public int sustainVisit(RobinMetadata robinMetadata, Duration timeFrameSize) {
         String topic = robinMetadata.getTopic();
         String metadata = robinMetadata.getMetadata();
-        int currentTimeFrame = RobinTimeFrameUtil.currentTimeFrame(timeFrameSize);
+        int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
         SUSTAIN_TOPIC_MAP.put(topic, timeFrameSize);
         HashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(topic);
         // 不存在topic, 创建topic
@@ -63,10 +58,10 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
 
     private void cleanSustainVisit() {
         for (Map.Entry<String, Duration> entry : SUSTAIN_TOPIC_MAP.entrySet()) {
-            int usefulTimeFrame = RobinTimeFrameUtil.currentTimeFrame(entry.getValue()) - 1;
+            int usefulTimeFrame = RobinUtil.currentTimeFrame(entry.getValue()) - 1;
             HashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(entry.getKey());
-            topicMap.forEach((value, timeFrame)->{
-                if (topicMap.get(value)<usefulTimeFrame) {
+            topicMap.forEach((value, timeFrame) -> {
+                if (topicMap.get(value) < usefulTimeFrame) {
                     topicMap.remove(value);
                 }
             });
@@ -75,7 +70,7 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
 
     @Override
     public void lock(RobinMetadata metadata, Duration lock) {
-        HashMap<String, Integer> topicMap  = LOCK_CACHE_MAP.get(metadata.getTopic());
+        HashMap<String, Integer> topicMap = LOCK_CACHE_MAP.get(metadata.getTopic());
         if (!LOCK_CACHE_MAP.containsKey(metadata.getTopic())) {
             topicMap = new HashMap<>();
             LOCK_CACHE_MAP.put(metadata.getTopic(), topicMap);
@@ -88,7 +83,7 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         if (!LOCK_CACHE_MAP.containsKey(metadata.getTopic())) {
             return false;
         }
-        HashMap<String, Integer> topicMap  = LOCK_CACHE_MAP.get(metadata.getTopic());
+        HashMap<String, Integer> topicMap = LOCK_CACHE_MAP.get(metadata.getTopic());
         Integer score = topicMap.get(metadata.getMetadata());
         return score == null || score > RobinUtil.now();
     }
@@ -117,7 +112,7 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         for (HashMap<String, Integer> topicMap : LOCK_CACHE_MAP.values()) {
             for (String metadata : topicMap.keySet()) {
                 Integer lockTo = topicMap.get(metadata);
-                if (lockTo == null||lockTo<now) {
+                if (lockTo == null || lockTo < now) {
                     topicMap.remove(metadata);
                 }
             }

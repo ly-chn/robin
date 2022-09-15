@@ -2,7 +2,6 @@ package kim.nzxy.robin.data.redis;
 
 import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.handler.RobinCacheHandler;
-import kim.nzxy.robin.util.RobinTimeFrameUtil;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -13,10 +12,6 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.Executors;
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author lyun-chn
@@ -41,7 +36,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         String key = Constant.SUSTAIN_VISIT_PREFIX + metadata.getTopic();
         String value = metadata.getMetadata();
         SUSTAIN_TOPIC_MAP.put(key, timeFrameSize);
-        int currentTimeFrame = RobinTimeFrameUtil.currentTimeFrame(timeFrameSize);
+        int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         Double latestVisit = zSetOperations.score(key, value);
         // 非连续访问
@@ -61,7 +56,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     private void cleanSustainVisit() {
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         for (Map.Entry<String, Duration> entry : SUSTAIN_TOPIC_MAP.entrySet()) {
-            zSetOperations.removeRangeByScore(entry.getKey(), 0, RobinTimeFrameUtil.currentTimeFrame(entry.getValue()) - 1);
+            zSetOperations.removeRangeByScore(entry.getKey(), 0, RobinUtil.currentTimeFrame(entry.getValue()) - 1);
         }
     }
 
