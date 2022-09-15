@@ -8,25 +8,15 @@ logging:
 robin:
   validator:
     sustain:
-      ip:
+      # 普通ip策略, 适用于一般接口
+      ip-normal:
         basic:
           lock-duration: 10s
           as-default: true
         expand:
           time-frame-size: 10s
           max-times: 100
-      referer:
-        basic:
-          lock-duration: 10s
-          as-default: true
-        expand:
-          time-frame-size: 10s
-          max-times: 100
-    bucket:
-      ip-b:
-        basic:
-          lock-duration: 10s
-          as-default: true
+      #
 
 server:
   port: 9999

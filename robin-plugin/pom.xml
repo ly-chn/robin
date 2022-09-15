@@ -13,6 +13,7 @@
     <artifactId>robin-plugin</artifactId>
     <modules>
         <module>robin-data-redis</module>
+        <module>robin-admin</module>
     </modules>
     <dependencies>
         <dependency>

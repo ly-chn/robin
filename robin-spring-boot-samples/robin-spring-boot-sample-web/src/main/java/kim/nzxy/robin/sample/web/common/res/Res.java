@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -31,7 +33,7 @@ public class Res<T> implements Serializable {
     /**
      * 返回列表信息
      */
-    private List<T> list;
+    private Collection<T> list;
 
     /**
      * 成功响应并返回信息
@@ -91,37 +93,10 @@ public class Res<T> implements Serializable {
      * @param list 返回的data数据
      * @return 统一封装返回单条成功数据
      */
-    public static <T> Res<T> success(List<T> list) {
+    public static <T> Res<T> success(Collection<T> list) {
         Res<T> msg = new Res<>();
         msg.setCode(200);
         msg.setList(list);
-        return msg;
-    }
-
-    /**
-     * 返回参数异常
-     * 例如必填参数为空
-     *
-     * @return 统一封装返回参数不合法的提示
-     */
-    public static <T> Res<T> invalidParam() {
-        Res<T> msg = new Res<>();
-        msg.setCode(401);
-        msg.setMessage(INVALID_PARAM);
-        return msg;
-    }
-
-    /**
-     * 返回参数异常
-     * 建议用于请求参数校验(如编码不得重复)时发现的异常
-     *
-     * @param message 自定义返回信息
-     * @return 统一封装返回参数不合法的提示
-     */
-    public static <T> Res<T> invalidParam(String message) {
-        Res<T> msg = new Res<>();
-        msg.setCode(401);
-        msg.setMessage(message);
         return msg;
     }
 

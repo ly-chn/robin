@@ -12,11 +12,5 @@ import javax.servlet.http.HttpServletRequest;
  * @since 2021/6/9
  */
 public class SpringContextUtil {
-    /**
-     * 获取当前 HttpServletRequest
-     */
-    public static HttpServletRequest currentRequest() {
-        // noinspection ConstantConditions
-        return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-    }
+
 }

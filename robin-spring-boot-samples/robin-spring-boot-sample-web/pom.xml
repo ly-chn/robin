@@ -20,6 +20,7 @@
             <artifactId>robin-spring-boot-starter</artifactId>
             <version>${revision}</version>
         </dependency>
+        <!--redis支持-->
         <dependency>
             <groupId>kim.nzxy</groupId>
             <artifactId>robin-data-redis</artifactId>
