@@ -1,6 +1,6 @@
 ### 普通页面
-GET http://192.168.2.202:9999/sample/simple
+GET http://localhost:9999/sample/simple
 ### 跳过检测
-GET http://192.168.2.202:9999/sample/skip
+GET http://localhost:9999/sample/skip
 ### 额外检测
-GET http://192.168.2.202:9999/sample/extra
+GET http://localhost:9999/sample/extra

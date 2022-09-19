@@ -23,7 +23,7 @@ public class SimpleController {
         return "success";
     }
     @RequestMapping("extra")
-    @RobinTopic("ip-b")
+    @RobinTopic("ip-sensitive")
     public String extra() {
         return "success";
     }

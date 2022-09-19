@@ -2,9 +2,8 @@ package kim.nzxy.robin.spring.boot.autoconfigure;
 
 import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.factory.RobinPostureFactory;
+import kim.nzxy.robin.posture.BuiltInEffort;
 import kim.nzxy.robin.posture.RobinPosture;
-import kim.nzxy.robin.posture.bucket.BucketEffort;
-import kim.nzxy.robin.posture.sutain.visit.SustainVisitEffort;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
  * @author lyun-chn
  * @since 2022/9/1 9:07
  */
-@SuppressWarnings({"ConfigurationProperties", "AlibabaCommentsMustBeJavadocFormat"})
+@SuppressWarnings({"AlibabaCommentsMustBeJavadocFormat"})
 @Component
 @Slf4j
 public class RobinValidatorAutowired {
@@ -36,25 +35,13 @@ public class RobinValidatorAutowired {
     //<editor-fold desc="持续访问校验">
     @ConfigurationProperties(prefix = "robin.validator")
     @Bean
-    public SustainVisitEffort sustain() {
-        return new SustainVisitEffort();
+    public BuiltInEffort sustain() {
+        return new BuiltInEffort();
     }
 
     @Autowired
-    public void sustain(SustainVisitEffort config) {
+    public void sustain(BuiltInEffort config) {
         RobinEffortFactory.register("sustain", config.getSustain());
-    }
-    //</editor-fold>
-
-    //<editor-fold desc="令牌桶校验">
-    @ConfigurationProperties(prefix = "robin.validator")
-    @Bean
-    public BucketEffort bucket() {
-        return new BucketEffort();
-    }
-
-    @Autowired
-    public void bucket(BucketEffort config) {
         RobinEffortFactory.register("bucket", config.getBucket());
     }
     //</editor-fold>

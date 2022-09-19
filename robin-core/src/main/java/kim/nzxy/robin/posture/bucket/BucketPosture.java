@@ -12,7 +12,7 @@ import kim.nzxy.robin.posture.RobinPosture;
 @RobinPosture.PostureConfig(key = "bucket")
 public class BucketPosture implements RobinPosture {
     @Override
-    public boolean preHandle(RobinMetadata robinMetadata) {
+    public boolean handler(RobinMetadata robinMetadata) {
 
         return true;
     }

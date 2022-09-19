@@ -27,8 +27,8 @@ public class RobinMetadataProvider implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() {
-        RobinMetadataFactory.register("ip-b", this::getIp);
-        RobinMetadataFactory.register("ip", this::getIp);
+        RobinMetadataFactory.register("ip-sensitive", this::getIp);
+        RobinMetadataFactory.register("ip-normal", this::getIp);
         RobinMetadataFactory.register("referer", this::getIp);
     }
 }

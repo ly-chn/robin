@@ -40,9 +40,11 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
         ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         Double latestVisit = zSetOperations.score(key, value);
+        log.debug("sustain visit, metadata is: {}, currentTimeFrame & latestVisit is: {}, {}", metadata, currentTimeFrame, latestVisit);
         // 非连续访问
         if (Objects.isNull(latestVisit) || currentTimeFrame - latestVisit > 1) {
             zSetOperations.add(key, value, currentTimeFrame + Constant.SUSTAIN_VISIT_STEP);
+            log.debug("update sustain visit: {}, time frame: {}, times: 1", metadata, currentTimeFrame);
             return 1;
         }
         // 当前连续访问次数
@@ -50,7 +52,9 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         if (currentTimeFrame - latestVisit > 0) {
             i += Constant.SUSTAIN_VISIT_STEP;
         }
-        zSetOperations.add(key, value, currentTimeFrame + (i / Constant.SUSTAIN_VISIT_PRECISION));
+        double visit = currentTimeFrame + (i / Constant.SUSTAIN_VISIT_PRECISION);
+        zSetOperations.add(key, value, visit);
+        log.debug("update sustain visit: {}, time frame: {}, times: {}", metadata, currentTimeFrame, i * Constant.SUSTAIN_VISIT_PRECISION);
         return (int) (i * Constant.SUSTAIN_VISIT_PRECISION);
     }
 

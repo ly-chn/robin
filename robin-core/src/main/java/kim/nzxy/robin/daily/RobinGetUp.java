@@ -47,7 +47,7 @@ public class RobinGetUp {
             boolean preHandleSuccess;
             try {
                 // 执行逻辑
-                preHandleSuccess = posture.preHandle(robinMetadata);
+                preHandleSuccess = posture.handler(robinMetadata);
             } catch (Exception e) {
                 log.error("posture drop the ball", e);
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.RobinPostureDropTheBall, robinMetadata);

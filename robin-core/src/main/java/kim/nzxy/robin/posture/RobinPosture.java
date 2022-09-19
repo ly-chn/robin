@@ -22,7 +22,7 @@ public interface RobinPosture {
      * @param robinMetadata 元数据
      * @return true表示校验通过
      */
-    boolean preHandle(RobinMetadata robinMetadata);
+    boolean handler(RobinMetadata robinMetadata);
 
     /**
      * 读取基础配置

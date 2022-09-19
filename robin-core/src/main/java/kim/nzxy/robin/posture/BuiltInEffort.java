@@ -1,4 +1,4 @@
-package kim.nzxy.robin.posture.bucket;
+package kim.nzxy.robin.posture;
 
 import kim.nzxy.robin.autoconfigure.RobinEffort;
 import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
@@ -9,13 +9,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 令牌桶配置
  *
- * @author lyun-chn
- * @since 2022/9/1 9:03
+ * @author xuyf
+ * @since 2022/9/19 8:50
  */
 @Data
-public class BucketEffort {
+public class BuiltInEffort {
+    private Map<String, SustainVisit> sustain = new HashMap<>();
     private Map<String, Bucket> bucket = new HashMap<>();
 
     @Data
@@ -35,6 +35,25 @@ public class BucketEffort {
              * 可访问最大次数
              */
             private Duration rate = Duration.ofMillis(10);
+        }
+    }
+    @Data
+    public static class SustainVisit implements RobinEffort {
+
+        private RobinEffortBasic basic;
+
+        private EffortExpand expand;
+
+        @Data
+        public static class EffortExpand {
+            /**
+             * 时间窗口大小
+             */
+            private Duration timeFrameSize;
+            /**
+             * 可访问最大次数
+             */
+            private Integer maxTimes;
         }
     }
 }

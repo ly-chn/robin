@@ -103,6 +103,10 @@ public class RobinEffortFactory {
      */
     public static <T> T getExpandConfig(String topic) {
         Object o = EFFORT_MAP.get(topic).getExpand();
+        if (o == null) {
+            log.error("expand config missing, topic: {}", topic);
+            throw new RobinException.Panic(RobinExceptionEnum.Panic.ExpandConfigOfTopicMissing);
+        }
         // noinspection unchecked
         return (T) o;
     }
