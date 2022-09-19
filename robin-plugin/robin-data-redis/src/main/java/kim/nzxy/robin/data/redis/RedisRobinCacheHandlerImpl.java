@@ -49,9 +49,10 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         }
         // 当前连续访问次数
         double i = latestVisit % 1;
-        if (currentTimeFrame - latestVisit > 0) {
-            i += Constant.SUSTAIN_VISIT_STEP;
+        if (currentTimeFrame - latestVisit <= 0) {
+            return (int) (i * Constant.SUSTAIN_VISIT_PRECISION);
         }
+        i += Constant.SUSTAIN_VISIT_STEP;
         double visit = currentTimeFrame + (i / Constant.SUSTAIN_VISIT_PRECISION);
         zSetOperations.add(key, value, visit);
         log.debug("update sustain visit: {}, time frame: {}, times: {}", metadata, currentTimeFrame, i * Constant.SUSTAIN_VISIT_PRECISION);
