@@ -12,6 +12,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * @author lyun-chn
@@ -93,7 +94,12 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     }
 
     private void cleanLock() {
-        redisTemplate.opsForZSet().removeRange(Constant.LOCKED_PREFIX, 0, RobinUtil.now());
+        Set<String> keys = redisTemplate.keys(Constant.LOCKED_PREFIX + "*");
+        if (keys != null) {
+            for (String topic : keys) {
+                redisTemplate.opsForZSet().removeRange(topic, 0, RobinUtil.now());
+            }
+        }
     }
 
     interface Constant {

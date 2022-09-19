@@ -8,15 +8,18 @@ logging:
 robin:
   validator:
     sustain:
-      # 普通ip策略, 适用于一般接口
+      # 普通ip策略, 适用于一般接口, 能在连续的10s访问2次
       ip-normal:
         basic:
           lock-duration: 10s
           as-default: true
         expand:
           time-frame-size: 10s
-          max-times: 100
-      #
-
+          max-times: 2
+      # 重要端口ip策略, 每分钟只能访问一次
+      ip-panic:
+        basic:
+          lock-duration: 10s
+          as-default: false
 server:
   port: 9999
