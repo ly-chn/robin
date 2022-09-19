@@ -1,7 +1,5 @@
 package kim.nzxy.robin.factory;
 
-import kim.nzxy.robin.enums.RobinExceptionEnum;
-import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.handler.RobinMetadataHandler;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -23,6 +21,7 @@ public class RobinMetadataFactory {
      * 校验策略
      */
     private static final Map<String, RobinMetadataHandler> METADATA_STRATEGY_MAP = new HashMap<>();
+    private static final RobinMetadataHandler DEFAULT_METADATA_HANDLER = () -> "global";
 
 
     /**
@@ -30,8 +29,8 @@ public class RobinMetadataFactory {
      */
     public static RobinMetadataHandler getMetadataHandler(String topic) {
         if (!METADATA_STRATEGY_MAP.containsKey(topic)) {
-            log.error("未找到对应topic的元数据处理器： {}", topic);
-            throw new RobinException.Panic(RobinExceptionEnum.Panic.MetadataHandlerMissing);
+            log.error("未找到对应topic的元数据处理器： {}, 将使用默认处理器", topic);
+            return DEFAULT_METADATA_HANDLER;
         }
         return METADATA_STRATEGY_MAP.get(topic);
     }
