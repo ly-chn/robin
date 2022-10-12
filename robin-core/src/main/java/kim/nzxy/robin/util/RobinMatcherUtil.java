@@ -6,7 +6,7 @@ import java.util.Collection;
  * @author lyun-chn
  * @since 2021/6/4
  */
-public class MatcherUtil {
+public class RobinMatcherUtil {
     /**
      * '?' 可以匹配任何单个字符。
      * '* ' 可以匹配任意字符串（包括空字符串）。

@@ -1,5 +1,8 @@
 package kim.nzxy.robin.util;
 
+import kim.nzxy.robin.annotations.RobinTopic;
+
+import java.lang.annotation.Annotation;
 import java.time.Duration;
 import java.util.Objects;
 
@@ -36,5 +39,9 @@ public class RobinUtil {
             }
         }
         return false;
+    }
+
+    public static  boolean isAnnotationBundle(Annotation ann) {
+        return ann.annotationType().isAnnotationPresent(RobinTopic.class);
     }
 }

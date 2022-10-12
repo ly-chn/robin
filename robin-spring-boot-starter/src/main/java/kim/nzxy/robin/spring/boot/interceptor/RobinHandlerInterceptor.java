@@ -20,7 +20,7 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         if (catchAble(handler)) {
-            RobinGetUp.preHandle(getExtraTopic(handler));
+            RobinGetUp.getUp(((HandlerMethod) handler).getMethod());
         }
         return true;
     }
@@ -35,23 +35,5 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
             return !method.isAnnotationPresent(RobinSkip.class) && !method.getDeclaringClass().isAnnotationPresent(RobinSkip.class);
         }
         return false;
-    }
-
-    /**
-     * 获取类/方法上添加的topic
-     */
-    private String[] getExtraTopic(Object handler) {
-        Method method = ((HandlerMethod) handler).getMethod();
-        RobinTopic[] methodTopics = method.getAnnotationsByType(RobinTopic.class);
-        RobinTopic[] classTopics = method.getDeclaringClass().getAnnotationsByType(RobinTopic.class);
-        int methodTopicsLength = methodTopics.length;
-        String[] result = new String[methodTopicsLength + classTopics.length];
-        for (int i = 0; i < methodTopicsLength; i++) {
-            result[i] = methodTopics[i].value();
-        }
-        for (int i = 0; i < classTopics.length; i++) {
-            result[i] = classTopics[methodTopicsLength + i].value();
-        }
-        return result;
     }
 }

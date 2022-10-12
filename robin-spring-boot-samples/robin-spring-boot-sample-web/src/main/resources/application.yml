@@ -12,7 +12,7 @@ robin:
       ip-normal:
         basic:
           lock-duration: 5s
-          as-default: false
+          as-default: true
         expand:
           time-frame-size: 5s
           max-times: 2

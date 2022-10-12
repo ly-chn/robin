@@ -1,5 +1,6 @@
 package kim.nzxy.robin.daily;
 
+import kim.nzxy.robin.annotations.RobinTopic;
 import kim.nzxy.robin.autoconfigure.RobinEffort;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.config.RobinMetadata;
@@ -13,7 +14,10 @@ import kim.nzxy.robin.interceptor.RobinInterceptor;
 import kim.nzxy.robin.posture.RobinPosture;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.Map;
 
 /**
  * 工作周期
@@ -23,7 +27,8 @@ import java.util.Arrays;
  */
 @Slf4j
 public class RobinGetUp {
-    public static void preHandle(String[] extraTopic) {
+    public static void getUp(Method method) {
+        String[] extraTopic = getExtraTopic(method);
         log.debug("robin pre handle, extra topic: {}", Arrays.toString(extraTopic));
         // 用户取消拦截
         RobinInterceptor interceptor = RobinManagement.getRobinInterceptor();
@@ -59,4 +64,23 @@ public class RobinGetUp {
             }
         });
     }
+
+    /**
+     * 获取类/方法上添加的topic
+     */
+    private static String[] getExtraTopic(Method method) {
+        RobinTopic[] methodTopics = method.getAnnotationsByType(RobinTopic.class);
+        RobinTopic[] classTopics = method.getDeclaringClass().getAnnotationsByType(RobinTopic.class);
+        int methodTopicsLength = methodTopics.length;
+        String[] result = new String[methodTopicsLength + classTopics.length];
+        for (int i = 0; i < methodTopicsLength; i++) {
+            result[i] = methodTopics[i].value();
+        }
+        for (int i = 0; i < classTopics.length; i++) {
+            result[i] = classTopics[methodTopicsLength + i].value();
+        }
+        return result;
+    }
+
+
 }
