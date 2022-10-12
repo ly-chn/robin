@@ -88,9 +88,9 @@ public class RobinEffortFactory {
             }
         }
         Map<String, String> result = new LinkedHashMap<>();
-        EFFORT_MAP.entrySet().stream().filter(it->topicSet.contains(it.getKey()))
-                .sorted(Comparator.comparingInt(it->it.getValue().getBasic().getPrecedence()))
-                .forEach(it-> result.put(it.getKey(), TOPIC_POSTURE_KEY_MAP.get(it.getKey())));
+        EFFORT_MAP.entrySet().stream().filter(it -> topicSet.contains(it.getKey()))
+                .sorted(Comparator.comparingInt(it -> it.getValue().getBasic().getPrecedence()))
+                .forEach(it -> result.put(it.getKey(), TOPIC_POSTURE_KEY_MAP.get(it.getKey())));
         return result;
     }
 

@@ -1,7 +1,6 @@
 package kim.nzxy.robin.spring.boot.interceptor;
 
 import kim.nzxy.robin.annotations.RobinSkip;
-import kim.nzxy.robin.annotations.RobinTopic;
 import kim.nzxy.robin.daily.RobinGetUp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.method.HandlerMethod;

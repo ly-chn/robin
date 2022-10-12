@@ -23,6 +23,7 @@ public interface RobinExceptionEnum {
         MetadataHandlerMissing,
         /**
          * 缺乏WithConfig注解
+         *
          * @see RobinPosture
          * @see RobinPosture.PostureConfig
          */
@@ -34,8 +35,7 @@ public interface RobinExceptionEnum {
         /**
          * 对应主题的拓展配置未找到
          */
-        ExpandConfigOfTopicMissing
-        ;
+        ExpandConfigOfTopicMissing;
     }
 
     /**

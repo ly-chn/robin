@@ -1,8 +1,11 @@
 ### 普通页面
 GET http://localhost:9999/sample/simple
+
 ### 跳过检测
 GET http://localhost:9999/sample/skip
+
 ### 额外检测
 GET http://localhost:9999/sample/extra
+
 ### 更好的方式使用额外注解
 GET http://localhost:9999/sample/extra-better

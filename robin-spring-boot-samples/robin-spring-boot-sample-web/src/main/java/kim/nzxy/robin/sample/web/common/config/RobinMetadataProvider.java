@@ -1,12 +1,9 @@
 package kim.nzxy.robin.sample.web.common.config;
 
 import kim.nzxy.robin.factory.RobinMetadataFactory;
-import kim.nzxy.robin.sample.web.common.util.SpringContextUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 

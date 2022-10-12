@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *
  * @author xuyf
  * @since 2022/9/19 8:50
  */
@@ -37,6 +36,7 @@ public class BuiltInEffort {
             private Duration rate = Duration.ofMillis(10);
         }
     }
+
     @Data
     public static class SustainVisit implements RobinEffort {
 

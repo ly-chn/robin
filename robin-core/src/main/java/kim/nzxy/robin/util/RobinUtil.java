@@ -41,7 +41,7 @@ public class RobinUtil {
         return false;
     }
 
-    public static  boolean isAnnotationBundle(Annotation ann) {
+    public static boolean isAnnotationBundle(Annotation ann) {
         return ann.annotationType().isAnnotationPresent(RobinTopic.class);
     }
 }
