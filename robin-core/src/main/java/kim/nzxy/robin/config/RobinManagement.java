@@ -28,11 +28,10 @@ public class RobinManagement {
         // noinspection AlibabaThreadPoolCreation
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(() -> {
             try {
-                log.debug("robin clean cache");
                 getCacheHandler().freshenUp();
-                log.info("robin clean cache over");
+                log.debug("robin clean cache over");
             } catch (Exception e) {
-                log.debug("robin clean cache error: {}", e.getMessage());
+                log.error("robin clean cache error: ", e);
             }
         }, 1, 60, TimeUnit.MINUTES);
     }
@@ -64,7 +63,7 @@ public class RobinManagement {
     }
 
     public static void setCacheHandler(RobinCacheHandler cacheHandler) {
-        log.info("register cache handler: {}", cacheHandler.getClass());
+        log.debug("register cache handler: {}", cacheHandler.getClass());
         RobinManagement.cacheHandler = cacheHandler;
     }
 }

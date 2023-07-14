@@ -1,11 +1,13 @@
 package kim.nzxy.robin.posture;
 
-import kim.nzxy.robin.autoconfigure.RobinEffort;
 import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,46 +17,40 @@ import java.util.Map;
  */
 @Data
 public class BuiltInEffort {
-    private Map<String, SustainVisit> sustain = new HashMap<>();
-    private Map<String, Bucket> bucket = new HashMap<>();
+    /**
+     * 持续访问策略配置
+     */
+    private List<SustainVisit> sustain = new ArrayList<>();
+
+    /**
+     * 令牌桶策略配置
+     */
+    private List<Bucket> bucket = new ArrayList<>();
 
     @Data
-    public static class Bucket implements RobinEffort {
-
-        private RobinEffortBasic basic = new RobinEffortBasic();
-
-        private EffortExpand expand;
-
-        @Data
-        public static class EffortExpand {
-            /**
-             * 时间窗口大小
-             */
-            private Integer capacity = 100;
-            /**
-             * 可访问最大次数
-             */
-            private Duration rate = Duration.ofMillis(10);
-        }
+    @EqualsAndHashCode(callSuper = true)
+    public static class Bucket extends RobinEffortBasic {
+        /**
+         * 令牌桶大小
+         */
+        private Integer capacity = 1;
+        /**
+         * 多久产生一个令牌
+         */
+        private Duration rate = Duration.ofMinutes(10);
     }
 
+    @EqualsAndHashCode(callSuper = true)
     @Data
-    public static class SustainVisit implements RobinEffort {
+    public static class SustainVisit extends RobinEffortBasic {
 
-        private RobinEffortBasic basic;
-
-        private EffortExpand expand;
-
-        @Data
-        public static class EffortExpand {
-            /**
-             * 时间窗口大小
-             */
-            private Duration timeFrameSize;
-            /**
-             * 可访问最大次数
-             */
-            private Integer maxTimes;
-        }
+        /**
+         * 时间窗口大小
+         */
+        private Duration timeFrameSize = Duration.ofMinutes(1);
+        /**
+         * 可访问最大次数
+         */
+        private Integer maxTimes =  1;
     }
 }

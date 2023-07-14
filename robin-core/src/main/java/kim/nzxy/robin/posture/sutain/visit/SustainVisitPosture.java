@@ -15,7 +15,7 @@ import kim.nzxy.robin.posture.RobinPosture;
 public class SustainVisitPosture implements RobinPosture {
     @Override
     public boolean handler(RobinMetadata robinMetadata) {
-        BuiltInEffort.SustainVisit.EffortExpand expandEffort = getExpandEffort(robinMetadata.getTopic());
+        BuiltInEffort.SustainVisit expandEffort = getExpandEffort(robinMetadata.getTopic());
         return RobinManagement.getCacheHandler().sustainVisit(robinMetadata, expandEffort.getTimeFrameSize()) <= expandEffort.getMaxTimes();
     }
 }

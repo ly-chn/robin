@@ -25,15 +25,6 @@ public interface RobinPosture {
     boolean handler(RobinMetadata robinMetadata);
 
     /**
-     * 读取基础配置
-     *
-     * @return 基础配置
-     */
-    default RobinEffortBasic getBasicEffort() {
-        return null;
-    }
-
-    /**
      * 读取配置并转为指定类型
      * 如果没有配置{@link PostureConfig}注解，则返回null
      *
@@ -42,11 +33,9 @@ public interface RobinPosture {
      * @return 指定类型的配置信息
      * @see PostureConfig
      */
-    default <T> T getExpandEffort(String topic) {
-        return RobinEffortFactory.getExpandConfig(topic);
+    default <T extends RobinEffortBasic> T getExpandEffort(String topic) {
+        return RobinEffortFactory.getEffort(topic);
     }
-
-
     /**
      * 可能这不是一个很好的选择，但是目前看来我没有找到更好的方式，或许以后会的
      */

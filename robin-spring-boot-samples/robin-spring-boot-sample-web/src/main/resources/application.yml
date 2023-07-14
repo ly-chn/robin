@@ -8,21 +8,19 @@ logging:
 robin:
   validator:
     sustain:
-      # 普通ip策略, 适用于一般接口, 能在连续的2个5s访问
-      ip-normal:
-        basic:
-          lock-duration: 5s
-          as-default: true
-        expand:
-          time-frame-size: 5s
-          max-times: 2
-      # 敏感接口ip策略, 只能在连续的1个5s访问
-      ip-sensitive:
-        basic:
-          lock-duration: 5s
-          as-default: false
-        expand:
-          time-frame-size: 5s
-          max-times: 1
+      - topic: ip-normal
+        lock-duration: 5s
+        as-default: true
+        time-frame-size: 5s
+        max-times: 5
+        precedence: 0
+        metadata-handler: ip
+      - topic: ip-sensitive
+        lock-duration: 5s
+        as-default: false
+        time-frame-size: 5s
+        max-times: 1
+        metadata-handler: ip
+
 server:
   port: 9999

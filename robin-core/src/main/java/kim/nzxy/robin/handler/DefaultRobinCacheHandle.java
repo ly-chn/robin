@@ -26,6 +26,7 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
     public static final Map<String, HashMap<String, Double>> SUSTAIN_CACHE_MAP = new HashMap<>();
     /**
      * 封禁缓存, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
+     * todo: change to long, 避免有人封禁99年
      */
     public static final Map<String, HashMap<String, Integer>> LOCK_CACHE_MAP = new HashMap<>();
     /**

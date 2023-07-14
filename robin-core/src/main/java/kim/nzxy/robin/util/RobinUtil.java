@@ -28,7 +28,6 @@ public class RobinUtil {
      */
     public static int currentTimeFrame(Duration frameSize) {
         long seconds = frameSize.getSeconds();
-        // todo： 基准时间
         return Math.toIntExact(RobinUtil.now() / seconds);
     }
 

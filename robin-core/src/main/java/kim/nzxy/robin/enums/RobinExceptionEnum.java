@@ -32,10 +32,6 @@ public interface RobinExceptionEnum {
          * 对应主题未经过配置
          */
         TopicIsNotConfigured,
-        /**
-         * 对应主题的拓展配置未找到
-         */
-        ExpandConfigOfTopicMissing;
     }
 
     /**

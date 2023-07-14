@@ -6,6 +6,8 @@ import kim.nzxy.robin.sample.web.common.annocations.RobinSensitive;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+
 /**
  * 简单使用
  *
@@ -34,7 +36,8 @@ public class SimpleController {
 
     @RequestMapping("extra-better")
     @RobinSensitive
-    public String extraBetter() {
+    public String extraBetter(HttpServletRequest res) {
+        // todo: 不生效
         return "success";
     }
 }

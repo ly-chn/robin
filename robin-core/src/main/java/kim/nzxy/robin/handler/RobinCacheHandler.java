@@ -40,6 +40,7 @@ public interface RobinCacheHandler {
 
     /**
      * 主动解除封禁
+     * todo: 增加一个方法, 清理这个人的所有记录, 否则下次访问还可能被封禁
      *
      * @param metadata 元数据
      */

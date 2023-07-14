@@ -1,9 +1,10 @@
 package kim.nzxy.robin.sample.web.common.config;
 
-import kim.nzxy.robin.factory.RobinMetadataFactory;
+import kim.nzxy.robin.handler.RobinMetadataHandler;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -13,19 +14,18 @@ import javax.servlet.http.HttpServletRequest;
  * @author lyun-chn
  * @since 2022/9/8 17:11
  */
-@Component
+@Configuration
 @RequiredArgsConstructor
-public class RobinMetadataProvider implements InitializingBean {
+public class RobinMetadataProvider {
     private final HttpServletRequest request;
 
-    public String getIp() {
-        return request.getRemoteAddr();
+    @Bean
+    public RobinMetadataHandler ip() {
+        return request::getRemoteAddr;
     }
 
-    @Override
-    public void afterPropertiesSet() {
-        RobinMetadataFactory.register("ip-sensitive", this::getIp);
-        RobinMetadataFactory.register("ip-normal", this::getIp);
-        RobinMetadataFactory.register("referer", this::getIp);
+    @Bean
+    public RobinMetadataHandler referer() {
+        return () -> request.getHeader(HttpHeaders.REFERER);
     }
 }

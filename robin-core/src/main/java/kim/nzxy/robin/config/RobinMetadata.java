@@ -5,6 +5,7 @@ import lombok.Data;
 
 /**
  * Robin依赖的元数据
+ * todo: 包名调整, 放在这里不合适
  *
  * @author lyun-chn
  * @since 2022/8/29 12:10

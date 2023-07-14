@@ -1,7 +1,9 @@
 package kim.nzxy.robin.spring.boot.autoconfigure;
 
 import kim.nzxy.robin.factory.RobinEffortFactory;
+import kim.nzxy.robin.factory.RobinMetadataFactory;
 import kim.nzxy.robin.factory.RobinPostureFactory;
+import kim.nzxy.robin.handler.RobinMetadataHandler;
 import kim.nzxy.robin.posture.BuiltInEffort;
 import kim.nzxy.robin.posture.RobinPosture;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +32,7 @@ public class RobinValidatorAutowired {
         for (RobinPosture validator : applicationContext.getBeansOfType(RobinPosture.class).values()) {
             RobinPostureFactory.register(validator);
         }
+        applicationContext.getBeansOfType(RobinMetadataHandler.class).forEach(RobinMetadataFactory::register);
     }
 
     //<editor-fold desc="持续访问校验">

@@ -17,7 +17,7 @@ public class Robin {
     /**
      * 解除对某限制的封禁
      *
-     * @param metadata 元数据，为null表示解除所有封禁
+     * @param metadata 元数据，todo: 为null表示解除所有封禁
      */
     public static void unlock(RobinMetadata metadata) {
         RobinManagement.getCacheHandler().unlock(metadata);

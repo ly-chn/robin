@@ -1,7 +1,7 @@
 package kim.nzxy.robin.daily;
 
 import kim.nzxy.robin.annotations.RobinTopic;
-import kim.nzxy.robin.autoconfigure.RobinEffort;
+import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
@@ -27,7 +27,9 @@ import java.util.Arrays;
 public class RobinGetUp {
     public static void getUp(Method method) {
         String[] extraTopic = getExtraTopic(method);
-        log.debug("robin pre handle, extra topic: {}", Arrays.toString(extraTopic));
+        if (log.isDebugEnabled()) {
+            log.debug("robin pre handle, extra topic: {}", Arrays.toString(extraTopic));
+        }
         // 用户取消拦截
         RobinInterceptor interceptor = RobinManagement.getRobinInterceptor();
         if (!interceptor.beforeCatch()) {
@@ -37,12 +39,17 @@ public class RobinGetUp {
         RobinCacheHandler cacheHandler = RobinManagement.getCacheHandler();
         RobinEffortFactory.getValidatorTopic(extraTopic).forEach((topic, postureKey) -> {
             // 配置信息
-            RobinEffort effort = RobinEffortFactory.getEffort(topic);
+            RobinEffortBasic effort = RobinEffortFactory.getEffort(topic);
             // 包装元数据
             RobinPosture posture = RobinPostureFactory.getInvokeStrategy(postureKey);
+            String metadata = RobinMetadataFactory.getMetadataHandler(effort.getMetadataHandler()).getMetadata();
+            if (metadata == null||metadata.length()==0) {
+                log.info("method: [{}] has empty metadata with topic: [{}]", method, topic);
+                return;
+            }
             RobinMetadata robinMetadata = new RobinMetadata(topic,
-                    RobinMetadataFactory.getMetadataHandler(topic).getMetadata(),
-                    effort.getBasic().getDigest());
+                    metadata,
+                    effort.getDigest());
             if (cacheHandler.locked(robinMetadata)) {
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
             }
@@ -57,7 +64,7 @@ public class RobinGetUp {
             }
             // 判断执行结果
             if (!preHandleSuccess && interceptor.onCatch(robinMetadata)) {
-                cacheHandler.lock(robinMetadata, effort.getBasic().getLockDuration());
+                cacheHandler.lock(robinMetadata, effort.getLockDuration());
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.VerifyFailed, robinMetadata);
             }
         });
@@ -65,6 +72,7 @@ public class RobinGetUp {
 
     /**
      * 获取类/方法上添加的topic
+     * todo: 支持外部定义, 并存储
      */
     private static String[] getExtraTopic(Method method) {
         RobinTopic[] methodTopics = method.getAnnotationsByType(RobinTopic.class);

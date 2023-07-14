@@ -1,6 +1,6 @@
 package kim.nzxy.robin.factory;
 
-import kim.nzxy.robin.autoconfigure.RobinEffort;
+import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
 import lombok.AccessLevel;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * robin验证策略配置工厂
@@ -22,7 +21,7 @@ public class RobinEffortFactory {
     /**
      * 配置内容, key为topic, value为Effort
      */
-    private static final Map<String, RobinEffort> EFFORT_MAP = new HashMap<>();
+    private static final Map<String, RobinEffortBasic> EFFORT_MAP = new HashMap<>();
     /**
      * key为topic, value为postureKey
      */
@@ -37,8 +36,9 @@ public class RobinEffortFactory {
      *
      * @return 所有策略(用户定义 + 内置)
      */
-    public static RobinEffort getEffort(String topic) {
-        return EFFORT_MAP.get(topic);
+    public static <T extends RobinEffortBasic> T getEffort(String topic) {
+        // noinspection unchecked
+        return (T) EFFORT_MAP.get(topic);
     }
 
     /**
@@ -47,9 +47,9 @@ public class RobinEffortFactory {
      * @param topic  主题
      * @param config 配置内容
      */
-    public static void register(String topic, String postureKey, RobinEffort config) {
+    public static <T extends RobinEffortBasic> void register(String topic, String postureKey, T config) {
         if (log.isDebugEnabled()) {
-            log.info("register validator config, topic: {}, config: {}", topic, config);
+            log.debug("register validator config, topic: {}, config: {}", topic, config);
         }
         TOPIC_POSTURE_KEY_MAP.put(topic, postureKey);
         EFFORT_MAP.put(topic, config);
@@ -58,18 +58,15 @@ public class RobinEffortFactory {
 
     /**
      * 注册配置内容
-     *
-     * @param effortMap 配置
-     * @param <T>       RobinEffort
      */
-    public static <T extends RobinEffort> void register(String postureKey, Map<String, T> effortMap) {
+    public static <T extends RobinEffortBasic> void register(String postureKey, List<T> effortList) {
         if (log.isDebugEnabled()) {
-            log.info("register effort map: {}", effortMap);
+            log.debug("register effort map: {}", effortList);
         }
-        for (Map.Entry<String, T> entry : effortMap.entrySet()) {
-            TOPIC_POSTURE_KEY_MAP.put(entry.getKey(), postureKey);
-        }
-        EFFORT_MAP.putAll(effortMap);
+        effortList.forEach(it -> {
+            TOPIC_POSTURE_KEY_MAP.put(it.getTopic(), postureKey);
+            EFFORT_MAP.put(it.getTopic(), it);
+        });
         resetDefaultTopic();
     }
 
@@ -89,38 +86,21 @@ public class RobinEffortFactory {
         }
         Map<String, String> result = new LinkedHashMap<>();
         EFFORT_MAP.entrySet().stream().filter(it -> topicSet.contains(it.getKey()))
-                .sorted(Comparator.comparingInt(it -> it.getValue().getBasic().getPrecedence()))
+                .sorted(Comparator.comparingInt(it -> it.getValue().getPrecedence()))
                 .forEach(it -> result.put(it.getKey(), TOPIC_POSTURE_KEY_MAP.get(it.getKey())));
         return result;
     }
 
-    /**
-     * 读取拓展配置
-     *
-     * @param topic 主题
-     * @param <T>   type of posture config
-     * @return 拓展配置
-     */
-    public static <T> T getExpandConfig(String topic) {
-        Object o = EFFORT_MAP.get(topic).getExpand();
-        if (o == null) {
-            log.error("expand config missing, topic: {}", topic);
-            throw new RobinException.Panic(RobinExceptionEnum.Panic.ExpandConfigOfTopicMissing);
-        }
-        // noinspection unchecked
-        return (T) o;
-    }
 
     /**
      * 计算验证策略(含排序)
      * LinkedHashMap
      */
     private static void resetDefaultTopic() {
-        Set<String> topicList = EFFORT_MAP.entrySet().stream()
-                .filter(entry -> entry.getValue().getBasic().getAsDefault())
-                .map(Map.Entry::getKey).collect(Collectors.toSet());
         DEFAULT_TOPIC_SET.clear();
-        DEFAULT_TOPIC_SET.addAll(topicList);
+        EFFORT_MAP.entrySet().stream()
+                .filter(entry -> entry.getValue().getAsDefault())
+                .forEach(e -> DEFAULT_TOPIC_SET.add(e.getKey()));
         log.debug("update default topic: {}", DEFAULT_TOPIC_SET);
     }
 }

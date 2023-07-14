@@ -1,6 +1,7 @@
 package kim.nzxy.robin.autoconfigure;
 
 import lombok.Data;
+import lombok.NonNull;
 
 import java.time.Duration;
 
@@ -13,9 +14,21 @@ import java.time.Duration;
 @Data
 public class RobinEffortBasic {
     /**
+     * 配置主题, key, 全局唯一
+     */
+    private String topic;
+    /**
+     * 是否启用
+     */
+    private Boolean enabled = Boolean.TRUE;
+    /**
+     * 元数据处理器
+     */
+    private String metadataHandler;
+    /**
      * 锁定时长
      */
-    private Duration lockDuration;
+    private Duration lockDuration = Duration.ofMinutes(1);
     /**
      * 是否启用元数据压缩，防止缓存大key, 但是Robin不会缓存压缩前的数据
      */
