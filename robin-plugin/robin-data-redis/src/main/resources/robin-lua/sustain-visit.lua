@@ -1,15 +1,18 @@
 -- 返回值: boolean, 为true表示校验通过
+-- 主题
 local topic = KEYS[1]
+-- 元数据
 local metadata = ARGV[1]
-local logEnabled = ARGV[5] == 'true'
-if logEnabled then
-    redis.log(redis.LOG_WARNING, 'sustain-visit.lua started, args: ', KEYS[1], ARGV[1], ARGV[2], ARGV[3], ARGV[4], ARGV[5], KEYS, ARGV)
-end
+-- 当前时间窗口
+local currentTimeFrame = tonumber(ARGV[2])
 -- 持续访问记录最大记录数量
 local sustainVisitPrecision = tonumber(ARGV[4])
+local logEnabled = ARGV[5] == 'true'
 --持续访问记录步长
 local sustainVisitStep = 1 / sustainVisitPrecision
-local currentTimeFrame = tonumber(ARGV[2])
+if logEnabled then
+    redis.log(redis.LOG_WARNING, 'sustain-visit.lua started, args: ', KEYS[1], ARGV[1], ARGV[2], ARGV[3], ARGV[4], ARGV[5])
+end
 
 local latestVisit = tonumber(redis.call('ZSCORE', topic, metadata))
 -- 非连续访问
