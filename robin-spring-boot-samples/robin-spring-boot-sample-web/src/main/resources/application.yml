@@ -12,7 +12,7 @@ robin:
         lock-duration: 5s
         as-default: true
         time-frame-size: 5s
-        max-times: 5
+        max-times: 2
         precedence: 0
         metadata-handler: ip
       - topic: ip-sensitive
