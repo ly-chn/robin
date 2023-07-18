@@ -22,7 +22,7 @@ public interface RobinInterceptor {
      * 验证失败时的钩子, 可以在此实现自己的拦截逻辑, 比如羞辱爬虫一番, 返回错乱的结果, 或者记录一下容易出现异常的IP地址/用户进行分析
      *
      * @param robinMetadata 元数据详情
-     * @return 返回 false 表示忽略此捕获, 并不再执行其它策略. 返回 true 则抛出此异常, 等待异常拦截器处理
+     * @return 返回 false 表示忽略此捕获. 返回 true 则抛出此异常, 等待异常拦截器处理
      */
     default boolean onCatch(RobinMetadata robinMetadata) {
         return true;

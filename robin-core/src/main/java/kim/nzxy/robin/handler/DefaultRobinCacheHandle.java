@@ -5,8 +5,8 @@ import kim.nzxy.robin.util.RobinUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认的缓存处理器
@@ -23,48 +23,50 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
     /**
      * 持续访问记录, 格式: {topic: {metadata: 上次访问时间.连续访问次数}]}
      */
-    public static final Map<String, HashMap<String, Double>> SUSTAIN_CACHE_MAP = new HashMap<>();
+    public static final Map<String, ConcurrentHashMap<String, Double>> SUSTAIN_CACHE_MAP = new ConcurrentHashMap<>();
     /**
      * 封禁缓存, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
      * todo: change to long, 避免有人封禁99年
      */
-    public static final Map<String, HashMap<String, Integer>> LOCK_CACHE_MAP = new HashMap<>();
+    public static final Map<String, ConcurrentHashMap<String, Integer>> LOCK_CACHE_MAP = new ConcurrentHashMap<>();
     /**
      * 持续访问记录key列表，用于定期清理数据
      */
-    public static final Map<String, Duration> SUSTAIN_TOPIC_MAP = new HashMap<>();
+    public static final Map<String, Duration> SUSTAIN_TOPIC_MAP = new ConcurrentHashMap<>();
 
     @Override
-    public int sustainVisit(RobinMetadata robinMetadata, Duration timeFrameSize) {
+    public boolean sustainVisit(RobinMetadata robinMetadata, Duration timeFrameSize, Integer maxTimes) {
         String topic = robinMetadata.getTopic();
         String metadata = robinMetadata.getMetadata();
         int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
         SUSTAIN_TOPIC_MAP.put(topic, timeFrameSize);
-        HashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(topic);
+        ConcurrentHashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(topic);
         // 不存在topic, 创建topic
         if (!SUSTAIN_CACHE_MAP.containsKey(topic)) {
-            topicMap = new HashMap<>();
+            topicMap = new ConcurrentHashMap<>(16);
             SUSTAIN_CACHE_MAP.put(topic, topicMap);
         }
         Double latestVisit = topicMap.get(metadata);
         // 非连续访问
         if (latestVisit == null || currentTimeFrame - latestVisit > 1) {
             topicMap.put(metadata, currentTimeFrame + Constant.SUSTAIN_VISIT_STEP);
-            return 1;
+            return false;
         }
-        // 当前连续访问次数
-        double i = latestVisit % 1;
-        if (currentTimeFrame - latestVisit > 0) {
-            i += Constant.SUSTAIN_VISIT_STEP;
+        // 窗口+1, 窗口连续数+1
+        if (currentTimeFrame > latestVisit) {
+            latestVisit = latestVisit + Constant.SUSTAIN_VISIT_STEP + 1;
         }
-        topicMap.put(metadata, currentTimeFrame + (i / Constant.SUSTAIN_VISIT_PRECISION));
-        return (int) (i * Constant.SUSTAIN_VISIT_PRECISION);
+        if (latestVisit % 1 * Constant.SUSTAIN_VISIT_PRECISION >= maxTimes) {
+            return true;
+        }
+        topicMap.put(metadata, latestVisit);
+        return true;
     }
 
     private void cleanSustainVisit() {
         for (Map.Entry<String, Duration> entry : SUSTAIN_TOPIC_MAP.entrySet()) {
             int usefulTimeFrame = RobinUtil.currentTimeFrame(entry.getValue()) - 1;
-            HashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(entry.getKey());
+            ConcurrentHashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(entry.getKey());
             for (String latestVisit : topicMap.keySet()) {
                 if (topicMap.get(latestVisit) < usefulTimeFrame) {
                     topicMap.remove(latestVisit);
@@ -75,9 +77,9 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
 
     @Override
     public void lock(RobinMetadata metadata, Duration lock) {
-        HashMap<String, Integer> topicMap = LOCK_CACHE_MAP.get(metadata.getTopic());
+        ConcurrentHashMap<String, Integer> topicMap = LOCK_CACHE_MAP.get(metadata.getTopic());
         if (!LOCK_CACHE_MAP.containsKey(metadata.getTopic())) {
-            topicMap = new HashMap<>();
+            topicMap = new ConcurrentHashMap<>();
             LOCK_CACHE_MAP.put(metadata.getTopic(), topicMap);
         }
         topicMap.put(metadata.getMetadata(), Math.toIntExact(lock.getSeconds() + RobinUtil.now()));
@@ -88,7 +90,7 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         if (!LOCK_CACHE_MAP.containsKey(metadata.getTopic())) {
             return false;
         }
-        HashMap<String, Integer> topicMap = LOCK_CACHE_MAP.get(metadata.getTopic());
+        ConcurrentHashMap<String, Integer> topicMap = LOCK_CACHE_MAP.get(metadata.getTopic());
         Integer score = topicMap.get(metadata.getMetadata());
         return score == null || score > RobinUtil.now();
     }
@@ -114,7 +116,7 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
             return;
         }
         int now = RobinUtil.now();
-        for (HashMap<String, Integer> topicMap : LOCK_CACHE_MAP.values()) {
+        for (ConcurrentHashMap<String, Integer> topicMap : LOCK_CACHE_MAP.values()) {
             for (String metadata : topicMap.keySet()) {
                 Integer lockTo = topicMap.get(metadata);
                 if (lockTo == null || lockTo < now) {
@@ -124,11 +126,11 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         }
     }
 
-    interface Constant {
+    public interface Constant {
         /**
          * 持续访问记录最大记录数量
          */
-        int SUSTAIN_VISIT_PRECISION = 10000;
+        int SUSTAIN_VISIT_PRECISION = 100000;
         /**
          * 持续访问记录步长
          */

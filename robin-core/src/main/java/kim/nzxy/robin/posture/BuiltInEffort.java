@@ -1,14 +1,16 @@
 package kim.nzxy.robin.posture;
 
 import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
+import kim.nzxy.robin.enums.RobinExceptionEnum;
+import kim.nzxy.robin.exception.RobinException;
+import kim.nzxy.robin.handler.DefaultRobinCacheHandle;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 这里分解除去, 嵌套深了用着不太舒适
@@ -16,6 +18,7 @@ import java.util.Map;
  * @since 2022/9/19 8:50
  */
 @Data
+@Slf4j
 public class BuiltInEffort {
     /**
      * 持续访问策略配置
@@ -51,6 +54,14 @@ public class BuiltInEffort {
         /**
          * 可访问最大次数
          */
-        private Integer maxTimes =  1;
+        private Integer maxTimes = 1;
+
+        public void setMaxTimes(Integer maxTimes) {
+            if (maxTimes >= DefaultRobinCacheHandle.Constant.SUSTAIN_VISIT_PRECISION) {
+                log.error("参数初始化失败, 原因: 最大连续访问次数需小于: {}", DefaultRobinCacheHandle.Constant.SUSTAIN_VISIT_PRECISION);
+                throw new RobinException.Panic(RobinExceptionEnum.Panic.ConfigParamVerifyFailed);
+            }
+            this.maxTimes = maxTimes;
+        }
     }
 }

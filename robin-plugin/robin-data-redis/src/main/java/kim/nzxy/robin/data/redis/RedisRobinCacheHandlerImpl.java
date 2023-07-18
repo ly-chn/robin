@@ -3,16 +3,17 @@ package kim.nzxy.robin.data.redis;
 import kim.nzxy.robin.config.RobinMetadata;
 import kim.nzxy.robin.handler.RobinCacheHandler;
 import kim.nzxy.robin.util.RobinUtil;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
+import org.springframework.scripting.support.ResourceScriptSource;
 import org.springframework.stereotype.Component;
 
+import java.text.DecimalFormat;
 import java.time.Duration;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author lyun-chn
@@ -20,50 +21,40 @@ import java.util.Set;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
-    /**
-     * 持续访问记录key列表，用于定期清理数据
-     */
-    public static final Map<String, Duration> SUSTAIN_TOPIC_MAP = new HashMap<>();
     private final StringRedisTemplate redisTemplate;
+    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_LUA;
 
-    public RedisRobinCacheHandlerImpl(StringRedisTemplate redisTemplate) {
-        this.redisTemplate = redisTemplate;
+    static {
+        SUSTAIN_VISIT_LUA = new DefaultRedisScript<>();
+        SUSTAIN_VISIT_LUA.setScriptSource(new ResourceScriptSource(new ClassPathResource("robin-lua/sustain-visit.lua")));
+        SUSTAIN_VISIT_LUA.setResultType(Boolean.class);
     }
+
 
 
     @Override
-    public int sustainVisit(RobinMetadata metadata, Duration timeFrameSize) {
+    public boolean sustainVisit(RobinMetadata metadata, Duration timeFrameSize, Integer maxTimes) {
         String key = Constant.SUSTAIN_VISIT_PREFIX + metadata.getTopic();
         String value = metadata.getMetadata();
-        SUSTAIN_TOPIC_MAP.put(key, timeFrameSize);
         int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
-        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
-        Double latestVisit = zSetOperations.score(key, value);
-        log.debug("sustain visit, metadata is: {}, currentTimeFrame & latestVisit is: {}, {}", metadata, currentTimeFrame, latestVisit);
-        // 非连续访问
-        if (Objects.isNull(latestVisit) || currentTimeFrame - latestVisit > 1) {
-            zSetOperations.add(key, value, currentTimeFrame + Constant.SUSTAIN_VISIT_STEP);
-            log.debug("update sustain visit: {}, time frame: {}, times: 1", metadata, currentTimeFrame);
-            return 1;
-        }
-        // 当前连续访问次数
-        double i = latestVisit % 1;
-        if (currentTimeFrame - latestVisit <= 0) {
-            return (int) (i * Constant.SUSTAIN_VISIT_PRECISION);
-        }
-        i += Constant.SUSTAIN_VISIT_STEP;
-        double visit = currentTimeFrame + (i / Constant.SUSTAIN_VISIT_PRECISION);
-        zSetOperations.add(key, value, visit);
-        log.debug("update sustain visit: {}, time frame: {}, times: {}", metadata, currentTimeFrame, i * Constant.SUSTAIN_VISIT_PRECISION);
-        return (int) (i * Constant.SUSTAIN_VISIT_PRECISION);
+        return Boolean.TRUE.equals(redisTemplate.execute(SUSTAIN_VISIT_LUA,
+                Collections.singletonList(key),
+                value,
+                String.valueOf(currentTimeFrame),
+                maxTimes.toString(),
+                String.valueOf(Constant.SUSTAIN_VISIT_PRECISION),
+                Boolean.toString(log.isDebugEnabled())
+        ));
+
     }
 
     private void cleanSustainVisit() {
-        ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
+        /*ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
         for (Map.Entry<String, Duration> entry : SUSTAIN_TOPIC_MAP.entrySet()) {
             zSetOperations.removeRangeByScore(entry.getKey(), 0, RobinUtil.currentTimeFrame(entry.getValue()) - 1);
-        }
+        }*/
     }
 
     @Override
@@ -75,10 +66,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     public boolean locked(RobinMetadata metadata) {
         Double score = redisTemplate.opsForZSet()
                 .score(Constant.LOCKED_PREFIX + metadata.getTopic(), metadata.getMetadata());
-        if (score == null) {
-            return false;
-        }
-        return score > RobinUtil.now();
+        return score != null && score > RobinUtil.now();
     }
 
     @Override
@@ -119,11 +107,7 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
         /**
          * 持续访问记录最大记录数量
          */
-        int SUSTAIN_VISIT_PRECISION = 10000;
-        /**
-         * 持续访问记录步长
-         */
-        double SUSTAIN_VISIT_STEP = 1.0d / SUSTAIN_VISIT_PRECISION;
+        int SUSTAIN_VISIT_PRECISION = 100000;
         /**
          * 锁定元数据
          */

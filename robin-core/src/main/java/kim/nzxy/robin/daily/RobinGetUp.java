@@ -54,16 +54,16 @@ public class RobinGetUp {
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
             }
             log.debug("robin running, postureKey: {}, metadata: {}, effort: {}", postureKey, robinMetadata, effort);
-            boolean preHandleSuccess;
+            boolean passed;
             try {
                 // 执行逻辑
-                preHandleSuccess = posture.handler(robinMetadata);
+                passed = posture.handler(robinMetadata);
             } catch (Exception e) {
                 log.error("posture drop the ball", e);
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.RobinPostureDropTheBall, robinMetadata);
             }
             // 判断执行结果
-            if (!preHandleSuccess && interceptor.onCatch(robinMetadata)) {
+            if (!passed && interceptor.onCatch(robinMetadata)) {
                 cacheHandler.lock(robinMetadata, effort.getLockDuration());
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.VerifyFailed, robinMetadata);
             }

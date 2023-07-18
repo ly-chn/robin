@@ -18,9 +18,10 @@ public interface RobinCacheHandler {
      *
      * @param metadata      元数据
      * @param timeFrameSize 时间窗口大小
-     * @return 已经连续访问的次数（含本次）
+     * @param maxTimes      最大连续窗口次数, 最小值为1
+     * @return true表示校验通过
      */
-    int sustainVisit(RobinMetadata metadata, Duration timeFrameSize);
+    boolean sustainVisit(RobinMetadata metadata, Duration timeFrameSize, Integer maxTimes);
 
     /**
      * 锁定

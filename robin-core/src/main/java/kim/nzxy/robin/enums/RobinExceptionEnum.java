@@ -32,6 +32,10 @@ public interface RobinExceptionEnum {
          * 对应主题未经过配置
          */
         TopicIsNotConfigured,
+        /**
+         * 配置参数校验异常
+         */
+        ConfigParamVerifyFailed,
     }
 
     /**
