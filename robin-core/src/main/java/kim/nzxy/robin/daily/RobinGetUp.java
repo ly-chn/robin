@@ -43,17 +43,18 @@ public class RobinGetUp {
             // 包装元数据
             RobinPosture posture = RobinPostureFactory.getInvokeStrategy(postureKey);
             String metadata = RobinMetadataFactory.getMetadataHandler(effort.getMetadataHandler()).getMetadata();
-            if (metadata == null||metadata.length()==0) {
+            if (metadata == null || metadata.length() == 0) {
                 log.info("method: [{}] has empty metadata with topic: [{}]", method, topic);
                 return;
             }
             RobinMetadata robinMetadata = new RobinMetadata(topic,
                     metadata,
                     effort.getDigest());
+            // todo: 统一先判断, 避免浪费
             if (cacheHandler.locked(robinMetadata)) {
                 throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
             }
-            log.debug("robin running, postureKey: {}, metadata: {}, effort: {}", postureKey, robinMetadata, effort);
+            log.debug("robin running, postureKey: {}, metadata: {}", postureKey, robinMetadata);
             boolean passed;
             try {
                 // 执行逻辑

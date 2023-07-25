@@ -3,7 +3,7 @@ package kim.nzxy.robin.annotations;
 import java.lang.annotation.*;
 
 /**
- * @author xuyf
+ * @author ly-chn
  * @see RobinTopic
  * @since 2022/9/15 8:44
  */

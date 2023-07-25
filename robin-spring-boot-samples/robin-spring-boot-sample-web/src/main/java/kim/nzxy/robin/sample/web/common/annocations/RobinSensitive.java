@@ -7,7 +7,7 @@ import java.lang.annotation.*;
 /**
  * 表示将被robin视为敏感接口
  *
- * @author xuyf
+ * @author ly-chn
  * @since 2022/9/19 17:04
  */
 @Documented
