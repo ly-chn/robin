@@ -2,7 +2,7 @@ package kim.nzxy.robin.daily;
 
 import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.factory.RobinEffortFactory;

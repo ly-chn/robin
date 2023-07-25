@@ -1,11 +1,10 @@
-package kim.nzxy.robin.config;
+package kim.nzxy.robin.metadata;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
  * Robin依赖的元数据
- * todo: 包名调整, 放在这里不合适
  *
  * @author lyun-chn
  * @since 2022/8/29 12:10
@@ -22,7 +21,7 @@ public class RobinMetadata {
      */
     private String metadata;
     /**
-     * 是否启用元数据压缩，防止缓存大key, 但是Robin不会缓存压缩前的数据
+     * 是否启用元数据压缩，防止缓存大key, 但是会有概率误杀, 且Robin不会缓存压缩前的数据
      */
     private Boolean digest;
 }

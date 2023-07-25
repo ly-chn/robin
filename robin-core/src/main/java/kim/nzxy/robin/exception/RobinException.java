@@ -1,6 +1,6 @@
 package kim.nzxy.robin.exception;
 
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import lombok.Getter;
 

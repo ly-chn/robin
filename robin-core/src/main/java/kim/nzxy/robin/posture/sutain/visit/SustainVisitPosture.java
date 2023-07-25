@@ -1,7 +1,7 @@
 package kim.nzxy.robin.posture.sutain.visit;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.BuiltInEffort;
 import kim.nzxy.robin.posture.RobinPosture;
 import lombok.extern.slf4j.Slf4j;

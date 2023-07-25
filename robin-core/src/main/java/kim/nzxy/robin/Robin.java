@@ -1,7 +1,7 @@
 package kim.nzxy.robin;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.daily.RobinGetUp;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.extern.slf4j.Slf4j;

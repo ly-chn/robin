@@ -1,7 +1,7 @@
 package kim.nzxy.robin.handler;
 
 
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 
 import java.time.Duration;
 

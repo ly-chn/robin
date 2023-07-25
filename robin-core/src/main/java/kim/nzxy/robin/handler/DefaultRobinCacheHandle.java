@@ -1,6 +1,6 @@
 package kim.nzxy.robin.handler;
 
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.extern.slf4j.Slf4j;
 

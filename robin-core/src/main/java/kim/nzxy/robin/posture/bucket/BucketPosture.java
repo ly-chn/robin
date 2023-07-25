@@ -1,8 +1,7 @@
 package kim.nzxy.robin.posture.bucket;
 
-import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 
 /**

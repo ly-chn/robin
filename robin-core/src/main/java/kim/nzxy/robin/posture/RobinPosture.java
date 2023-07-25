@@ -1,7 +1,7 @@
 package kim.nzxy.robin.posture;
 
 import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
-import kim.nzxy.robin.config.RobinMetadata;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.factory.RobinEffortFactory;
 
 import java.lang.annotation.ElementType;
