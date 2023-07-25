@@ -1,6 +1,6 @@
 package kim.nzxy.robin.sample.web.controller;
 
-import kim.nzxy.robin.annotations.RobinSkip;
+import kim.nzxy.robin.annotations.RobinIgnore;
 import kim.nzxy.robin.annotations.RobinTopic;
 import kim.nzxy.robin.sample.web.common.annocations.RobinSensitive;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,7 +23,7 @@ public class SimpleController {
     }
 
     @RequestMapping("skip")
-    @RobinSkip
+    @RobinIgnore
     public String skip() {
         return "success";
     }

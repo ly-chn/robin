@@ -12,7 +12,7 @@ public interface RobinInterceptor {
     /**
      * 全部验证逻辑执行之前执行
      *
-     * @return 返回 false 将不会执行拦截策略, 可以针对指定用户指定角色进行信任
+     * @return 返回 false 将不会执行任何拦截策略, 可以针对指定用户指定角色进行信任
      */
     default boolean beforeCatch() {
         return true;

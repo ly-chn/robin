@@ -22,7 +22,7 @@ public interface RobinExceptionEnum {
          */
         MetadataHandlerMissing,
         /**
-         * 缺乏WithConfig注解
+         * 缺乏PostureConfig注解
          *
          * @see RobinPosture
          * @see RobinPosture.PostureConfig

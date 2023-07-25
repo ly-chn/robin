@@ -52,15 +52,15 @@ public class RobinPostureFactory {
      * @param validator 自定义策略
      */
     public static void register(RobinPosture validator) {
-        if (log.isDebugEnabled()) {
-            log.debug("register validator：{}", validator.getClass());
-        }
         if (!validator.getClass().isAnnotationPresent(RobinPosture.PostureConfig.class)) {
             log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinPosture.PostureConfig.class);
         }
         RobinPosture.PostureConfig annotation = validator.getClass().getAnnotation(RobinPosture.PostureConfig.class);
         if (annotation == null) {
             throw new RobinException.Panic(RobinExceptionEnum.Panic.AnnotationWithConfigMissing);
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("register validator：{} with class: {}", annotation.key(), validator.getClass());
         }
         INVOKE_STRATEGY_MAP.put(annotation.key(), validator);
     }

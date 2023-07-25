@@ -13,5 +13,8 @@ import java.lang.annotation.*;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.ANNOTATION_TYPE})
 @Repeatable(RobinTopicCollector.class)
 public @interface RobinTopic {
+    /**
+     * @return 适用的robin策略
+     */
     String value();
 }

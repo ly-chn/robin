@@ -75,17 +75,16 @@ public class RobinEffortFactory {
      *
      * @return key为topic, value为postureKey
      */
-    public static Map<String, String> getValidatorTopic(String[] extraTopic) {
-        Set<String> topicSet = new HashSet<>(DEFAULT_TOPIC_SET);
-        topicSet.addAll(Arrays.asList(extraTopic));
-        for (String s : topicSet) {
-            if (!EFFORT_MAP.containsKey(s)) {
-                log.error("topic [{}] has not configured", s);
+    public static Map<String, String> getValidatorTopic(Set<String> extraTopic) {
+        extraTopic.addAll(DEFAULT_TOPIC_SET);
+        extraTopic.forEach(topic->{
+            if (!EFFORT_MAP.containsKey(topic)) {
+                log.error("topic [{}] has not configured", topic);
                 throw new RobinException.Panic(RobinExceptionEnum.Panic.TopicIsNotConfigured);
             }
-        }
+        });
         Map<String, String> result = new LinkedHashMap<>();
-        EFFORT_MAP.entrySet().stream().filter(it -> topicSet.contains(it.getKey()))
+        EFFORT_MAP.entrySet().stream().filter(it -> extraTopic.contains(it.getKey()))
                 .sorted(Comparator.comparingInt(it -> it.getValue().getPrecedence()))
                 .forEach(it -> result.put(it.getKey(), TOPIC_POSTURE_KEY_MAP.get(it.getKey())));
         return result;
