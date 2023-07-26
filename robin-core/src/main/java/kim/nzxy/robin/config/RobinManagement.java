@@ -2,7 +2,6 @@ package kim.nzxy.robin.config;
 
 import kim.nzxy.robin.handler.DefaultRobinCacheHandle;
 import kim.nzxy.robin.handler.RobinCacheHandler;
-import kim.nzxy.robin.interceptor.DefaultRobinInterceptorImpl;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -29,9 +28,9 @@ public class RobinManagement {
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(() -> {
             try {
                 getCacheHandler().freshenUp();
-                log.debug("robin clean cache over");
+                log.debug("robin cache cleaned");
             } catch (Exception e) {
-                log.error("robin clean cache error: ", e);
+                log.error("robin cache cleaned with error: ", e);
             }
         }, 1, 60, TimeUnit.MINUTES);
     }
@@ -40,7 +39,7 @@ public class RobinManagement {
         if (robinInterceptor == null) {
             synchronized (RobinManagement.class) {
                 if (robinInterceptor == null) {
-                    setRobinInterceptor(new DefaultRobinInterceptorImpl());
+                    setRobinInterceptor(new RobinInterceptor() {});
                 }
             }
         }

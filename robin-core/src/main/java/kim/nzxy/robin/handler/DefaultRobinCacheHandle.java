@@ -21,14 +21,17 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class DefaultRobinCacheHandle implements RobinCacheHandler {
     /**
+     * 封禁缓存, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
+     */
+    public static final Map<String, ConcurrentHashMap<String, Integer>> LOCK_CACHE_MAP = new ConcurrentHashMap<>();
+    /**
+     * 令牌桶限流, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
+     */
+    public static final Map<String, ConcurrentHashMap<String, Double>> BUCKET_CACHE_MAP = new ConcurrentHashMap<>();
+    /**
      * 持续访问记录, 格式: {topic: {metadata: 上次访问时间.连续访问次数}]}
      */
     public static final Map<String, ConcurrentHashMap<String, Double>> SUSTAIN_CACHE_MAP = new ConcurrentHashMap<>();
-    /**
-     * 封禁缓存, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
-     * todo: change to long, 避免有人封禁99年
-     */
-    public static final Map<String, ConcurrentHashMap<String, Integer>> LOCK_CACHE_MAP = new ConcurrentHashMap<>();
     /**
      * 持续访问记录key列表，用于定期清理数据
      */
@@ -40,12 +43,11 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         String metadata = robinMetadata.getMetadata();
         int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
         SUSTAIN_TOPIC_MAP.put(topic, timeFrameSize);
-        ConcurrentHashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(topic);
         // 不存在topic, 创建topic
         if (!SUSTAIN_CACHE_MAP.containsKey(topic)) {
-            topicMap = new ConcurrentHashMap<>(16);
-            SUSTAIN_CACHE_MAP.put(topic, topicMap);
+            SUSTAIN_CACHE_MAP.put(topic, new ConcurrentHashMap<>(16));
         }
+        ConcurrentHashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(topic);
         Double latestVisit = topicMap.get(metadata);
         // 非连续访问
         if (latestVisit == null || currentTimeFrame - latestVisit > 1) {
@@ -63,6 +65,33 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
         return true;
     }
 
+    @Override
+    public boolean bucket(RobinMetadata robinMetadata, Duration generationInterval, Integer tokenCount, Integer capacity) {
+        int currentTimeFrame = RobinUtil.currentTimeFrame(generationInterval);
+        if (!BUCKET_CACHE_MAP.containsKey(robinMetadata.getTopic())) {
+            BUCKET_CACHE_MAP.put(robinMetadata.getTopic(), new ConcurrentHashMap<>(16));
+        }
+        ConcurrentHashMap<String, Double> topicMap = BUCKET_CACHE_MAP.get(robinMetadata.getMetadata());
+        Double bucketInfo = topicMap.get(robinMetadata.getMetadata());
+        // 初始化桶
+        if (bucketInfo == null) {
+            topicMap.put(robinMetadata.getMetadata(), currentTimeFrame + (tokenCount - 1) / Constant.BUCKET_STEP);
+            return true;
+        }
+        // 上次访问窗口
+        int latestTimeframe = bucketInfo.intValue();
+        // 剩余token数量
+        int latestTokenCount = (int) (bucketInfo % 1 * Constant.BUCKET_PRECISION);
+        // 剩余token todo: 溢出问题
+        int restToken = Math.min((currentTimeFrame - latestTimeframe) * tokenCount + latestTokenCount, capacity) - 1;
+        log.info("robin bucket topic: {}, metadata: {} rest token: {}", robinMetadata.getTopic(), robinMetadata.getMetadata(), restToken);
+        if (restToken < 0) {
+            return false;
+        }
+        topicMap.put(robinMetadata.getMetadata(), currentTimeFrame + (restToken * Constant.BUCKET_STEP));
+        return true;
+    }
+
     private void cleanSustainVisit() {
         for (Map.Entry<String, Duration> entry : SUSTAIN_TOPIC_MAP.entrySet()) {
             int usefulTimeFrame = RobinUtil.currentTimeFrame(entry.getValue()) - 1;
@@ -77,6 +106,9 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
 
     @Override
     public void lock(RobinMetadata metadata, Duration lock) {
+        if (lock.getSeconds() == 0) {
+            return;
+        }
         ConcurrentHashMap<String, Integer> topicMap = LOCK_CACHE_MAP.get(metadata.getTopic());
         if (!LOCK_CACHE_MAP.containsKey(metadata.getTopic())) {
             topicMap = new ConcurrentHashMap<>();
@@ -135,5 +167,13 @@ public class DefaultRobinCacheHandle implements RobinCacheHandler {
          * 持续访问记录步长
          */
         double SUSTAIN_VISIT_STEP = 1.0d / SUSTAIN_VISIT_PRECISION;
+        /**
+         * 令牌桶最大容量, 令牌桶精度
+         */
+        int BUCKET_PRECISION = 100000;
+        /**
+         * 令牌桶步长, 用于小数位
+         */
+        double BUCKET_STEP = 1.0d / SUSTAIN_VISIT_PRECISION;
     }
 }

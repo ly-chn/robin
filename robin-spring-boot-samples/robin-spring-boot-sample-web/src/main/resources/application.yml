@@ -8,6 +8,7 @@ logging:
 robin:
   validator:
     sustain:
+      # 常规接口
       - topic: ip-normal
         lock-duration: 5s
         as-default: true
@@ -15,12 +16,22 @@ robin:
         max-times: 2
         precedence: 0
         metadata-handler: ip
+      # 敏感接口
       - topic: ip-sensitive
         lock-duration: 5s
         as-default: false
         time-frame-size: 5s
         max-times: 1
         metadata-handler: ip
+    bucket:
+      # 特殊接口, 每分钟只能提交一次数据
+      - topic: api-sensitive
+        lock-duration: 10s
+        as-default: false
+        metadata-handler: uri
+        capacity: 1
+        generation-interval: 1m
+        token-count: 1
 
 server:
   port: 9999

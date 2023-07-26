@@ -28,4 +28,9 @@ public class RobinMetadataProvider {
     public RobinMetadataHandler referer() {
         return () -> request.getHeader(HttpHeaders.REFERER);
     }
+
+    @Bean
+    RobinMetadataHandler uri() {
+        return request::getRequestURI;
+    }
 }

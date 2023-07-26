@@ -3,10 +3,10 @@ package kim.nzxy.robin.sample.web.controller;
 import kim.nzxy.robin.annotations.RobinIgnore;
 import kim.nzxy.robin.annotations.RobinTopic;
 import kim.nzxy.robin.sample.web.common.annocations.RobinSensitive;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * 简单使用
@@ -17,27 +17,32 @@ import javax.servlet.http.HttpServletRequest;
 @RestController
 @RequestMapping("sample")
 public class SimpleController {
-    @RequestMapping("simple")
+    @GetMapping("simple")
     public String test() {
         return "success";
     }
 
-    @RequestMapping("skip")
+    @GetMapping("skip")
     @RobinIgnore
     public String skip() {
         return "success";
     }
 
-    @RequestMapping("extra")
+    @GetMapping("extra")
     @RobinTopic("ip-sensitive")
     public String extra() {
         return "success";
     }
 
-    @RequestMapping("extra-better")
+    @GetMapping("extra-better")
     @RobinSensitive
-    public String extraBetter(HttpServletRequest res) {
-        // todo: 不生效
+    public String extraBetter() {
         return "success";
+    }
+
+    @GetMapping("bucket/{id}")
+    @RobinTopic("api-sensitive")
+    public String bucket(@PathVariable String id) {
+        return "bucket" + id;
     }
 }

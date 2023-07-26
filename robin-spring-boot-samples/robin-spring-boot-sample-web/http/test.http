@@ -9,3 +9,6 @@ GET http://localhost:9999/sample/extra
 
 ### 更好的方式使用额外注解
 GET http://localhost:9999/sample/extra-better
+
+### 使用令牌桶
+GET http://localhost:9999/sample/bucket/1234

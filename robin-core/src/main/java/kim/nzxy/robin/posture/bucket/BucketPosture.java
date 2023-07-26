@@ -2,6 +2,7 @@ package kim.nzxy.robin.posture.bucket;
 
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.metadata.RobinMetadata;
+import kim.nzxy.robin.posture.BuiltInEffort;
 import kim.nzxy.robin.posture.RobinPosture;
 
 /**
@@ -14,7 +15,9 @@ import kim.nzxy.robin.posture.RobinPosture;
 public class BucketPosture implements RobinPosture {
     @Override
     public boolean handler(RobinMetadata robinMetadata) {
-        RobinManagement.getCacheHandler().freshenUp();
-        return true;
+        BuiltInEffort.Bucket expandEffort = getExpandEffort(robinMetadata.getTopic());
+
+        return RobinManagement.getCacheHandler()
+                .bucket(robinMetadata, expandEffort.getGenerationInterval(), expandEffort.getTokenCount(), expandEffort.getCapacity());
     }
 }

@@ -24,7 +24,7 @@ public class RobinMetadataFactory {
     /**
      * 默认元数据处理器
      */
-    private static final RobinMetadataHandler DEFAULT_METADATA_HANDLER = () -> null;
+    private static final RobinMetadataHandler DEFAULT_METADATA_HANDLER = () -> "global";
 
 
     /**
@@ -45,7 +45,7 @@ public class RobinMetadataFactory {
      */
     public static void register(String name, RobinMetadataHandler handler) {
         if (log.isDebugEnabled()) {
-            log.debug("register metadata：{}", handler.getClass());
+            log.debug("register metadata handler：{}", handler.getClass());
         }
         METADATA_STRATEGY_MAP.put(name, handler);
     }

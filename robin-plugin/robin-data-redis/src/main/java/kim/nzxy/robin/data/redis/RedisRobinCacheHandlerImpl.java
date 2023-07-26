@@ -24,30 +24,49 @@ import java.util.*;
 public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
     private final StringRedisTemplate redisTemplate;
     private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_LUA;
+    private static final DefaultRedisScript<Boolean> BUCKET_LUA;
 
     static {
-        SUSTAIN_VISIT_LUA = new DefaultRedisScript<>();
-        SUSTAIN_VISIT_LUA.setScriptSource(new ResourceScriptSource(new ClassPathResource("robin-lua/sustain-visit.lua")));
-        SUSTAIN_VISIT_LUA.setResultType(Boolean.class);
+        SUSTAIN_VISIT_LUA = loadLua("sustain-visit");
+        BUCKET_LUA = loadLua("bucket");
     }
 
-
+    public static DefaultRedisScript<Boolean> loadLua(String filename) {
+        DefaultRedisScript<Boolean> script = new DefaultRedisScript<>();
+        script.setScriptSource(new ResourceScriptSource(new ClassPathResource("robin-lua/"+filename+".lua")));
+        script.setResultType(Boolean.class);
+        return script;
+    }
 
     @Override
     public boolean sustainVisit(RobinMetadata metadata, Duration timeFrameSize, Integer maxTimes) {
         String key = Constant.SUSTAIN_VISIT_PREFIX + metadata.getTopic();
-        String value = metadata.getMetadata();
         int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
         return Boolean.TRUE.equals(redisTemplate.execute(SUSTAIN_VISIT_LUA,
                 Collections.singletonList(key),
-                value,
+                metadata.getMetadata(),
                 String.valueOf(currentTimeFrame),
                 maxTimes.toString(),
                 String.valueOf(Constant.SUSTAIN_VISIT_PRECISION),
                 Boolean.toString(log.isDebugEnabled())
         ));
-
     }
+
+    @Override
+    public boolean bucket(RobinMetadata robinMetadata, Duration generationInterval, Integer tokenCount, Integer capacity) {
+        String key = Constant.BUCKET_PREFIX + robinMetadata.getTopic();
+        int currentTimeFrame = RobinUtil.currentTimeFrame(generationInterval);
+        return Boolean.TRUE.equals(redisTemplate.execute(BUCKET_LUA,
+                Collections.singletonList(key),
+                robinMetadata.getMetadata(),
+                String.valueOf(currentTimeFrame),
+                String.valueOf(capacity),
+                String.valueOf(tokenCount),
+                String.valueOf(Constant.BUCKET_PRECISION),
+                Boolean.toString(log.isDebugEnabled())
+        ));
+    }
+
 
     private void cleanSustainVisit() {
         /*ZSetOperations<String, String> zSetOperations = redisTemplate.opsForZSet();
@@ -100,6 +119,10 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
          */
         String CACHE_PREFIX = "robin:";
         /**
+         * 锁定元数据
+         */
+        String LOCKED_PREFIX = CACHE_PREFIX + "lock:";
+        /**
          * 持续访问缓存前缀
          */
         String SUSTAIN_VISIT_PREFIX = CACHE_PREFIX + "sustain:";
@@ -108,8 +131,12 @@ public class RedisRobinCacheHandlerImpl implements RobinCacheHandler {
          */
         int SUSTAIN_VISIT_PRECISION = 100000;
         /**
-         * 锁定元数据
+         * 持续访问缓存前缀
          */
-        String LOCKED_PREFIX = CACHE_PREFIX + "lock:";
+        String BUCKET_PREFIX = CACHE_PREFIX + "bucket:";
+        /**
+         * 持续访问记录最大记录数量
+         */
+        int BUCKET_PRECISION = 100000;
     }
 }

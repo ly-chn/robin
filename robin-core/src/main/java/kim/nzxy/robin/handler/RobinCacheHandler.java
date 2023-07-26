@@ -22,12 +22,22 @@ public interface RobinCacheHandler {
      * @return true表示校验通过
      */
     boolean sustainVisit(RobinMetadata metadata, Duration timeFrameSize, Integer maxTimes);
+    /**
+     * 令牌桶实现
+     *
+     * @param robinMetadata      元数据
+     * @param generationInterval 令牌生成间隔
+     * @param tokenCount 每次生成的令牌数量
+     * @param capacity      令牌桶容量
+     * @return true表示校验通过
+     */
+    boolean bucket(RobinMetadata robinMetadata, Duration generationInterval, Integer tokenCount, Integer capacity);
 
     /**
      * 锁定
      *
      * @param metadata 元数据
-     * @param lock     锁定时长
+     * @param lock     锁定时长, 为0表示不锁定
      */
     void lock(RobinMetadata metadata, Duration lock);
 

@@ -38,9 +38,13 @@ public class BuiltInEffort {
          */
         private Integer capacity = 1;
         /**
-         * 多久产生一个令牌
+         * 令牌生成间隔, 多久产生一次令牌
          */
-        private Duration rate = Duration.ofMinutes(10);
+        private Duration generationInterval = Duration.ofMinutes(10);
+        /**
+         * 令牌生成数量
+         */
+        private Integer tokenCount = 1;
     }
 
     @EqualsAndHashCode(callSuper = true)
