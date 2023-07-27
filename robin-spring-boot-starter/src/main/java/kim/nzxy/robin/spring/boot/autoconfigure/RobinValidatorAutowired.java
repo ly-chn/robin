@@ -4,7 +4,7 @@ import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.factory.RobinMetadataFactory;
 import kim.nzxy.robin.factory.RobinPostureFactory;
 import kim.nzxy.robin.handler.RobinMetadataHandler;
-import kim.nzxy.robin.posture.BuiltInEffort;
+import kim.nzxy.robin.posture.config.BuiltInEffort;
 import kim.nzxy.robin.posture.RobinPosture;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
  * @since 2022/9/1 9:07
  */
 @SuppressWarnings({"AlibabaCommentsMustBeJavadocFormat"})
-@Component
 @Slf4j
 public class RobinValidatorAutowired {
 

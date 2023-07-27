@@ -1,7 +1,7 @@
 package kim.nzxy.robin.config;
 
-import kim.nzxy.robin.handler.DefaultRobinCacheHandle;
-import kim.nzxy.robin.handler.RobinCacheHandler;
+import kim.nzxy.robin.handler.DefaultRobinLockHandler;
+import kim.nzxy.robin.handler.RobinLockHandler;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,7 @@ public class RobinManagement {
     /**
      * 缓存管理器
      */
-    private static volatile RobinCacheHandler cacheHandler;
+    private static volatile RobinLockHandler robinLockHandler;
     /**
      * 过滤器
      */
@@ -27,7 +27,7 @@ public class RobinManagement {
         // noinspection AlibabaThreadPoolCreation
         Executors.newSingleThreadScheduledExecutor().scheduleWithFixedDelay(() -> {
             try {
-                getCacheHandler().freshenUp();
+                getRobinLockHandler().freshenUp();
                 log.debug("robin cache cleaned");
             } catch (Exception e) {
                 log.error("robin cache cleaned with error: ", e);
@@ -50,19 +50,19 @@ public class RobinManagement {
         RobinManagement.robinInterceptor = robinInterceptor;
     }
 
-    public static RobinCacheHandler getCacheHandler() {
-        if (cacheHandler == null) {
+    public static RobinLockHandler getRobinLockHandler() {
+        if (robinLockHandler == null) {
             synchronized (RobinManagement.class) {
-                if (cacheHandler == null) {
-                    setCacheHandler(new DefaultRobinCacheHandle());
+                if (robinLockHandler == null) {
+                    setRobinLockHandler(new DefaultRobinLockHandler());
                 }
             }
         }
-        return cacheHandler;
+        return robinLockHandler;
     }
 
-    public static void setCacheHandler(RobinCacheHandler cacheHandler) {
-        log.debug("register cache handler: {}", cacheHandler.getClass());
-        RobinManagement.cacheHandler = cacheHandler;
+    public static void setRobinLockHandler(RobinLockHandler robinLockHandler) {
+        log.debug("register cache handler: {}", robinLockHandler.getClass());
+        RobinManagement.robinLockHandler = robinLockHandler;
     }
 }

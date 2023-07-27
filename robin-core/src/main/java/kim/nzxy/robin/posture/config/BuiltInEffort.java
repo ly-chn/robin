@@ -1,9 +1,8 @@
-package kim.nzxy.robin.posture;
+package kim.nzxy.robin.posture.config;
 
 import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
-import kim.nzxy.robin.handler.DefaultRobinCacheHandle;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
@@ -61,8 +60,8 @@ public class BuiltInEffort {
         private Integer maxTimes = 1;
 
         public void setMaxTimes(Integer maxTimes) {
-            if (maxTimes >= DefaultRobinCacheHandle.Constant.SUSTAIN_VISIT_PRECISION) {
-                log.error("参数初始化失败, 原因: 最大连续访问次数需小于: {}", DefaultRobinCacheHandle.Constant.SUSTAIN_VISIT_PRECISION);
+            if (maxTimes >= BuiltInEffortConstant.SUSTAIN_VISIT_PRECISION) {
+                log.error("参数初始化失败, 原因: 最大连续访问次数需小于: {}", BuiltInEffortConstant.SUSTAIN_VISIT_PRECISION);
                 throw new RobinException.Panic(RobinExceptionEnum.Panic.ConfigParamVerifyFailed);
             }
             this.maxTimes = maxTimes;

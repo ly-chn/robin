@@ -36,6 +36,14 @@ public interface RobinPosture {
     default <T extends RobinEffortBasic> T getExpandEffort(String topic) {
         return RobinEffortFactory.getEffort(topic);
     }
+
+    /**
+     * 清理缓存, 大概每分钟调用, 会频繁调用
+     */
+    default void freshenUp() {
+        // pass
+    }
+
     /**
      * 可能这不是一个很好的选择，但是目前看来我没有找到更好的方式，或许以后会的
      */

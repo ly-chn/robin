@@ -2,13 +2,13 @@ package kim.nzxy.robin.daily;
 
 import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.factory.RobinMetadataFactory;
 import kim.nzxy.robin.factory.RobinPostureFactory;
-import kim.nzxy.robin.handler.RobinCacheHandler;
+import kim.nzxy.robin.handler.RobinLockHandler;
+import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import lombok.extern.slf4j.Slf4j;
 
@@ -30,7 +30,7 @@ public class RobinGetUp {
             log.debug("robin pre handle, extra topic: {}", extraTopic);
         }
         // 缓存
-        RobinCacheHandler cacheHandler = RobinManagement.getCacheHandler();
+        RobinLockHandler cacheHandler = RobinManagement.getRobinLockHandler();
         List<RobinMetadata> metadataList = new ArrayList<>();
         Map<String, String> validatorTopic = RobinEffortFactory.getValidatorTopic(extraTopic);
         // 收集元数据
