@@ -41,7 +41,7 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
             if (!RobinManagement.getRobinInterceptor().beforeCatch()) {
                 return false;
             }
-            // RobinSkip
+            // RobinIgnore
             Method method = ((HandlerMethod) handler).getMethod();
             return !method.isAnnotationPresent(RobinIgnore.class) && !method.getDeclaringClass().isAnnotationPresent(RobinIgnore.class);
         }
