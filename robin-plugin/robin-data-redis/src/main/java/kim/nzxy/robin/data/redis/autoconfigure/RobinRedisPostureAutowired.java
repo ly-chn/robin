@@ -27,7 +27,6 @@ public class RobinRedisPostureAutowired {
     @Bean
     @ConfigurationProperties("robin.redis")
     public RobinRedisConfig robinRedisPosture() {
-        System.out.println("\n\n\nhi\n\n\n");
         return new RobinRedisConfig();
     }
 
@@ -47,20 +46,28 @@ public class RobinRedisPostureAutowired {
                        @Autowired RobinRedisConfig robinRedisConfig) {
         RobinRedisManage.setRobinRedisConfig(robinRedisConfig);
         // 即便引入了sa-token-alone-redis, 也未必使用redis配置, saTokenDao依然存在null的可能
-        if (saTokenDao != null || robinRedisConfig.getExtendsSaToken()) {
-            try {
-                Field field = saTokenDao.getClass().getField("stringRedisTemplate");
-                Object o = field.get(saTokenDao);
-                if (o instanceof StringRedisTemplate) {
-                    RobinRedisManage.setStringRedisTemplate((StringRedisTemplate) o);
-                }
-                return;
-            } catch (NoSuchFieldException | IllegalAccessException e) {
-                log.error("配置失败, 无法找到redis配置", e);
-                throw new RobinException.Panic(RobinExceptionEnum.Panic.ConfigParamVerifyFailed);
-            }
+        if (!robinRedisConfig.getExtendsSaToken()) {
+            RobinRedisManage.setStringRedisTemplate(stringRedisTemplate);
+            return;
         }
-        RobinRedisManage.setStringRedisTemplate(stringRedisTemplate);
+
+        if (saTokenDao == null) {
+            log.error("配置失败, 无法找到redis配置");
+            RobinRedisManage.setStringRedisTemplate(stringRedisTemplate);
+            return;
+        }
+
+        try {
+            Field field = saTokenDao.getClass().getField("stringRedisTemplate");
+            Object o = field.get(saTokenDao);
+            if (o instanceof StringRedisTemplate) {
+                RobinRedisManage.setStringRedisTemplate((StringRedisTemplate) o);
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            log.error("配置失败, 无法找到redis配置", e);
+            throw new RobinException.Panic(RobinExceptionEnum.Panic.ConfigParamVerifyFailed);
+        }
+
     }
 
     @Autowired
