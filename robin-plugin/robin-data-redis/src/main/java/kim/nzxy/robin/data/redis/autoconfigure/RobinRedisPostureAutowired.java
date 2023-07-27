@@ -43,8 +43,8 @@ public class RobinRedisPostureAutowired {
     @ConditionalOnBean(name = "cn.dev33.satoken.dao.alone.SaAloneRedisInject")
     @Autowired
     public void define(@Autowired(required = false) SaTokenDao saTokenDao,
-                   @Autowired(required = false) StringRedisTemplate stringRedisTemplate,
-                   @Autowired RobinRedisConfig robinRedisConfig) {
+                       @Autowired(required = false) StringRedisTemplate stringRedisTemplate,
+                       @Autowired RobinRedisConfig robinRedisConfig) {
         RobinRedisManage.setRobinRedisConfig(robinRedisConfig);
         // 即便引入了sa-token-alone-redis, 也未必使用redis配置, saTokenDao依然存在null的可能
         if (saTokenDao != null || robinRedisConfig.getExtendsSaToken()) {
@@ -56,7 +56,7 @@ public class RobinRedisPostureAutowired {
                 }
                 return;
             } catch (NoSuchFieldException | IllegalAccessException e) {
-                log.error("配置失败, 无法找到redis配置");
+                log.error("配置失败, 无法找到redis配置", e);
                 throw new RobinException.Panic(RobinExceptionEnum.Panic.ConfigParamVerifyFailed);
             }
         }
