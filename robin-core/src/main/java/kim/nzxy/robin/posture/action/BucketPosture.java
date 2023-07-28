@@ -1,11 +1,11 @@
 package kim.nzxy.robin.posture.action;
 
 import kim.nzxy.robin.metadata.RobinMetadata;
-import kim.nzxy.robin.posture.config.BuiltInEffort;
 import kim.nzxy.robin.posture.RobinPosture;
+import kim.nzxy.robin.posture.config.BuiltInEffort;
 import kim.nzxy.robin.posture.config.BuiltInEffortConstant;
 import kim.nzxy.robin.util.RobinUtil;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 2022/9/1 14:03
  */
 @RobinPosture.PostureConfig(key = "bucket")
-@Slf4j
+@CustomLog
 public class BucketPosture implements RobinPosture {
     /**
      * 令牌桶限流, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
@@ -46,7 +46,7 @@ public class BucketPosture implements RobinPosture {
         int latestTokenCount = (int) (bucketInfo % 1 * BuiltInEffortConstant.BUCKET_PRECISION);
         // 剩余token todo: 溢出问题
         int restToken = Math.min((currentTimeFrame - latestTimeframe) * tokenCount + latestTokenCount, capacity) - 1;
-        log.info("robin bucket topic: {}, metadata: {} rest token: {}", robinMetadata.getTopic(), robinMetadata.getMetadata(), restToken);
+        log.info("robin bucket topic: " + robinMetadata.getTopic() + ", metadata: " + robinMetadata.getMetadata() + " rest token: " + restToken);
         if (restToken < 0) {
             return false;
         }

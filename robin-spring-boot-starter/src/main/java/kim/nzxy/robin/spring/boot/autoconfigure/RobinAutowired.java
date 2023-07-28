@@ -3,13 +3,13 @@ package kim.nzxy.robin.spring.boot.autoconfigure;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.handler.RobinLockHandler;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * @author lyun-chn
  */
-@Slf4j
+@CustomLog
 public class RobinAutowired {
     /**
      * 自定义缓存管理器

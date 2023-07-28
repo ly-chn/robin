@@ -10,7 +10,7 @@ import kim.nzxy.robin.factory.RobinPostureFactory;
 import kim.nzxy.robin.handler.RobinLockHandler;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +23,11 @@ import java.util.Set;
  * @author ly-chn
  * @since 2022/9/9 15:07
  */
-@Slf4j
+@CustomLog
 public class RobinGetUp {
     public static void getUp(Set<String> extraTopic) {
         if (log.isDebugEnabled()) {
-            log.debug("robin pre handle, extra topic: {}", extraTopic);
+            log.debug("robin pre handle, extra topic: " + extraTopic);
         }
         // 缓存
         RobinLockHandler cacheHandler = RobinManagement.getRobinLockHandler();
@@ -38,8 +38,8 @@ public class RobinGetUp {
             // 配置信息
             RobinEffortBasic effort = RobinEffortFactory.getEffort(topic);
             String metadata = RobinMetadataFactory.getMetadataHandler(effort.getMetadataHandler()).getMetadata();
-            if (metadata == null || metadata.length() == 0) {
-                log.error("topic :[{}] has empty metadata, skip it", topic);
+            if (metadata == null || metadata.isEmpty()) {
+                log.error("topic :[" + topic + "] has empty metadata, skip it");
                 return;
             }
             RobinMetadata robinMetadata = new RobinMetadata(topic, metadata, effort.getDigest());
@@ -51,7 +51,7 @@ public class RobinGetUp {
         metadataList.forEach(robinMetadata -> {
             boolean passed;
             try {
-                log.debug("robin validate start with metadata: {}", robinMetadata);
+                log.debug("robin validate start with metadata: " + robinMetadata);
                 // 执行逻辑
                 RobinPosture posture = RobinPostureFactory.getInvokeStrategy(validatorTopic.get(robinMetadata.getTopic()));
                 passed = posture.handler(robinMetadata);

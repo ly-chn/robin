@@ -3,7 +3,7 @@
 // import kim.nzxy.robin.metadata.RobinMetadata;
 // import kim.nzxy.robin.util.RobinUtil;
 // import lombok.RequiredArgsConstructor;
-// import lombok.extern.slf4j.Slf4j;
+// import lombok.CustomLog;
 // import org.springframework.core.io.ClassPathResource;
 // import org.springframework.data.redis.core.StringRedisTemplate;
 // import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -18,7 +18,7 @@
 //  * @since 2021/6/5
 //  */
 // @Component
-// @Slf4j
+// @CustomLog
 // @RequiredArgsConstructor
 // public class RedisRobinCacheHandlerImpl {
 //     private final StringRedisTemplate redisTemplate;

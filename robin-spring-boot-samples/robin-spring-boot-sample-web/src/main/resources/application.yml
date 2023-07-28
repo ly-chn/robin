@@ -1,3 +1,6 @@
+server:
+  port: 9999
+
 spring:
   redis:
     host: 127.0.0.1
@@ -32,6 +35,3 @@ robin:
         capacity: 1
         generation-interval: 1m
         token-count: 1
-
-server:
-  port: 9999

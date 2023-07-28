@@ -6,8 +6,8 @@ import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.action.BucketPosture;
 import kim.nzxy.robin.posture.action.SustainVisitPosture;
 import lombok.AccessLevel;
+import lombok.CustomLog;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +20,7 @@ import java.util.Map;
  * @since 2021/6/4
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Slf4j
+@CustomLog
 public class RobinPostureFactory {
     /**
      * 校验策略
@@ -53,14 +53,14 @@ public class RobinPostureFactory {
      */
     public static void register(RobinPosture validator) {
         if (!validator.getClass().isAnnotationPresent(RobinPosture.PostureConfig.class)) {
-            log.error("register validator handler error: {} without annotation: {}", validator.getClass(), RobinPosture.PostureConfig.class);
+            log.error("register validator handler error: " + validator.getClass() + " without annotation: " + RobinPosture.PostureConfig.class);
         }
         RobinPosture.PostureConfig annotation = validator.getClass().getAnnotation(RobinPosture.PostureConfig.class);
         if (annotation == null) {
             throw new RobinException.Panic(RobinExceptionEnum.Panic.AnnotationWithConfigMissing);
         }
         if (log.isDebugEnabled()) {
-            log.debug("register validator：{} with class: {}", annotation.key(), validator.getClass());
+            log.debug("register validator：" + annotation.key() + " with class: " + validator.getClass());
         }
         INVOKE_STRATEGY_MAP.put(annotation.key(), validator);
     }

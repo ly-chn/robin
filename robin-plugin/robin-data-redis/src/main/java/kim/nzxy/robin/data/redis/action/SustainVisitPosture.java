@@ -5,7 +5,7 @@ import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.config.BuiltInEffort;
 import kim.nzxy.robin.util.RobinUtil;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
 import java.util.Collections;
@@ -17,7 +17,7 @@ import java.util.Collections;
  * @since 2022/9/1 9:00
  */
 @RobinPosture.PostureConfig(key = "sustain")
-@Slf4j
+@CustomLog
 public class SustainVisitPosture extends AbstractRobinRedisPosture {
     private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_LUA = RobinLuaLoader.file("sustain-visit");
 

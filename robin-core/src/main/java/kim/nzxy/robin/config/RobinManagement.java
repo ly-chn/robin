@@ -3,7 +3,7 @@ package kim.nzxy.robin.config;
 import kim.nzxy.robin.handler.DefaultRobinLockHandler;
 import kim.nzxy.robin.handler.RobinLockHandler;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * @author lyun-chn
  * @since 2021/6/4
  */
-@Slf4j
+@CustomLog
 public class RobinManagement {
     /**
      * 缓存管理器
@@ -62,7 +62,9 @@ public class RobinManagement {
     }
 
     public static void setRobinLockHandler(RobinLockHandler robinLockHandler) {
-        log.debug("register cache handler: {}", robinLockHandler.getClass());
+        if (log.isDebugEnabled()) {
+            log.debug("register cache handler: " + robinLockHandler.getClass());
+        }
         RobinManagement.robinLockHandler = robinLockHandler;
     }
 }

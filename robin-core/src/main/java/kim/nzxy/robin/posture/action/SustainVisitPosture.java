@@ -5,7 +5,7 @@ import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.config.BuiltInEffort;
 import kim.nzxy.robin.posture.config.BuiltInEffortConstant;
 import kim.nzxy.robin.util.RobinUtil;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 
 import java.time.Duration;
 import java.util.Map;
@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @since 2022/9/1 9:00
  */
 @RobinPosture.PostureConfig(key = "sustain")
-@Slf4j
+@CustomLog
 public class SustainVisitPosture implements RobinPosture {
 
     /**
@@ -35,7 +35,7 @@ public class SustainVisitPosture implements RobinPosture {
         BuiltInEffort.SustainVisit expandEffort = getExpandEffort(robinMetadata.getTopic());
         Integer maxTimes = expandEffort.getMaxTimes();
         if (maxTimes < 1) {
-            log.debug("直接禁止访问: {}", robinMetadata);
+            log.debug("持续访问控制, 直接禁止访问: " + robinMetadata);
             return false;
         }
         String topic = robinMetadata.getTopic();

@@ -5,7 +5,7 @@ import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.config.BuiltInEffort;
 import kim.nzxy.robin.util.RobinUtil;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
 import java.util.Collections;
@@ -17,7 +17,7 @@ import java.util.Collections;
  * @since 2022/9/1 14:03
  */
 @RobinPosture.PostureConfig(key = "bucket")
-@Slf4j
+@CustomLog
 public class BucketPosture extends AbstractRobinRedisPosture {
     private static final DefaultRedisScript<Boolean> BUCKET_LUA = RobinLuaLoader.file("bucket");
     @Override

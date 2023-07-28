@@ -5,8 +5,7 @@ import kim.nzxy.robin.annotations.RobinIgnore;
 import kim.nzxy.robin.annotations.RobinTopic;
 import kim.nzxy.robin.annotations.RobinTopicCollector;
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.daily.RobinGetUp;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -21,7 +20,7 @@ import java.util.Set;
  * @author lyun-chn
  * @since 2021/6/4
  */
-@Slf4j
+@CustomLog
 public class RobinHandlerInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

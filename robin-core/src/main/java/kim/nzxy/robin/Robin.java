@@ -1,10 +1,10 @@
 package kim.nzxy.robin;
 
 import kim.nzxy.robin.config.RobinManagement;
-import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.daily.RobinGetUp;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
-import lombok.extern.slf4j.Slf4j;
+import kim.nzxy.robin.metadata.RobinMetadata;
+import lombok.CustomLog;
 
 import java.util.Set;
 
@@ -15,7 +15,7 @@ import java.util.Set;
  * @since 2021/6/4
  */
 @SuppressWarnings("unused")
-@Slf4j
+@CustomLog
 public class Robin {
 
     /**

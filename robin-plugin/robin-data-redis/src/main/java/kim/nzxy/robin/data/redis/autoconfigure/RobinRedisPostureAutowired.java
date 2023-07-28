@@ -7,7 +7,7 @@ import kim.nzxy.robin.data.redis.action.SustainVisitPosture;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.factory.RobinPostureFactory;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.AutoConfigureAfter;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -22,7 +22,7 @@ import java.lang.reflect.Field;
  * @author ly-chn
  */
 @AutoConfigureAfter(name = "cn.dev33.satoken.dao.alone.SaAloneRedisInject")
-@Slf4j
+@CustomLog
 public class RobinRedisPostureAutowired {
     @Bean
     @ConfigurationProperties("robin.redis")

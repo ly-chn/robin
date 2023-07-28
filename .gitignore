@@ -33,3 +33,5 @@ build/
 .vscode/
 
 robin-doc/.vuepress/dist
+
+application-local.yml

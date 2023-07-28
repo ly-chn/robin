@@ -2,7 +2,7 @@ package kim.nzxy.robin.sample.web.common.exception;
 
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.sample.web.common.res.Res;
-import lombok.extern.slf4j.Slf4j;
+import lombok.CustomLog;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  *
  * @author lyun-chn
  */
-@Slf4j
+@CustomLog
 @RestControllerAdvice
 public class LyExceptionHandler {
     /**
@@ -19,7 +19,7 @@ public class LyExceptionHandler {
      */
     @ExceptionHandler(RobinException.Panic.class)
     public Res<?> handler(RobinException.Panic e) {
-        log.error("robin config has error: {}", e.getError());
+        log.error("robin config has error: " + e.getError());
         return Res.fail("系统配置有点问题, 问题原因我就不告诉你了");
     }
 
@@ -28,7 +28,7 @@ public class LyExceptionHandler {
      */
     @ExceptionHandler(RobinException.Verify.class)
     public Res<?> handler(RobinException.Verify e) {
-        log.error("robin reject: {}, {}", e.getError(), e.getTarget());
+        log.error("robin reject: " + e.getError() + ", " + e.getTarget());
         return Res.fail("系统决定禁止你访问");
     }
 

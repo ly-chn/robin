@@ -4,8 +4,8 @@ import kim.nzxy.robin.autoconfigure.RobinEffortBasic;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
 import lombok.AccessLevel;
+import lombok.CustomLog;
 import lombok.NoArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
@@ -16,7 +16,7 @@ import java.util.*;
  * @since 2022/9/8 14:15
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Slf4j
+@CustomLog
 public class RobinEffortFactory {
     /**
      * 配置内容, key为topic, value为Effort
@@ -49,7 +49,7 @@ public class RobinEffortFactory {
      */
     public static <T extends RobinEffortBasic> void register(String topic, String postureKey, T config) {
         if (log.isDebugEnabled()) {
-            log.debug("register validator config, topic: {}, config: {}", topic, config);
+            log.debug("register validator config, topic: " + topic + ", config: " + config);
         }
         TOPIC_POSTURE_KEY_MAP.put(topic, postureKey);
         EFFORT_MAP.put(topic, config);
@@ -61,7 +61,7 @@ public class RobinEffortFactory {
      */
     public static <T extends RobinEffortBasic> void register(String postureKey, List<T> effortList) {
         if (log.isDebugEnabled()) {
-            log.debug("register effort map: {}", effortList);
+            log.debug("register effort map: " + effortList);
         }
         effortList.forEach(it -> {
             TOPIC_POSTURE_KEY_MAP.put(it.getTopic(), postureKey);
@@ -79,7 +79,7 @@ public class RobinEffortFactory {
         extraTopic.addAll(DEFAULT_TOPIC_SET);
         extraTopic.forEach(topic->{
             if (!EFFORT_MAP.containsKey(topic)) {
-                log.error("topic [{}] has not configured", topic);
+                log.error("topic [" + topic + "] has not configured");
                 throw new RobinException.Panic(RobinExceptionEnum.Panic.TopicIsNotConfigured);
             }
         });
@@ -100,6 +100,6 @@ public class RobinEffortFactory {
         EFFORT_MAP.entrySet().stream()
                 .filter(entry -> entry.getValue().getAsDefault())
                 .forEach(e -> DEFAULT_TOPIC_SET.add(e.getKey()));
-        log.debug("update default topic: {}", DEFAULT_TOPIC_SET);
+        log.debug("update default topic: " + DEFAULT_TOPIC_SET);
     }
 }
