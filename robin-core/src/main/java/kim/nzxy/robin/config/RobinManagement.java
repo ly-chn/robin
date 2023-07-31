@@ -3,7 +3,9 @@ package kim.nzxy.robin.config;
 import kim.nzxy.robin.handler.DefaultRobinLockHandler;
 import kim.nzxy.robin.handler.RobinLockHandler;
 import kim.nzxy.robin.interceptor.RobinInterceptor;
+import lombok.AccessLevel;
 import lombok.CustomLog;
+import lombok.NoArgsConstructor;
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -13,6 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2021/6/4
  */
 @CustomLog
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RobinManagement {
     /**
      * 缓存管理器

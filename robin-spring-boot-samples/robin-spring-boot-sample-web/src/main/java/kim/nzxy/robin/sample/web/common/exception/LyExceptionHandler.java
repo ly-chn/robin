@@ -2,7 +2,7 @@ package kim.nzxy.robin.sample.web.common.exception;
 
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.sample.web.common.res.Res;
-import lombok.CustomLog;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  *
  * @author lyun-chn
  */
-@CustomLog
+@Slf4j
 @RestControllerAdvice
 public class LyExceptionHandler {
     /**
