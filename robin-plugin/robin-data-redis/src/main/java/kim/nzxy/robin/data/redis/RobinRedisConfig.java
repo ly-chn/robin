@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class RobinRedisConfig {
     /**
-     * todo: 继承sa-token的redis配置, 即: 使用sa-token所用的redis数据源, 支持sa-token-alone-redis插件
+     * 继承sa-token的redis配置, 即: 使用sa-token所用的redis数据源, 支持sa-token-alone-redis插件
      */
     private Boolean extendsSaToken = false;
 }

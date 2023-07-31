@@ -44,8 +44,9 @@ public class BucketPosture implements RobinPosture {
         int latestTimeframe = bucketInfo.intValue();
         // 剩余token数量
         int latestTokenCount = (int) (bucketInfo % 1 * BuiltInEffortConstant.BUCKET_PRECISION);
-        // 剩余token todo: 溢出问题
-        int restToken = Math.min((currentTimeFrame - latestTimeframe) * tokenCount + latestTokenCount, capacity) - 1;
+        int maxTimeframe = capacity / tokenCount;
+        // 剩余token
+        int restToken = Math.min(Math.min((currentTimeFrame - latestTimeframe), maxTimeframe) * tokenCount + latestTokenCount, capacity) - 1;
         log.info("robin bucket topic: " + robinMetadata.getTopic() + ", metadata: " + robinMetadata.getMetadata() + " rest token: " + restToken);
         if (restToken < 0) {
             return false;

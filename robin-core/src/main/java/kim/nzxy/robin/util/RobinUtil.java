@@ -1,11 +1,6 @@
 package kim.nzxy.robin.util;
 
-import kim.nzxy.robin.annotations.RobinTopic;
-
-import java.lang.annotation.Annotation;
 import java.time.Duration;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 import java.util.Objects;
 
 /**
@@ -31,6 +26,19 @@ public class RobinUtil {
     public static int currentTimeFrame(Duration frameSize) {
         long seconds = frameSize.getSeconds();
         return Math.toIntExact(RobinUtil.now() / seconds);
+    }
+
+    /**
+     * 计算时间窗口的下次结束时间
+     * 如: 当前处于第3个时间窗口, 则返回第四个时间窗口的结束时间
+     *
+     * @param frameSize 时间窗口大小
+     * @return 时间窗口下次结束时间
+     */
+    public static int endOfNextTimeFrame(Duration frameSize) {
+        long seconds = frameSize.getSeconds();
+        int now = RobinUtil.now();
+        return Math.toIntExact(now - now % seconds + seconds * 2);
     }
 
     public static <T> boolean contains(T[] arr, T target) {
