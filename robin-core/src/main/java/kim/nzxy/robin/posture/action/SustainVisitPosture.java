@@ -26,10 +26,6 @@ public class SustainVisitPosture implements RobinPosture {
      * 持续访问记录, 格式: {topic: {metadata: 上次访问时间.连续访问次数}]}
      */
     public static final Map<String, ConcurrentHashMap<String, Double>> SUSTAIN_CACHE_MAP = new ConcurrentHashMap<>();
-    /**
-     * 持续访问记录topic列表，用于定期清理数据, 格式: {topic: 该topic下的时间窗口大小}
-     */
-    public static final Map<String, Duration> SUSTAIN_TOPIC_TF_MAP = new HashMap<>(16);
 
     @Override
     public boolean handler(RobinMetadata robinMetadata) {
@@ -44,7 +40,6 @@ public class SustainVisitPosture implements RobinPosture {
 
         String metadata = robinMetadata.getMetadata();
         int currentTimeFrame = RobinUtil.currentTimeFrame(timeFrameSize);
-        SUSTAIN_TOPIC_TF_MAP.put(topic, timeFrameSize);
         // 不存在topic, 创建topic
         if (!SUSTAIN_CACHE_MAP.containsKey(topic)) {
             SUSTAIN_CACHE_MAP.put(topic, new ConcurrentHashMap<>(16));
@@ -69,13 +64,13 @@ public class SustainVisitPosture implements RobinPosture {
 
     @Override
     public void freshenUp() {
-        SUSTAIN_TOPIC_TF_MAP.forEach((topic, timeframeSize)->{
-            ConcurrentHashMap<String, Double> topicMap = SUSTAIN_CACHE_MAP.get(topic);
+        SUSTAIN_CACHE_MAP.forEach((topic, topicMap) -> {
             if (topicMap == null || topicMap.isEmpty()) {
                 return;
             }
-            int currentTimeFrame = RobinUtil.currentTimeFrame(timeframeSize);
-            topicMap.forEach((metadata, latestVisit)->{
+            BuiltInEffort.SustainVisit sustainVisit = getExpandEffort(topic);
+            int currentTimeFrame = RobinUtil.currentTimeFrame(sustainVisit.getTimeFrameSize());
+            topicMap.forEach((metadata, latestVisit) -> {
                 if (currentTimeFrame - latestVisit > 1) {
                     topicMap.remove(metadata);
                 }

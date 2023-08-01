@@ -4,6 +4,7 @@ import kim.nzxy.robin.data.redis.util.RobinLuaLoader;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.config.BuiltInEffort;
+import kim.nzxy.robin.posture.config.BuiltInEffortConstant;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.CustomLog;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -32,9 +33,14 @@ public class SustainVisitPosture extends AbstractRobinRedisPosture {
                 robinMetadata.getMetadata(),
                 String.valueOf(currentTimeFrame),
                 effort.getMaxTimes().toString(),
-                String.valueOf(Constant.SUSTAIN_VISIT_PRECISION),
+                String.valueOf(BuiltInEffortConstant.SUSTAIN_VISIT_PRECISION),
                 Boolean.toString(log.isDebugEnabled())
         ));
+    }
+
+    @Override
+    public void freshenUp() {
+        super.freshenUp();
     }
 
     interface Constant {
@@ -46,9 +52,5 @@ public class SustainVisitPosture extends AbstractRobinRedisPosture {
          * 持续访问缓存前缀
          */
         String SUSTAIN_VISIT_PREFIX = CACHE_PREFIX + "sustain:";
-        /**
-         * 持续访问记录最大记录数量
-         */
-        int SUSTAIN_VISIT_PRECISION = 100000;
     }
 }

@@ -4,6 +4,7 @@ import kim.nzxy.robin.data.redis.util.RobinLuaLoader;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.config.BuiltInEffort;
+import kim.nzxy.robin.posture.config.BuiltInEffortConstant;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.CustomLog;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
@@ -31,7 +32,7 @@ public class BucketPosture extends AbstractRobinRedisPosture {
                 String.valueOf(currentTimeFrame),
                 String.valueOf(effort.getCapacity()),
                 String.valueOf(effort.getTokenCount()),
-                String.valueOf(Constant.BUCKET_PRECISION),
+                String.valueOf(BuiltInEffortConstant.BUCKET_PRECISION),
                 Boolean.toString(log.isDebugEnabled())
         ));
     }
@@ -45,9 +46,5 @@ public class BucketPosture extends AbstractRobinRedisPosture {
          * 持续访问缓存前缀
          */
         String BUCKET_PREFIX = CACHE_PREFIX + "bucket:";
-        /**
-         * 持续访问记录最大记录数量
-         */
-        int BUCKET_PRECISION = 100000;
     }
 }
