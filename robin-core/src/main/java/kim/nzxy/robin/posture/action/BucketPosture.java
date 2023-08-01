@@ -7,7 +7,9 @@ import kim.nzxy.robin.posture.config.BuiltInEffortConstant;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.CustomLog;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -20,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 @CustomLog
 public class BucketPosture implements RobinPosture {
     /**
-     * 令牌桶限流, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
+     * 令牌桶限流, 格式: {topic: {metadata: 上次访问时间窗口.剩余token数量}}
      */
     private static final Map<String, ConcurrentHashMap<String, Double>> BUCKET_CACHE_MAP = new ConcurrentHashMap<>();
     @Override
@@ -37,21 +39,41 @@ public class BucketPosture implements RobinPosture {
         Double bucketInfo = topicMap.get(robinMetadata.getMetadata());
         // 初始化桶
         if (bucketInfo == null) {
-            topicMap.put(robinMetadata.getMetadata(), currentTimeFrame + (tokenCount - 1) / BuiltInEffortConstant.BUCKET_STEP);
+            topicMap.put(robinMetadata.getMetadata(),
+                    RobinUtil.assembleDecimal(currentTimeFrame, tokenCount - 1, BuiltInEffortConstant.BUCKET_PRECISION));
             return true;
         }
+        int[] bucketInfoParts = RobinUtil.disassembleDecimal(bucketInfo, BuiltInEffortConstant.BUCKET_PRECISION);
         // 上次访问窗口
-        int latestTimeframe = bucketInfo.intValue();
+        int latestTimeframe = bucketInfoParts[0];
         // 剩余token数量
-        int latestTokenCount = (int) (bucketInfo % 1 * BuiltInEffortConstant.BUCKET_PRECISION);
-        int maxTimeframe = capacity / tokenCount;
+        int latestTokenCount = bucketInfoParts[1];
+        int maxTimeframe = (capacity + tokenCount - 1) / tokenCount;
         // 剩余token
         int restToken = Math.min(Math.min((currentTimeFrame - latestTimeframe), maxTimeframe) * tokenCount + latestTokenCount, capacity) - 1;
         log.info("robin bucket topic: " + robinMetadata.getTopic() + ", metadata: " + robinMetadata.getMetadata() + " rest token: " + restToken);
         if (restToken < 0) {
             return false;
         }
-        topicMap.put(robinMetadata.getMetadata(), currentTimeFrame + (restToken * BuiltInEffortConstant.BUCKET_STEP));
+        topicMap.put(robinMetadata.getMetadata(),
+                RobinUtil.assembleDecimal(currentTimeFrame, restToken, BuiltInEffortConstant.BUCKET_PRECISION));
         return true;
+    }
+
+    @Override
+    public void freshenUp() {
+        BUCKET_CACHE_MAP.forEach((topic, topicMap) -> {
+            if (topicMap == null || topicMap.isEmpty()) {
+                return;
+            }
+            BuiltInEffort.Bucket bucket = getExpandEffort(topic);
+            int currentTimeFrame = RobinUtil.currentTimeFrame(bucket.getGenerationInterval());
+            int maxTimeframe = currentTimeFrame - (bucket.getCapacity() + bucket.getTokenCount() - 1) / bucket.getTokenCount();
+            topicMap.forEach((metadata, lastVisit) -> {
+                if (lastVisit.intValue() <= maxTimeframe) {
+                    topicMap.remove(metadata);
+                }
+            });
+        });
     }
 }

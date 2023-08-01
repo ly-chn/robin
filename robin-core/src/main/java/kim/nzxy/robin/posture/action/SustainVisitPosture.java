@@ -8,6 +8,7 @@ import kim.nzxy.robin.util.RobinUtil;
 import lombok.CustomLog;
 
 import java.time.Duration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -28,7 +29,7 @@ public class SustainVisitPosture implements RobinPosture {
     /**
      * 持续访问记录topic列表，用于定期清理数据, 格式: {topic: 该topic下的时间窗口大小}
      */
-    public static final Map<String, Duration> SUSTAIN_TOPIC_TF_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, Duration> SUSTAIN_TOPIC_TF_MAP = new HashMap<>(16);
 
     @Override
     public boolean handler(RobinMetadata robinMetadata) {

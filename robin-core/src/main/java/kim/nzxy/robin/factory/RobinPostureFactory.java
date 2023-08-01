@@ -39,11 +39,8 @@ public class RobinPostureFactory {
         return INVOKE_STRATEGY_MAP.get(key);
     }
 
-    /**
-     * @return 所有策略(用户定义 + 内置)
-     */
-    public static List<RobinPosture> getGlobalStrategy() {
-        return null;
+    public static Map<String, RobinPosture> getInvokeStrategyMap() {
+        return INVOKE_STRATEGY_MAP;
     }
 
     /**

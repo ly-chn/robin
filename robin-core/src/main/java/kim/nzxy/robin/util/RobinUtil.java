@@ -29,16 +29,42 @@ public class RobinUtil {
     }
 
     /**
-     * 计算时间窗口的下次结束时间
-     * 如: 当前处于第3个时间窗口, 则返回第四个时间窗口的结束时间
+     * 计算指定时间窗口的结束时间
      *
+     * @param timeframe 指定时间窗口
      * @param frameSize 时间窗口大小
-     * @return 时间窗口下次结束时间
+     * @return 时间窗口的结束时间
      */
-    public static int endOfNextTimeFrame(Duration frameSize) {
+    public static int timeframeEndTime(int timeframe, Duration frameSize) {
         long seconds = frameSize.getSeconds();
-        int now = RobinUtil.now();
-        return Math.toIntExact(now - now % seconds + seconds * 2);
+        return (int) (timeframe * seconds);
+    }
+
+    /**
+     * 将整数部分和小数部分组装成一个小数
+     * @param integerPart 整数部分
+     * @param decimalPart 小数部分
+     * @param precision 小数精度,表示小数点后面保留位数
+     * @return 组装后的小数
+     */
+    public static double assembleDecimal(int integerPart, int decimalPart, int precision) {
+        return integerPart + (decimalPart * Math.pow(10, -precision));
+    }
+
+    /**
+     * 从一个小数中解析出整数部分和小数部分
+     * @param result 需要解析的小数
+     * @param precision 原始的小数精度
+     * @return 整数数组,第一个元素是整数部分,第二个元素是小数部分
+     */
+    public static int[] disassembleDecimal(double result, int precision) {
+        int integerPart = (int)result;
+
+        double decimalPart = result - integerPart;
+        decimalPart = decimalPart * Math.pow(10, precision);
+        int decimalPartInt = (int)decimalPart;
+
+        return new int[]{integerPart, decimalPartInt};
     }
 
     public static <T> boolean contains(T[] arr, T target) {
