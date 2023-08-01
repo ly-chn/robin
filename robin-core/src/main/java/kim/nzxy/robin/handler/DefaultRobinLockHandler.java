@@ -8,12 +8,18 @@ import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * 默认lock实现
+ *
+ * @author ly-chn
+ */
 public class DefaultRobinLockHandler implements RobinLockHandler {
 
     /**
      * 封禁缓存, 格式: {topic: {metadata: 解禁时间时间戳(秒级)}}
      */
     public static final Map<String, ConcurrentHashMap<String, Integer>> LOCK_CACHE_MAP = new ConcurrentHashMap<>();
+
     @Override
     public void lock(RobinMetadata metadata, Duration lock) {
         if (lock.getSeconds() == 0) {
@@ -39,7 +45,15 @@ public class DefaultRobinLockHandler implements RobinLockHandler {
 
     @Override
     public void unlock(RobinMetadata metadata) {
+        if (metadata == null || metadata.getTopic() == null) {
+            LOCK_CACHE_MAP.clear();
+            return;
+        }
         if (!LOCK_CACHE_MAP.containsKey(metadata.getTopic())) {
+            return;
+        }
+        if (metadata.getMetadata() == null) {
+            LOCK_CACHE_MAP.get(metadata.getTopic()).clear();
             return;
         }
         LOCK_CACHE_MAP.get(metadata.getTopic()).remove(metadata.getMetadata());

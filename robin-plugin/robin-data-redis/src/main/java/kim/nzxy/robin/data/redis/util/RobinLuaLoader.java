@@ -14,7 +14,7 @@ public class RobinLuaLoader {
      *
      * @param filename 无需后缀, 只要文件名即可
      */
-    public static DefaultRedisScript<Boolean> file(String filename) {
+    public static DefaultRedisScript<Boolean> fileBoolean(String filename) {
         DefaultRedisScript<Boolean> script = new DefaultRedisScript<>();
         script.setScriptSource(new ResourceScriptSource(new ClassPathResource("robin-lua/" + filename + ".lua")));
         script.setResultType(Boolean.class);

@@ -42,8 +42,8 @@ public class RobinValidatorAutowired {
 
     @Autowired
     public void sustain(BuiltInEffort config) {
-        RobinEffortFactory.register("sustain", config.getSustain());
-        RobinEffortFactory.register("bucket", config.getBucket());
+        RobinEffortFactory.register(BuiltInEffort.Fields.sustain, config.getSustain());
+        RobinEffortFactory.register(BuiltInEffort.Fields.bucket, config.getBucket());
     }
     //</editor-fold>
 }

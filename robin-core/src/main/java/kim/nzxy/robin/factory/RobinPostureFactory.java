@@ -23,7 +23,7 @@ import java.util.Map;
 @CustomLog
 public class RobinPostureFactory {
     /**
-     * 校验策略
+     * 校验策略, 结构: {postureKey: posture}
      */
     private static final Map<String, RobinPosture> INVOKE_STRATEGY_MAP = new HashMap<>();
 
@@ -33,7 +33,7 @@ public class RobinPostureFactory {
     }
 
     /**
-     * @return 所有策略(用户定义 + 内置)
+     * @return 指定策略
      */
     public static RobinPosture getInvokeStrategy(String key) {
         return INVOKE_STRATEGY_MAP.get(key);

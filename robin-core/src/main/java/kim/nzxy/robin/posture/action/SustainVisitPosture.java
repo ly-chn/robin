@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author lyun-chn
  * @since 2022/9/1 9:00
  */
-@RobinPosture.PostureConfig(key = "sustain")
+@RobinPosture.PostureConfig(key = BuiltInEffort.Fields.sustain)
 @CustomLog
 public class SustainVisitPosture implements RobinPosture {
 

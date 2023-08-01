@@ -1,9 +1,11 @@
 package kim.nzxy.robin.data.redis.autoconfigure;
 
 import cn.dev33.satoken.dao.SaTokenDao;
+import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.data.redis.RobinRedisConfig;
 import kim.nzxy.robin.data.redis.action.BucketPosture;
 import kim.nzxy.robin.data.redis.action.SustainVisitPosture;
+import kim.nzxy.robin.data.redis.lock.RedisRobinLockHandler;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.factory.RobinPostureFactory;
@@ -67,7 +69,6 @@ public class RobinRedisPostureAutowired {
             log.error("配置失败, 无法找到redis配置", e);
             throw new RobinException.Panic(RobinExceptionEnum.Panic.ConfigParamVerifyFailed);
         }
-
     }
 
     @Autowired
@@ -75,5 +76,6 @@ public class RobinRedisPostureAutowired {
         RobinRedisManage.setRobinRedisConfig(robinRedisConfig);
         RobinPostureFactory.register(new BucketPosture());
         RobinPostureFactory.register(new SustainVisitPosture());
+        RobinManagement.setRobinLockHandler(new RedisRobinLockHandler());
     }
 }

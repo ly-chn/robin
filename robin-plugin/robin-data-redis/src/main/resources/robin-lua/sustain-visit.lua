@@ -1,6 +1,6 @@
 -- 返回值: boolean, 为true表示校验通过
 -- 主题
-local topic = KEYS[1]
+local key = KEYS[1]
 -- 元数据
 local metadata = ARGV[1]
 -- 当前时间窗口
@@ -14,12 +14,12 @@ if logEnabled then
     redis.log(redis.LOG_WARNING, 'sustain-visit.lua started, args: ', KEYS[1], ARGV[1], ARGV[2], ARGV[3], ARGV[4], ARGV[5])
 end
 
-local latestVisit = tonumber(redis.call('ZSCORE', topic, metadata))
+local latestVisit = tonumber(redis.call('ZSCORE', key, metadata))
 -- 非连续访问
 if not latestVisit or currentTimeFrame - latestVisit > 1 then
-    redis.call('ZADD', topic, currentTimeFrame + sustainVisitStep, metadata)
+    redis.call('ZADD', key, currentTimeFrame + sustainVisitStep, metadata)
     if logEnabled then
-        redis.log(redis.LOG_WARNING, 'topic: ', topic, 'metadata: ', metadata, ' is zero, set to', currentTimeFrame, sustainVisitStep)
+        redis.log(redis.LOG_WARNING, 'key: ', key, 'metadata: ', metadata, ' is zero, set to', currentTimeFrame, sustainVisitStep)
     end
     return true
 end
@@ -34,13 +34,13 @@ local visitedTimes = math.floor(latestVisit % 1 * sustainVisitPrecision)
 -- 达到访问限制
 if visitedTimes > maxTimes then
     if logEnabled then
-        redis.log(redis.LOG_WARNING, 'topic: ', topic, 'metadata: ', metadata, 'limited: visitedTimes', visitedTimes, 'maxTimes: ', maxTimes)
+        redis.log(redis.LOG_WARNING, 'key: ', key, 'metadata: ', metadata, 'limited: visitedTimes', visitedTimes, 'maxTimes: ', maxTimes)
     end
     return false
 end
 
-redis.call("ZADD", topic, latestVisit, metadata)
+redis.call("ZADD", key, latestVisit, metadata)
 if logEnabled then
-    redis.log(redis.LOG_WARNING, 'latestVisit of metadata', topic, metadata, ' is update to, hasVisitedTimes', latestVisit)
+    redis.log(redis.LOG_WARNING, 'latestVisit of metadata', key, metadata, ' is update to, hasVisitedTimes', latestVisit)
 end
 return true

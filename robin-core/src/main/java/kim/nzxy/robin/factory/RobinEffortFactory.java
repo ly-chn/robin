@@ -26,8 +26,9 @@ public class RobinEffortFactory {
      * key为topic, value为postureKey
      */
     private static final Map<String, String> TOPIC_POSTURE_KEY_MAP = new HashMap<>();
+
     /**
-     * 默认适用的topic
+     * 默认使用的topic
      */
     private static final Set<String> DEFAULT_TOPIC_SET = new HashSet<>();
 
@@ -42,18 +43,11 @@ public class RobinEffortFactory {
     }
 
     /**
-     * 注册配置内容
-     *
-     * @param topic  主题
-     * @param config 配置内容
+     * 读取全部topic
+     * @return 全部topic集合
      */
-    public static <T extends RobinEffortBasic> void register(String topic, String postureKey, T config) {
-        if (log.isDebugEnabled()) {
-            log.debug("register validator config, topic: " + topic + ", config: " + config);
-        }
-        TOPIC_POSTURE_KEY_MAP.put(topic, postureKey);
-        EFFORT_MAP.put(topic, config);
-        resetDefaultTopic();
+    public static Set<String> getAllTopic() {
+        return TOPIC_POSTURE_KEY_MAP.keySet();
     }
 
     /**
@@ -90,6 +84,24 @@ public class RobinEffortFactory {
         return result;
     }
 
+    /**
+     * 根据策略key读取对应topic列表
+     *
+     * @param postureKey 验证策略key
+     * @return 根据postureKey获取应用的topic
+     */
+    public static Set<String> getTopicByKey(String postureKey) {
+        if (postureKey == null) {
+            return Collections.emptySet();
+        }
+        Set<String> result = new HashSet<>();
+        TOPIC_POSTURE_KEY_MAP.forEach((k, v) -> {
+            if (Objects.equals(postureKey, v)) {
+                result.add(k);
+            }
+        });
+        return result;
+    }
 
     /**
      * 计算验证策略(含排序)
@@ -102,4 +114,5 @@ public class RobinEffortFactory {
                 .forEach(e -> DEFAULT_TOPIC_SET.add(e.getKey()));
         log.debug("update default topic: " + DEFAULT_TOPIC_SET);
     }
+
 }

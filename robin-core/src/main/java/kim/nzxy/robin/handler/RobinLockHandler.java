@@ -27,9 +27,10 @@ public interface RobinLockHandler {
 
     /**
      * 主动解除封禁
-     * todo: 增加一个方法, 清理这个人的所有记录, 否则下次访问还可能被封禁
      *
-     * @param metadata 元数据
+     * @param metadata 元数据, 为null表示清空所有,
+     *                 topic为null表示清空所有topic,
+     *                 metadata为null表示清空topic下所有metadata
      */
     void unlock(RobinMetadata metadata);
 

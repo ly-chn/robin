@@ -1,6 +1,7 @@
 package kim.nzxy.robin.data.redis.action;
 
 import kim.nzxy.robin.data.redis.util.RobinLuaLoader;
+import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import kim.nzxy.robin.posture.config.BuiltInEffort;
@@ -9,7 +10,10 @@ import kim.nzxy.robin.util.RobinUtil;
 import lombok.CustomLog;
 import org.springframework.data.redis.core.script.DefaultRedisScript;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 持续访问控制
@@ -17,10 +21,11 @@ import java.util.Collections;
  * @author lyun-chn
  * @since 2022/9/1 9:00
  */
-@RobinPosture.PostureConfig(key = "sustain")
+@RobinPosture.PostureConfig(key = BuiltInEffort.Fields.sustain)
 @CustomLog
 public class SustainVisitPosture extends AbstractRobinRedisPosture {
-    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_LUA = RobinLuaLoader.file("sustain-visit");
+    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_LUA = RobinLuaLoader.fileBoolean("sustain-visit");
+    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_CLEAN_LUA = RobinLuaLoader.fileBoolean("sustain-visit-clean");
 
 
     @Override
@@ -40,7 +45,19 @@ public class SustainVisitPosture extends AbstractRobinRedisPosture {
 
     @Override
     public void freshenUp() {
-        super.freshenUp();
+        Set<String> topicSet = RobinEffortFactory.getTopicByKey(BuiltInEffort.Fields.sustain);
+        if (topicSet.isEmpty()) {
+            return;
+        }
+        List<String> keys = new ArrayList<>();
+        List<String> values = new ArrayList<>();
+        topicSet.forEach(topic -> {
+            keys.add(topic);
+            BuiltInEffort.SustainVisit sustainVisit = getExpandEffort(topic);
+            int currentTimeFrame = RobinUtil.currentTimeFrame(sustainVisit.getTimeFrameSize());
+            values.add(String.valueOf(currentTimeFrame));
+        });
+        getStringRedisTemplate().execute(SUSTAIN_VISIT_CLEAN_LUA, keys, values.toArray());
     }
 
     interface Constant {

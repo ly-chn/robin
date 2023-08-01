@@ -6,6 +6,7 @@ import kim.nzxy.robin.exception.RobinException;
 import lombok.CustomLog;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.experimental.FieldNameConstants;
 
 import java.time.Duration;
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ import java.util.List;
  */
 @Data
 @CustomLog
+@FieldNameConstants
 public class BuiltInEffort {
     /**
      * 持续访问策略配置
