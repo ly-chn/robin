@@ -11,10 +11,15 @@ import java.util.Objects;
  */
 public class RobinUtil {
     /**
+     * 2000年1月1日0时0分0秒的时间戳
+     */
+    private static final int BASE_TIME = 946656000;
+
+    /**
      * @return 返回当前秒级时间戳
      */
     public static int now() {
-        return (int) (System.currentTimeMillis() / 1000);
+        return (int) (System.currentTimeMillis() / 1000) - BASE_TIME;
     }
 
     /**

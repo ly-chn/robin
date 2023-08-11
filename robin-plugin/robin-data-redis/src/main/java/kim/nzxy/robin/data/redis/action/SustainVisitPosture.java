@@ -1,6 +1,6 @@
 package kim.nzxy.robin.data.redis.action;
 
-import kim.nzxy.robin.data.redis.util.RobinLuaLoader;
+import kim.nzxy.robin.data.redis.util.RobinLuaUtil;
 import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
@@ -24,8 +24,8 @@ import java.util.Set;
 @RobinPosture.PostureConfig(key = BuiltInEffort.Fields.sustain)
 @CustomLog
 public class SustainVisitPosture extends AbstractRobinRedisPosture {
-    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_LUA = RobinLuaLoader.fileBoolean("sustain-visit");
-    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_CLEAN_LUA = RobinLuaLoader.fileBoolean("sustain-visit-clean");
+    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_LUA = RobinLuaUtil.loadBool("sustain-visit");
+    private static final DefaultRedisScript<Boolean> SUSTAIN_VISIT_CLEAN_LUA = RobinLuaUtil.loadBool("sustain-visit-clean");
 
 
     @Override

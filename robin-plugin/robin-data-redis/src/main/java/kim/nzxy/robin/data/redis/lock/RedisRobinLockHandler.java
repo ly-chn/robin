@@ -57,6 +57,7 @@ public class RedisRobinLockHandler implements RobinLockHandler {
 
     @Override
     public void freshenUp() {
+        // todo: * is bad code
         Set<String> keys = getStringRedisTemplate().keys(Constant.LOCKED_PREFIX + "*");
         if (keys != null) {
             for (String topic : keys) {

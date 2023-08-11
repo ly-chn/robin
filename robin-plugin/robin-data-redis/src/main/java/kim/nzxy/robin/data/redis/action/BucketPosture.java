@@ -1,6 +1,6 @@
 package kim.nzxy.robin.data.redis.action;
 
-import kim.nzxy.robin.data.redis.util.RobinLuaLoader;
+import kim.nzxy.robin.data.redis.util.RobinLuaUtil;
 import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
@@ -24,8 +24,8 @@ import java.util.Set;
 @RobinPosture.PostureConfig(key = "bucket")
 @CustomLog
 public class BucketPosture extends AbstractRobinRedisPosture {
-    private static final DefaultRedisScript<Boolean> BUCKET_LUA = RobinLuaLoader.fileBoolean("bucket");
-    private static final DefaultRedisScript<Boolean> BUCKET_CLEAN_LUA = RobinLuaLoader.fileBoolean("sustain-visit-clean");
+    private static final DefaultRedisScript<Boolean> BUCKET_LUA = RobinLuaUtil.loadBool("bucket");
+    private static final DefaultRedisScript<Boolean> BUCKET_CLEAN_LUA = RobinLuaUtil.loadBool("sustain-visit-clean");
 
     @Override
     public boolean handler(RobinMetadata robinMetadata) {

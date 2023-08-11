@@ -17,4 +17,11 @@ public @interface RobinTopic {
      * @return 适用的robin策略
      */
     String value();
+
+
+    /**
+     * todo: 支持直接使用固定元数据
+     * @return 固定元数据
+     */
+    // String metadata();
 }
