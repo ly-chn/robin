@@ -1,14 +1,17 @@
 package kim.nzxy.robin.data.redis.lock;
 
 import kim.nzxy.robin.data.redis.autoconfigure.RobinRedisManage;
+import kim.nzxy.robin.data.redis.util.RobinLuaUtil;
 import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.handler.RobinLockHandler;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.CustomLog;
 import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.script.DefaultRedisScript;
 
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -25,6 +28,9 @@ public class RedisRobinLockHandler implements RobinLockHandler {
     private StringRedisTemplate getStringRedisTemplate() {
         return RobinRedisManage.getStringRedisTemplate();
     }
+
+    private static final DefaultRedisScript<Boolean> LOCK_CLEAN = RobinLuaUtil.loadBool("lock-clean");
+
 
     @Override
     public void lock(RobinMetadata metadata, Duration lock) {
@@ -57,13 +63,11 @@ public class RedisRobinLockHandler implements RobinLockHandler {
 
     @Override
     public void freshenUp() {
-        // todo: * is bad code
-        Set<String> keys = getStringRedisTemplate().keys(Constant.LOCKED_PREFIX + "*");
-        if (keys != null) {
-            for (String topic : keys) {
-                getStringRedisTemplate().opsForZSet().removeRange(topic, 0, RobinUtil.now());
-            }
-        }
+        Set<String> topics = RobinEffortFactory.getTopicByKey(null);
+        List<String> lockedKeys = new ArrayList<>();
+        topics.forEach(topic->lockedKeys.add(Constant.LOCKED_PREFIX + topic));
+        getStringRedisTemplate().execute(LOCK_CLEAN, lockedKeys, RobinUtil.now());
+        log.debug("freshen up robin lock successfully");
     }
 
 

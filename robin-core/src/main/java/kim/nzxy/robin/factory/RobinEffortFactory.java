@@ -92,7 +92,7 @@ public class RobinEffortFactory {
      */
     public static Set<String> getTopicByKey(String postureKey) {
         if (postureKey == null) {
-            return Collections.emptySet();
+            return TOPIC_POSTURE_KEY_MAP.keySet();
         }
         Set<String> result = new HashSet<>();
         TOPIC_POSTURE_KEY_MAP.forEach((k, v) -> {
