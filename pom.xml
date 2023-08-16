@@ -8,7 +8,9 @@
     <artifactId>robin</artifactId>
     <version>${revision}</version>
     <packaging>pom</packaging>
-
+    <name>robin</name>
+    <description>A simple and easy-to-use java current limiting library</description>
+    <url>https://github.com/ly-chn/robin</url>
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -16,6 +18,7 @@
         <maven.compiler.compilerArgument>-parameters</maven.compiler.compilerArgument>
         <revision>0.0.1</revision>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.resourceEncoding>UTF-8</project.build.resourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
@@ -26,6 +29,48 @@
         <module>robin-plugin</module>
     </modules>
 
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.7</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+                    <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
     <licenses>
         <license>
             <name>MIT</name>
@@ -33,12 +78,10 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
-    <name>robin</name>
-    <description>A simple and easy-to-use java current limiting library</description>
-    <url>https://github.com/ly-chn/robin</url>
+
     <issueManagement>
+        <system>GitHub Issue Management</system>
         <url>https://github.com/ly-chn/robin/issues</url>
-        <system>GitHub Issues</system>
     </issueManagement>
 
     <scm>

@@ -66,7 +66,7 @@ public class RedisRobinLockHandler implements RobinLockHandler {
         Set<String> topics = RobinEffortFactory.getTopicByKey(null);
         List<String> lockedKeys = new ArrayList<>();
         topics.forEach(topic->lockedKeys.add(Constant.LOCKED_PREFIX + topic));
-        getStringRedisTemplate().execute(LOCK_CLEAN, lockedKeys, RobinUtil.now());
+        getStringRedisTemplate().execute(LOCK_CLEAN, lockedKeys, String.valueOf(RobinUtil.now()));
         log.debug("freshen up robin lock successfully");
     }
 
