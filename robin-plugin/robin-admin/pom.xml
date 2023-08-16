@@ -3,7 +3,8 @@
     <parent>
         <artifactId>robin-plugin</artifactId>
         <groupId>kim.nzxy</groupId>
-        <version>0.01-BETA</version>
+        <version>${revision}</version>
+        <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -11,11 +12,6 @@
     <packaging>jar</packaging>
 
     <name>robin-admin</name>
-    <url>http://maven.apache.org</url>
-
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    </properties>
 
     <dependencies>
         <dependency>

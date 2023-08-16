@@ -15,6 +15,8 @@
         <spring-boot.version>2.5.0</spring-boot.version>
         <maven.compiler.compilerArgument>-parameters</maven.compiler.compilerArgument>
         <revision>0.01-BETA</revision>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     </properties>
 
     <modules>
@@ -31,6 +33,20 @@
             <distribution>repo</distribution>
         </license>
     </licenses>
+    <name>robin</name>
+    <description>A simple and easy-to-use java current limiting library</description>
+    <url>https://github.com/ly-chn/robin</url>
+    <issueManagement>
+        <url>https://github.com/ly-chn/robin/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <scm>
+        <tag>master</tag>
+        <url>https://github.com/ly-chn/robin.git</url>
+        <connection>scm:git:https://github.com/ly-chn/robin.git</connection>
+        <developerConnection>scm:git:https://github.com/ly-chn/robin.git</developerConnection>
+    </scm>
 
     <developers>
         <developer>

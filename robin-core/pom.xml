@@ -5,7 +5,7 @@
     <parent>
         <groupId>kim.nzxy</groupId>
         <artifactId>robin</artifactId>
-        <version>0.01-BETA</version>
+        <version>${revision}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <artifactId>robin-core</artifactId>
