@@ -7,6 +7,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
+ * todo: 为避免用户配置冲突, 应去除此自动装配
  * @author lyun-chn
  */
 public class RobinConfiguration implements WebMvcConfigurer {

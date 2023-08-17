@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class RobinAutowired {
     /**
      * 自定义缓存管理器
+     * @param handler 锁定缓存管理器
      */
     @Autowired(required = false)
     public void define(RobinLockHandler handler) {
@@ -21,6 +22,7 @@ public class RobinAutowired {
 
     /**
      * 检测钩子
+     * @param filter 检测钩子
      */
     @Autowired(required = false)
     public void define(RobinInterceptor filter) {
