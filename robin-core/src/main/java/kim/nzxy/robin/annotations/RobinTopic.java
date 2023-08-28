@@ -23,5 +23,5 @@ public @interface RobinTopic {
      * todo: 支持直接使用固定元数据
      * @return 固定元数据
      */
-    // String metadata();
+    String metadata() default "";
 }

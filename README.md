@@ -6,8 +6,5 @@ Robin 是一个简易的 Java 反爬框架, 目标是填补 Java 没有一个好
 
 ## Links
 
-- [Documentation](https://ly-chn.github.io/robin/)
+- [Documentation](https://ly-chn.github.io/robin/)(已废弃, 请不要参考相关配置)
 
-
-todo:
-- yml配置不友好, 正在探索更方便的途径

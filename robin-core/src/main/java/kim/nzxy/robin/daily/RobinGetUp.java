@@ -12,10 +12,9 @@ import kim.nzxy.robin.metadata.RobinMetadata;
 import kim.nzxy.robin.posture.RobinPosture;
 import lombok.CustomLog;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * 工作周期
@@ -25,31 +24,33 @@ import java.util.Set;
  */
 @CustomLog
 public class RobinGetUp {
-    public static void getUp(Set<String> extraTopic) {
-        if (log.isDebugEnabled()) {
-            log.debug("robin pre handle, extra topic: " + extraTopic);
-        }
+    public static void getUp(Map<String, String> extraTopic) {
         // 缓存
         RobinLockHandler cacheHandler = RobinManagement.getRobinLockHandler();
         List<RobinMetadata> metadataList = new ArrayList<>();
-        Map<String, String> validatorTopic = RobinEffortFactory.getValidatorTopic(extraTopic);
+        Map<String, String> validatorTopic = RobinEffortFactory.getValidatorTopic(extraTopic.keySet());
         // 收集元数据
         validatorTopic.forEach((topic, postureKey) -> {
             // 配置信息
             RobinEffortBasic effort = RobinEffortFactory.getEffort(topic);
-            String metadata = RobinMetadataFactory.getMetadataHandler(effort.getMetadataHandler()).getMetadata();
+            String metadata =extraTopic.get(topic);
             if (metadata == null || metadata.isEmpty()) {
-                log.error("topic :[" + topic + "] has empty metadata, skip it");
+                metadata = RobinMetadataFactory.getMetadataHandler(effort.getMetadataHandler()).getMetadata();
+            }
+            if (metadata == null || metadata.isEmpty()) {
+                RobinManagement.getRobinInterceptor()
+                        .onCatch(RobinExceptionEnum.Verify.MetadataIsEmpty, null);
                 return;
             }
             RobinMetadata robinMetadata = new RobinMetadata(topic, metadata, effort.getDigest());
             if (cacheHandler.locked(robinMetadata)) {
-                throw new RobinException.Verify(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
+                RobinManagement.getRobinInterceptor()
+                        .onCatch(RobinExceptionEnum.Verify.MetadataHasLocked, robinMetadata);
             }
             metadataList.add(robinMetadata);
         });
         metadataList.forEach(robinMetadata -> {
-            boolean passed;
+            boolean passed = false;
             try {
                 log.debug("robin validate start with metadata: " + robinMetadata);
                 // 执行逻辑
@@ -57,13 +58,12 @@ public class RobinGetUp {
                 passed = posture.handler(robinMetadata);
             } catch (Exception e) {
                 log.error("posture drop the ball", e);
-                throw new RobinException.Verify(RobinExceptionEnum.Verify.RobinPostureDropTheBall, robinMetadata);
+                RobinManagement.getRobinInterceptor()
+                        .onCatch(RobinExceptionEnum.Verify.RobinPostureDropTheBall, robinMetadata);
             }
             // 判断执行结果
-            if (!passed && RobinManagement.getRobinInterceptor().onCatch(robinMetadata)) {
-                // 配置信息
-                cacheHandler.lock(robinMetadata, RobinEffortFactory.getEffort(robinMetadata.getTopic()).getLockDuration());
-                throw new RobinException.Verify(RobinExceptionEnum.Verify.VerifyFailed, robinMetadata);
+            if (!passed) {
+                RobinManagement.getRobinInterceptor().onCatch(RobinExceptionEnum.Verify.VerifyFailed, robinMetadata);
             }
         });
     }

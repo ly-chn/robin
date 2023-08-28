@@ -1,6 +1,14 @@
 package kim.nzxy.robin.interceptor;
 
+import com.sun.istack.internal.Nullable;
+import kim.nzxy.robin.config.RobinManagement;
+import kim.nzxy.robin.enums.RobinExceptionEnum;
+import kim.nzxy.robin.exception.RobinException;
+import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.metadata.RobinMetadata;
+
+import java.util.Objects;
+import java.util.function.Function;
 
 /**
  * Robin验证钩子
@@ -21,11 +29,18 @@ public interface RobinInterceptor {
     /**
      * 验证失败时的钩子, 可以在此实现自己的拦截逻辑, 比如羞辱爬虫一番, 返回错乱的结果, 或者记录一下容易出现异常的IP地址/用户进行分析
      *
+     * @param type          异常类型
      * @param robinMetadata 元数据详情
-     * @return 返回 false 表示忽略此捕获. 返回 true 则抛出此异常, 等待异常拦截器处理
+     * @throws RobinException.Verify 自动输出异常
      */
-    default boolean onCatch(RobinMetadata robinMetadata) {
-        return true;
+    default void onCatch(RobinExceptionEnum.Verify type, @Nullable RobinMetadata robinMetadata) throws RobinException.Verify {
+        // 验证失败则锁定
+        if (Objects.equals(type, RobinExceptionEnum.Verify.VerifyFailed)) {
+            RobinManagement.getRobinLockHandler()
+                    .lock(robinMetadata, RobinEffortFactory.getEffort(robinMetadata.getTopic()).getLockDuration());
+
+        }
+        throw new RobinException.Verify(type, robinMetadata);
     }
 
     /**

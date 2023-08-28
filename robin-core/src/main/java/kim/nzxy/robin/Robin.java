@@ -6,6 +6,7 @@ import kim.nzxy.robin.interceptor.RobinInterceptor;
 import kim.nzxy.robin.metadata.RobinMetadata;
 import lombok.CustomLog;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -31,9 +32,9 @@ public class Robin {
      * 执行验证策略, 含通用策略
      * @see kim.nzxy.robin.annotations.RobinIgnore 调用前请自行判断
      * @see RobinInterceptor#beforeCatch() 调用前请自行判断
-     * @param topics 拓展策略
+     * @param topics 拓展策略, key为topic key, value 为topic的默认metadata
      */
-    public static void getUp(Set<String> topics) {
+    public static void getUp(Map<String, String> topics) {
         RobinGetUp.getUp(topics);
     }
 }

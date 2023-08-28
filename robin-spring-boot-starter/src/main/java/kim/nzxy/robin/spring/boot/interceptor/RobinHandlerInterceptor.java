@@ -13,8 +13,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author lyun-chn
@@ -52,12 +52,12 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
      *
      * @return 适配的验证策略集合
      */
-    private Set<String> getExtraTopic(HandlerMethod handler) {
-        Set<String> topics = new HashSet<>();
-        AnnotatedElementUtils.getMergedRepeatableAnnotations(handler.getMethod(), RobinTopic.class, RobinTopicCollector.class)
-                .forEach(it -> topics.add(it.value()));
+    private Map<String, String> getExtraTopic(HandlerMethod handler) {
+        Map<String, String> topicMetadataMap = new HashMap<>(8);
         AnnotatedElementUtils.getMergedRepeatableAnnotations(handler.getMethod().getDeclaringClass(), RobinTopic.class, RobinTopicCollector.class)
-                .forEach(it -> topics.add(it.value()));
-        return topics;
+                .forEach(it -> topicMetadataMap.put(it.value(), it.metadata()));
+        AnnotatedElementUtils.getMergedRepeatableAnnotations(handler.getMethod(), RobinTopic.class, RobinTopicCollector.class)
+                .forEach(it -> topicMetadataMap.put(it.value(), it.metadata()));
+        return topicMetadataMap;
     }
 }

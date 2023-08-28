@@ -43,6 +43,10 @@ public interface RobinExceptionEnum {
      */
     enum Verify implements RobinExceptionEnum {
         /**
+         * 无法获取到对应的元数据
+         */
+        MetadataIsEmpty,
+        /**
          * 元数据已被锁定
          */
         MetadataHasLocked,
