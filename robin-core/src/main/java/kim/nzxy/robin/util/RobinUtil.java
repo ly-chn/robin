@@ -1,7 +1,14 @@
 package kim.nzxy.robin.util;
 
+import org.jetbrains.annotations.Contract;
+import org.jetbrains.annotations.Nullable;
+
+import java.lang.reflect.Array;
 import java.time.Duration;
+import java.util.Collection;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * 普普通通的工具类
@@ -34,18 +41,6 @@ public class RobinUtil {
     }
 
     /**
-     * 计算指定时间窗口的结束时间
-     *
-     * @param timeframe 指定时间窗口
-     * @param frameSize 时间窗口大小
-     * @return 时间窗口的结束时间
-     */
-    public static int timeframeEndTime(int timeframe, Duration frameSize) {
-        long seconds = frameSize.getSeconds();
-        return (int) (timeframe * seconds);
-    }
-
-    /**
      * 将整数部分和小数部分组装成一个小数
      * @param integerPart 整数部分
      * @param decimalPart 小数部分
@@ -72,12 +67,37 @@ public class RobinUtil {
         return new int[]{integerPart, decimalPartInt};
     }
 
-    public static <T> boolean contains(T[] arr, T target) {
-        for (T t : arr) {
-            if (Objects.equals(t, target)) {
-                return true;
-            }
+    @Contract("null -> false")
+    public static boolean isNotEmpty(@Nullable Object obj) {
+        return !isEmpty(obj);
+    }
+
+    /**
+     * 判断对象是否为空
+     * @param obj 要判断的对象, 支持Optional
+     * @return 为true表示对象为null或为空
+     */
+    @Contract("null -> true")
+    public static boolean isEmpty(@Nullable Object obj) {
+        if (obj == null) {
+            return true;
         }
+        if (obj instanceof CharSequence) {
+            return ((CharSequence) obj).length() == 0;
+        }
+        if (obj.getClass().isArray()) {
+            return Array.getLength(obj) == 0;
+        }
+        if (obj instanceof Collection) {
+            return ((Collection<?>) obj).isEmpty();
+        }
+        if (obj instanceof Map) {
+            return ((Map<?, ?>) obj).isEmpty();
+        }
+        if (obj instanceof Optional) {
+            return ((Optional<?>) obj).map(RobinUtil::isEmpty).orElse(true);
+        }
+        // else
         return false;
     }
 }

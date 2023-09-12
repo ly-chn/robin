@@ -63,7 +63,7 @@ public class BucketPosture implements RobinPosture {
     @Override
     public void freshenUp() {
         BUCKET_CACHE_MAP.forEach((topic, topicMap) -> {
-            if (topicMap == null || topicMap.isEmpty()) {
+            if (RobinUtil.isEmpty(topicMap)) {
                 return;
             }
             BuiltInEffort.Bucket bucket = getExpandEffort(topic);

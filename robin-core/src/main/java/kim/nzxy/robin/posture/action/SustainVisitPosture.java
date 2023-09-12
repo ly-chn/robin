@@ -65,7 +65,7 @@ public class SustainVisitPosture implements RobinPosture {
     @Override
     public void freshenUp() {
         SUSTAIN_CACHE_MAP.forEach((topic, topicMap) -> {
-            if (topicMap == null || topicMap.isEmpty()) {
+            if (RobinUtil.isEmpty(topicMap)) {
                 return;
             }
             BuiltInEffort.SustainVisit sustainVisit = getExpandEffort(topic);

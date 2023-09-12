@@ -5,7 +5,9 @@ import kim.nzxy.robin.annotations.RobinIgnore;
 import kim.nzxy.robin.annotations.RobinTopic;
 import kim.nzxy.robin.annotations.RobinTopicCollector;
 import kim.nzxy.robin.config.RobinManagement;
+import kim.nzxy.robin.util.RobinUtil;
 import lombok.CustomLog;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.core.annotation.AnnotatedElementUtils;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -23,9 +25,9 @@ import java.util.Map;
 @CustomLog
 public class RobinHandlerInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
+    public boolean preHandle(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull Object handler) {
         if (catchAble(handler)) {
-            Robin.getUp(getExtraTopic((HandlerMethod) handler));
+            dine((HandlerMethod) handler);
         }
         return true;
     }
@@ -42,22 +44,35 @@ public class RobinHandlerInterceptor implements HandlerInterceptor {
             }
             // RobinIgnore
             Method method = ((HandlerMethod) handler).getMethod();
-            return !method.isAnnotationPresent(RobinIgnore.class) && !method.getDeclaringClass().isAnnotationPresent(RobinIgnore.class);
+            return !method.isAnnotationPresent(RobinIgnore.class)
+                    && !method.getDeclaringClass().isAnnotationPresent(RobinIgnore.class);
         }
         return false;
     }
 
     /**
-     * 寻找适配的策略
-     *
-     * @return 适配的验证策略集合
+     * 寻找适配的策略, 并提交暂存区, 或直接执行
      */
-    private Map<String, String> getExtraTopic(HandlerMethod handler) {
+    private void dine(HandlerMethod handler) {
         Map<String, String> topicMetadataMap = new HashMap<>(8);
-        AnnotatedElementUtils.getMergedRepeatableAnnotations(handler.getMethod().getDeclaringClass(), RobinTopic.class, RobinTopicCollector.class)
+        AnnotatedElementUtils.getMergedRepeatableAnnotations(handler.getMethod().getDeclaringClass(),
+                        RobinTopic.class,
+                        RobinTopicCollector.class)
                 .forEach(it -> topicMetadataMap.put(it.value(), it.metadata()));
-        AnnotatedElementUtils.getMergedRepeatableAnnotations(handler.getMethod(), RobinTopic.class, RobinTopicCollector.class)
+        AnnotatedElementUtils.getMergedRepeatableAnnotations(handler.getMethod(),
+                        RobinTopic.class,
+                        RobinTopicCollector.class)
                 .forEach(it -> topicMetadataMap.put(it.value(), it.metadata()));
-        return topicMetadataMap;
+        // 空集合, 直接执行
+        if (topicMetadataMap.isEmpty()) {
+           Robin.hunger(topicMetadataMap);
+           return;
+        }
+        // 任意一个metadata不为空, 则暂存, 否则直接执行, metadata转交给AOP解析
+        if (topicMetadataMap.values().stream().anyMatch(RobinUtil::isNotEmpty)) {
+            Robin.crop(topicMetadataMap);
+            return;
+        }
+        Robin.hunger(topicMetadataMap);
     }
 }

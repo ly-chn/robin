@@ -62,7 +62,7 @@ public class DefaultRobinLockHandler implements RobinLockHandler {
 
     @Override
     public void freshenUp() {
-        if (LOCK_CACHE_MAP.isEmpty()) {
+        if (RobinUtil.isEmpty(LOCK_CACHE_MAP)) {
             return;
         }
         int now = RobinUtil.now();

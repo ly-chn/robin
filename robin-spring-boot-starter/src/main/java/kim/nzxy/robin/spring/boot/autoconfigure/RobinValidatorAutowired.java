@@ -27,9 +27,7 @@ public class RobinValidatorAutowired {
      */
     @Autowired
     public void define(ApplicationContext applicationContext) {
-        for (RobinPosture validator : applicationContext.getBeansOfType(RobinPosture.class).values()) {
-            RobinPostureFactory.register(validator);
-        }
+        applicationContext.getBeansOfType(RobinPosture.class).values().forEach(RobinPostureFactory::register);
         applicationContext.getBeansOfType(RobinMetadataHandler.class).forEach(RobinMetadataFactory::register);
     }
 

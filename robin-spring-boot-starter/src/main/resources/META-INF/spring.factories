@@ -1,3 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=kim.nzxy.robin.spring.boot.autoconfigure.RobinAutowired\
   ,kim.nzxy.robin.spring.boot.autoconfigure.RobinValidatorAutowired\
-  ,kim.nzxy.robin.spring.boot.RobinConfiguration
+  ,kim.nzxy.robin.spring.boot.RobinConfiguration\
+  ,kim.nzxy.robin.spring.boot.aop.CustomMetadataAspect

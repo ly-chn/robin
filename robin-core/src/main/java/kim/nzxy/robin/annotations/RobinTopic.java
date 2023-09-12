@@ -1,5 +1,7 @@
 package kim.nzxy.robin.annotations;
 
+import org.intellij.lang.annotations.Language;
+
 import java.lang.annotation.*;
 
 /**
@@ -20,8 +22,9 @@ public @interface RobinTopic {
 
 
     /**
-     * todo: 支持直接使用固定元数据
+     * todo: 支持直接使用固定元数据, 以及SpEL
      * @return 固定元数据
      */
+    @Language("SpEL")
     String metadata() default "";
 }

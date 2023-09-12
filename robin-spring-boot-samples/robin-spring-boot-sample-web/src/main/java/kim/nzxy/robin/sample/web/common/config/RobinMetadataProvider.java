@@ -30,7 +30,7 @@ public class RobinMetadataProvider {
     }
 
     @Bean
-    RobinMetadataHandler uri() {
+    public RobinMetadataHandler uri() {
         return request::getRequestURI;
     }
 }

@@ -1,5 +1,6 @@
 package kim.nzxy.robin.metadata;
 
+import kim.nzxy.robin.util.RobinUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -36,7 +37,7 @@ public class RobinMetadata implements Serializable {
      * @return topic是否有效
      */
     public boolean hasTopic() {
-        return Objects.nonNull(topic) && !topic.isEmpty();
+        return RobinUtil.isNotEmpty(topic);
     }
 
     /**

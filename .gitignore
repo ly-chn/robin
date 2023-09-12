@@ -28,6 +28,7 @@ target/
 build/
 !**/src/main/**/build/
 !**/src/test/**/build/
+!robin-plugin/robin-admin-ui/build/
 
 ### VS Code ###
 .vscode/
@@ -35,3 +36,8 @@ build/
 robin-doc/.vuepress/dist
 
 application-local.yml
+
+### robin admin ui ###
+robin-admin-ui/node_modules
+robin-admin-ui/*.local
+robin-admin-ui/dist

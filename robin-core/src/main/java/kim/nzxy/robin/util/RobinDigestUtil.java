@@ -17,6 +17,7 @@ public class RobinDigestUtil {
 
     /**
      * 对消息进行摘要
+     * todo: 寻求更短的摘要算法
      *
      * @param str 目标字符串
      * @return 摘要结果

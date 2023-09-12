@@ -12,7 +12,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
  *
  * @author ly-chn
  */
-@SuppressWarnings("LombokGetterMayBeUsed")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RobinRedisManage {
     @Setter
