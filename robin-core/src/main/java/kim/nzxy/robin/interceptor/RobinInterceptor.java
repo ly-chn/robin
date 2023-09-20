@@ -1,14 +1,14 @@
 package kim.nzxy.robin.interceptor;
 
-import com.sun.istack.internal.Nullable;
 import kim.nzxy.robin.config.RobinManagement;
 import kim.nzxy.robin.enums.RobinExceptionEnum;
 import kim.nzxy.robin.exception.RobinException;
 import kim.nzxy.robin.factory.RobinEffortFactory;
 import kim.nzxy.robin.metadata.RobinMetadata;
+import kim.nzxy.robin.util.RobinUtil;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
-import java.util.function.Function;
 
 /**
  * Robin验证钩子
@@ -35,10 +35,9 @@ public interface RobinInterceptor {
      */
     default void onCatch(RobinExceptionEnum.Verify type, @Nullable RobinMetadata robinMetadata) throws RobinException.Verify {
         // 验证失败则锁定
-        if (Objects.equals(type, RobinExceptionEnum.Verify.VerifyFailed)) {
+        if (Objects.equals(type, RobinExceptionEnum.Verify.VerifyFailed) && RobinUtil.isNotEmpty(robinMetadata)) {
             RobinManagement.getRobinLockHandler()
                     .lock(robinMetadata, RobinEffortFactory.getEffort(robinMetadata.getTopic()).getLockDuration());
-
         }
         throw new RobinException.Verify(type, robinMetadata);
     }

@@ -18,9 +18,9 @@ import java.util.Optional;
  */
 public class RobinUtil {
     /**
-     * 2000年1月1日0时0分0秒的时间戳
+     * 2020年1月1日0时0分0秒的时间戳
      */
-    private static final int BASE_TIME = 946656000;
+    private static final int BASE_TIME = 1577808000;
 
     /**
      * @return 返回当前秒级时间戳
