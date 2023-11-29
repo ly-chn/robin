@@ -3,7 +3,7 @@ package kim.nzxy.robin.enums;
 /**
  * 规范部分enum命名
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2021/6/5
  */
 public interface RobinEnum {

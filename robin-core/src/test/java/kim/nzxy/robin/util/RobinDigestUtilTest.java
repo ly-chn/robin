@@ -9,9 +9,15 @@ import java.util.Random;
 class RobinDigestUtilTest {
 
     @Test
+    void md5() {
+        String s = RobinDigestUtil.md5("123456");
+        System.out.println("RobinDigestUtil.md5(\"123456\") = " + s);
+    }
+
+    @Test
     void numTo64() {
         for (int i = 0; i < 1000000; i++) {
-            String s = RobinDigestUtil.numTo64(i);
+            String s = RobinDigestUtil.numTo64((long) i);
             long l = RobinDigestUtil.parse64(s);
             Assertions.assertEquals(i, l);
         }

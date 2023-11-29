@@ -18,7 +18,7 @@ import java.util.Set;
 /**
  * 持续访问控制
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2022/9/1 9:00
  */
 @RobinPosture.PostureConfig(key = BuiltInEffort.Fields.sustain)

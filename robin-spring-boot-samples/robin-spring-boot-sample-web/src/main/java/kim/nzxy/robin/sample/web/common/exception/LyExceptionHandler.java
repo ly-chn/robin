@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 /**
  * 统一异常处理
  *
- * @author lyun-chn
+ * @author ly-chn
  */
 @Slf4j
 @RestControllerAdvice
@@ -19,7 +19,7 @@ public class LyExceptionHandler {
      */
     @ExceptionHandler(RobinException.Panic.class)
     public Res<?> handler(RobinException.Panic e) {
-        log.error("robin config has error: " + e.getError());
+        log.error("robin config has error: ", e);
         return Res.fail("系统配置有点问题, 问题原因我就不告诉你了");
     }
 
@@ -28,7 +28,7 @@ public class LyExceptionHandler {
      */
     @ExceptionHandler(RobinException.Verify.class)
     public Res<?> handler(RobinException.Verify e) {
-        log.error("robin reject: " + e.getError() + ", " + e.getTarget());
+        log.error("robin reject with metadata: {}", e.getMetadata(), e);
         return Res.fail("系统决定禁止你访问");
     }
 
@@ -37,6 +37,7 @@ public class LyExceptionHandler {
      */
     @ExceptionHandler(LyException.class)
     public Res<?> handler(LyException e) {
+        log.error("业务异常： {}", e.getMessage());
         return Res.fail(e.getMessage());
     }
 }

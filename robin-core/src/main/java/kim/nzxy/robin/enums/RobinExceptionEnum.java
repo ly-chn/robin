@@ -5,7 +5,7 @@ import kim.nzxy.robin.posture.RobinPosture;
 /**
  * 内置异常类型
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2022/8/25 17:37
  */
 public interface RobinExceptionEnum {
@@ -14,9 +14,17 @@ public interface RobinExceptionEnum {
      */
     enum Panic implements RobinExceptionEnum {
         /**
-         * 摘要算法初始化异常
+         * 字符串编码异常
          */
-        DigestUtilInitError,
+        StrCodecEncodeError,
+        /**
+         * 字符串解码异常
+         */
+        StrCodecDecodeError,
+        /**
+         * 不可逆的字符串编码器
+         */
+        StrCodecIrreversible,
         /**
          * 未找到对应的元数据处理器
          */

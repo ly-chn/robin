@@ -1,5 +1,6 @@
 package kim.nzxy.robin.metadata;
 
+import kim.nzxy.robin.enums.RobinStrCodecEnum;
 import kim.nzxy.robin.util.RobinUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +13,7 @@ import java.util.Objects;
 /**
  * Robin依赖的元数据
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2022/8/29 12:10
  */
 @Data
@@ -29,9 +30,9 @@ public class RobinMetadata implements Serializable {
      */
     private String metadata;
     /**
-     * 是否启用元数据压缩，防止缓存大key, 但是会有概率误杀, 且Robin不会缓存压缩前的数据
+     * 是否启用元数据压缩，防止缓存大key, 但是会有概率误杀, 且Robin不会缓存压缩前的原始值
      */
-    private Boolean digest;
+    private RobinStrCodecEnum codec;
 
     /**
      * @return topic是否有效
@@ -44,7 +45,17 @@ public class RobinMetadata implements Serializable {
      * @return metadata值是否有效
      */
     public boolean hasMetadata() {
-        return Objects.nonNull(metadata) && !metadata.isEmpty();
+        return RobinUtil.isNotEmpty(metadata);
     }
 
+    public String getMetadata() {
+        if (codec == null) {
+            return metadata;
+        }
+        return codec.encode(metadata);
+    }
+
+    public String getSourceMetadata() {
+        return metadata;
+    }
 }

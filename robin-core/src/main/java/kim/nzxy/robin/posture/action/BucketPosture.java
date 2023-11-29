@@ -15,7 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 /**
  * 令牌桶实现
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2022/9/1 14:03
  */
 @RobinPosture.PostureConfig(key = "bucket")

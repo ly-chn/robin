@@ -7,7 +7,7 @@ import lombok.CustomLog;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author lyun-chn
+ * @author ly-chn
  */
 @CustomLog
 public class RobinAutowired {

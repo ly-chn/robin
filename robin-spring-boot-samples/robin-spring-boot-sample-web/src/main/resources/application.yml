@@ -19,6 +19,7 @@ robin:
         max-times: 2
         precedence: 0
         metadata-handler: ip
+        digest: ipv4-num64
       # 敏感接口
       - topic: ip-sensitive
         lock-duration: 5s
@@ -26,6 +27,7 @@ robin:
         time-frame-size: 5s
         max-times: 1
         metadata-handler: ip
+        digest: ipv4-num64
     bucket:
       # 特殊接口, 每分钟只能提交一次数据
       - topic: api-sensitive
@@ -35,3 +37,4 @@ robin:
         capacity: 1
         generation-interval: 1m
         token-count: 1
+        digest: hash-code

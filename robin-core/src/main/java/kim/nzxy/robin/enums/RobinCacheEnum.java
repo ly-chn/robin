@@ -6,7 +6,7 @@ package kim.nzxy.robin.enums;
  * 暂定改为map，key为类型， value为提供值。
  * 每个策略提供读取依赖key， 读取依赖时间周期属性
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2021/6/9
  */
 public enum RobinCacheEnum {

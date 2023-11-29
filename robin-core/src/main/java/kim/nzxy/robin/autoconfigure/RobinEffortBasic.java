@@ -1,14 +1,14 @@
 package kim.nzxy.robin.autoconfigure;
 
+import kim.nzxy.robin.enums.RobinStrCodecEnum;
 import lombok.Data;
-import lombok.NonNull;
 
 import java.time.Duration;
 
 /**
  * robin验证器-基础策略配置类
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2022/8/31 15:50
  */
 @Data
@@ -23,6 +23,7 @@ public class RobinEffortBasic {
     private Boolean enabled = Boolean.TRUE;
     /**
      * 元数据处理器
+     * todo: 支持多个拼接
      */
     private String metadataHandler;
     /**
@@ -30,9 +31,9 @@ public class RobinEffortBasic {
      */
     private Duration lockDuration = Duration.ofMinutes(1);
     /**
-     * 是否启用元数据压缩，防止缓存大key, 但是Robin不会缓存压缩前的数据
+     * 是否启用元数据压缩，防止缓存大key, Robin不会缓存压缩前的原始值
      */
-    private Boolean digest = Boolean.FALSE;
+    private RobinStrCodecEnum digest;
     /**
      * 优先级
      */

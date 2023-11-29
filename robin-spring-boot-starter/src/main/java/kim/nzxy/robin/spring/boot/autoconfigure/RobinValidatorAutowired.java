@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Bean;
 /**
  * 验证器自动注入
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2022/9/1 9:07
  */
 @SuppressWarnings({"AlibabaCommentsMustBeJavadocFormat"})

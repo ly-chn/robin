@@ -11,7 +11,7 @@ import java.util.Objects;
 /**
  * 摘要工具类
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2022/8/25 17:11
  */
 public class RobinDigestUtil {
@@ -32,7 +32,7 @@ public class RobinDigestUtil {
             md = MessageDigest.getInstance("MD5");
         } catch (NoSuchAlgorithmException e) {
             // will not throw
-            throw new RobinException.Panic(RobinExceptionEnum.Panic.DigestUtilInitError);
+            throw new RobinException.Panic(RobinExceptionEnum.Panic.StrCodecEncodeError);
         }
         byte[] digest = md.digest(str.getBytes(StandardCharsets.UTF_8));
         return new String(digest);
@@ -44,14 +44,14 @@ public class RobinDigestUtil {
      * @param num 目标数字, 仅支持正整数
      * @return 64进制字符串
      */
-    public static String numTo64(Number num) {
+    public static String numTo64(Long num) {
         if (Objects.isNull(num)) {
             return "";
         }
-        long n = num.longValue();
-        if (n == 0) {
+        if (num == 0) {
             return "0";
         }
+        long n = num;
         StringBuilder sb = new StringBuilder();
         while (n > 0) {
             sb.append(DIGITS.charAt((int) (n % BASE)));

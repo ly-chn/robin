@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 /**
  * robin策略器
  *
- * @author lyun-chn
+ * @author ly-chn
  * @since 2021/6/4
  */
 public interface RobinPosture {
