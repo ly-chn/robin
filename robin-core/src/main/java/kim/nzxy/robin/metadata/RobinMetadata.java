@@ -8,7 +8,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 /**
  * Robin依赖的元数据
@@ -48,6 +47,11 @@ public class RobinMetadata implements Serializable {
         return RobinUtil.isNotEmpty(metadata);
     }
 
+    /**
+     * 元数据, 如果配置了压缩逻辑, 则返回压缩后的值
+     *
+     * @return 压缩后的元数据
+     */
     public String getMetadata() {
         if (codec == null) {
             return metadata;
@@ -55,6 +59,12 @@ public class RobinMetadata implements Serializable {
         return codec.encode(metadata);
     }
 
+    /**
+     * 获取元数据原始值
+     *
+     * @return 元数据原始值
+     */
+    @SuppressWarnings("unused")
     public String getSourceMetadata() {
         return metadata;
     }

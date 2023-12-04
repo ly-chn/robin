@@ -34,12 +34,13 @@ public enum RobinStrCodecEnum {
         }
     },
     /**
-     * String hashcode 方法
+     * String hashCode后转64进制 方法
      */
-    HashCode(false) {
+    HashCode64(false) {
         @Override
         public String encode(String input) {
-            return RobinDigestUtil.md5(input);
+            long l = input.hashCode();
+            return RobinDigestUtil.numTo64(l);
         }
     },
     /**

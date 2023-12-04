@@ -37,4 +37,4 @@ robin:
         capacity: 1
         generation-interval: 1m
         token-count: 1
-        digest: hash-code
+        digest: hashcode64
