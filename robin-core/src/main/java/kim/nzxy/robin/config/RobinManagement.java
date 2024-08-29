@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @author ly-chn
  * @since 2021/6/4
  */
+@SuppressWarnings("resource")
 @CustomLog
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RobinManagement {

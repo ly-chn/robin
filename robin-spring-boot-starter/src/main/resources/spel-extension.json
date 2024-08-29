@@ -1,0 +1,9 @@
+{
+  "kim.nzxy.robin.annotations.RobinTopic@metadata": {
+    "prefix": "#{",
+    "suffix": "}",
+    "method": {
+      "parameters": true
+    }
+  }
+}

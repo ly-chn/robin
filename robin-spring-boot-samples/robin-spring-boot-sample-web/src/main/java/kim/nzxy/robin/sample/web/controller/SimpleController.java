@@ -3,8 +3,6 @@ package kim.nzxy.robin.sample.web.controller;
 import kim.nzxy.robin.annotations.RobinIgnore;
 import kim.nzxy.robin.annotations.RobinTopic;
 import kim.nzxy.robin.sample.web.common.annocations.RobinSensitive;
-import kim.nzxy.robin.util.RobinUtil;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,7 +57,7 @@ public class SimpleController {
      * 动态参数, 支持SpEL表达式, 支持读取方法参数
      */
     @GetMapping("dynamic/{id}")
-    @RobinTopic(value = "api-sensitive", metadata = "#id")
+    @RobinTopic(value = "api-sensitive", metadata = "#{#id}")
     public String dynamicMetadata(@PathVariable String id) {
         return "dynamic" + id;
     }

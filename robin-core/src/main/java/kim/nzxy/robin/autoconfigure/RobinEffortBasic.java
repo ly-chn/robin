@@ -23,7 +23,6 @@ public class RobinEffortBasic {
     private Boolean enabled = Boolean.TRUE;
     /**
      * 元数据处理器
-     * todo: 支持多个拼接
      */
     private String metadataHandler;
     /**
